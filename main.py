@@ -6,7 +6,7 @@ from glob import glob
 
 def start_augmentation():
     # start image augmentation
-    input_dir = "input_folder_path/*"
+    input_dir = "data/raw*"
     output_dir = "output_folder_path/"
 
     for file in glob(input_dir):
@@ -24,7 +24,3 @@ def start_augmentation():
         cv2.imwrite(output_dir + "scaled_" + os.path.basename(file), scaled_img)
         cv2.imwrite(output_dir + "translated_" + os.path.basename(file), translated_img)
         cv2.imwrite(output_dir + "flipped_" + os.path.basename(file), flipped_img)
-
-    
-    
-    
