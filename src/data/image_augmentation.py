@@ -1,0 +1,33 @@
+import cv2
+import numpy as np
+import os
+
+
+def rotate_image(image, angle):
+    height, width = image.shape[:2]
+    image_center = (width / 2, height / 2)
+    rotation_mat = cv2.getRotationMatrix2D(image_center, angle, 1.)
+    abs_cos = abs(rotation_mat[0, 0])
+    abs_sin = abs(rotation_mat[0, 1])
+    bound_w = int(height * abs_sin + width * abs_cos)
+    bound_h = int(height * abs_cos + width * abs_sin)
+    rotation_mat[0, 2] += bound_w / 2 - image_center[0]
+    rotation_mat[1, 2] += bound_h / 2 - image_center[1]
+    rotated_mat = cv2.warpAffine(image, rotation_mat, (bound_w, bound_h))
+    return rotated_mat
+
+
+def scale_image(image, fx, fy):
+    return cv2.resize(image, None, fx=fx, fy=fy)
+
+
+def translate_image(image, x, y):
+    rows, cols = image.shape[:2]
+    M = np.float32([[1, 0, x], [0, 1, y]])
+    return cv2.warpAffine(image, M, (cols, rows))
+
+
+def flip_image(image, direction):
+    return cv2.flip(image, direction)
+
+
