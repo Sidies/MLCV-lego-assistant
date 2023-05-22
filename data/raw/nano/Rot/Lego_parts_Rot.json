@@ -1,0 +1,132 @@
+{
+    "_via_settings": {
+        "ui": {
+            "annotation_editor_height": 25,
+            "annotation_editor_fontsize": 0.8,
+            "leftsidebar_width": 18,
+            "image_grid": {
+                "img_height": 80,
+                "rshape_fill": "none",
+                "rshape_fill_opacity": 0.3,
+                "rshape_stroke": "yellow",
+                "rshape_stroke_width": 2,
+                "show_region_shape": true,
+                "show_image_policy": "all"
+            },
+            "image": {
+                "region_label": "__via_region_id__",
+                "region_label_font": "10px Sans",
+                "on_image_annotation_editor_placement": "NEAR_REGION"
+            }
+        },
+        "core": {
+            "buffer_size": 18,
+            "filepath": {},
+            "default_filepath": ""
+        },
+        "project": {
+            "name": "Lego_parts_Rot"
+        }
+    },
+    "_via_img_metadata": {
+        "Rot1.jpg27430": {
+            "filename": "Rot1.jpg",
+            "size": 27430,
+            "regions": [
+                {
+                    "shape_attributes": {
+                        "name": "rect",
+                        "x": 275,
+                        "y": 249,
+                        "width": 72,
+                        "height": 64
+                    },
+                    "region_attributes": {
+                        "Lego_parts_Rot": {
+                            "Rot": true
+                        }
+                    }
+                }
+            ],
+            "file_attributes": {}
+        },
+        "Rot2.jpg28825": {
+            "filename": "Rot2.jpg",
+            "size": 28825,
+            "regions": [
+                {
+                    "shape_attributes": {
+                        "name": "rect",
+                        "x": 275,
+                        "y": 245,
+                        "width": 75,
+                        "height": 87
+                    },
+                    "region_attributes": {
+                        "Lego_parts_Rot": {
+                            "Rot": true
+                        }
+                    }
+                }
+            ],
+            "file_attributes": {}
+        },
+        "Rot3.jpg27379": {
+            "filename": "Rot3.jpg",
+            "size": 27379,
+            "regions": [
+                {
+                    "shape_attributes": {
+                        "name": "rect",
+                        "x": 274,
+                        "y": 208,
+                        "width": 60,
+                        "height": 110
+                    },
+                    "region_attributes": {
+                        "Lego_parts_Rot": {
+                            "Rot": true
+                        }
+                    }
+                }
+            ],
+            "file_attributes": {}
+        },
+        "Rot4.jpg27722": {
+            "filename": "Rot4.jpg",
+            "size": 27722,
+            "regions": [
+                {
+                    "shape_attributes": {
+                        "name": "rect",
+                        "x": 283,
+                        "y": 237,
+                        "width": 50,
+                        "height": 76
+                    },
+                    "region_attributes": {
+                        "Lego_parts_Rot": {
+                            "Rot": true
+                        }
+                    }
+                }
+            ],
+            "file_attributes": {}
+        }
+    },
+    "_via_attributes": {
+        "region": {
+            "Rot": {
+                "type": "checkbox",
+                "description": "",
+                "options": {
+                    "Rot": "Rot"
+                },
+                "default_options": {
+                    "Rot": true
+                }
+            }
+        },
+        "file": {}
+    }
+}
