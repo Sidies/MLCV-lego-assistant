@@ -1,12 +1,88 @@
 import cv2
 import numpy as np
 import os
+import json
+
+def get_bbox_from_json(file_name):
+    path = "../data/raw/nano/"
+
+    json_file_path = None
+    for folder in os.listdir(path):
+        folder_path = os.path.join(path, folder)
+        if os.path.isdir(folder_path):
+            for obj in os.listdir(folder_path):
+                if obj == file_name:
+                    for obj in os.listdir(folder_path):
+                        obj_path = os.path.join(folder_path, obj)
+                        if os.path.isfile(obj_path) and obj.lower().endswith(".json"):
+                            json_file_path = obj_path
+
+    if json_file_path is None:
+        print("JSON-Datei nicht gefunden.")
+        return
+
+    with open(json_file_path, "r") as file:
+        json_data = json.load(file)
+
+        for key in json_data["_via_img_metadata"].keys():
+            if file_name in str(key):
+                filename_in_json = json_data["_via_img_metadata"][str(key)]["filename"]
+                if filename_in_json == file_name:
+                    region_data = json_data["_via_img_metadata"][str(key)]["regions"][
+                        0
+                    ]["shape_attributes"]
+                    x = region_data["x"]
+                    y = region_data["y"]
+                    width = region_data["width"]
+                    height = region_data["height"]
+                    if json_data["_via_img_metadata"][str(key)]["regions"][0][
+                        "region_attributes"
+                    ]["Lego_parts_Rot"]["Rot"]:
+                        label = list(
+                            json_data["_via_img_metadata"][str(key)]["regions"][0][
+                                "region_attributes"
+                            ]["Lego_parts_Rot"].keys()
+                        )[0]
+
+                    # Ausgabe der Werte
+                    # print("x:", x)
+                    # print("y:", y)
+                    # print("width:", width)
+                    # print("height:", height)
+                    # print(label)
+
+                    # coco [x_min, y_min, width, height]
+                    bboxes = [[x, y, width, height, label]]
+                    return bboxes
+
+
+def plot_img_with_bbox(transformed_image, transformed_bboxes):
+    x, y, width, height, label = transformed_bboxes[0]
+    cv2.rectangle(
+        transformed_image,
+        (int(x), int(y)),
+        (int(x + width), int(y + height)),
+        (0, 255, 0),
+        2,
+    )
+    cv2.putText(
+        transformed_image,
+        label,
+        (int(x), int(y) - 10),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.9,
+        (0, 255, 0),
+        2,
+    )
+    cv2.imshow("Image with Bounding Box", transformed_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 def rotate_image(image, angle):
     height, width = image.shape[:2]
     image_center = (width / 2, height / 2)
-    rotation_mat = cv2.getRotationMatrix2D(image_center, angle, 1.)
+    rotation_mat = cv2.getRotationMatrix2D(image_center, angle, 1.0)
     abs_cos = abs(rotation_mat[0, 0])
     abs_sin = abs(rotation_mat[0, 1])
     bound_w = int(height * abs_sin + width * abs_cos)
@@ -29,5 +105,3 @@ def translate_image(image, x, y):
 
 def flip_image(image, direction):
     return cv2.flip(image, direction)
-
-
