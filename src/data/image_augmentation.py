@@ -3,20 +3,8 @@ import numpy as np
 import os
 import json
 
-def get_bbox_from_json(file_name):
-    path = "../data/raw/nano/"
 
-    json_file_path = None
-    for folder in os.listdir(path):
-        folder_path = os.path.join(path, folder)
-        if os.path.isdir(folder_path):
-            for obj in os.listdir(folder_path):
-                if obj == file_name:
-                    for obj in os.listdir(folder_path):
-                        obj_path = os.path.join(folder_path, obj)
-                        if os.path.isfile(obj_path) and obj.lower().endswith(".json"):
-                            json_file_path = obj_path
-
+def get_bbox_from_json(json_file_path, file_name):
     if json_file_path is None:
         print("JSON-Datei nicht gefunden.")
         return
