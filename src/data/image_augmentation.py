@@ -23,21 +23,15 @@ def get_bbox_from_json(json_file_path, file_name):
                     y = region_data["y"]
                     width = region_data["width"]
                     height = region_data["height"]
-                    if json_data["_via_img_metadata"][str(key)]["regions"][0][
+                    # Get Key of "region_attributes"
+                    region_attributes = list(
+                        json_data["_via_img_metadata"][str(key)]["regions"][0][
+                            "region_attributes"
+                        ].keys()
+                    )[0]
+                    label = json_data["_via_img_metadata"][str(key)]["regions"][0][
                         "region_attributes"
-                    ]["Lego_parts_Rot"]["Rot"]:
-                        label = list(
-                            json_data["_via_img_metadata"][str(key)]["regions"][0][
-                                "region_attributes"
-                            ]["Lego_parts_Rot"].keys()
-                        )[0]
-
-                    # Ausgabe der Werte
-                    # print("x:", x)
-                    # print("y:", y)
-                    # print("width:", width)
-                    # print("height:", height)
-                    # print(label)
+                    ][region_attributes]
 
                     # coco [x_min, y_min, width, height]
                     bboxes = [[x, y, width, height, label]]
