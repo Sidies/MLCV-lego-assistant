@@ -12,11 +12,11 @@ def get_bbox_from_json(json_file_path, file_name):
     with open(json_file_path, "r") as file:
         json_data = json.load(file)
 
-        for key in json_data["_via_img_metadata"].keys():
-            if file_name in str(key):
-                filename_in_json = json_data["_via_img_metadata"][str(key)]["filename"]
+        for key , val in json_data.items():
+            if file_name in key:
+                filename_in_json = json_data[key]["filename"]
                 if filename_in_json == file_name:
-                    region_data = json_data["_via_img_metadata"][str(key)]["regions"][
+                    region_data = json_data[key]["regions"][
                         0
                     ]["shape_attributes"]
                     x = region_data["x"]
@@ -24,14 +24,9 @@ def get_bbox_from_json(json_file_path, file_name):
                     width = region_data["width"]
                     height = region_data["height"]
                     # Get Key of "region_attributes"
-                    region_attributes = list(
-                        json_data["_via_img_metadata"][str(key)]["regions"][0][
-                            "region_attributes"
-                        ].keys()
-                    )[0]
-                    label = json_data["_via_img_metadata"][str(key)]["regions"][0][
+                    label = json_data[key]["regions"][0][
                         "region_attributes"
-                    ][region_attributes]
+                    ]["label"]
 
                     # coco [x_min, y_min, width, height]
                     bboxes = [[x, y, width, height, label]]

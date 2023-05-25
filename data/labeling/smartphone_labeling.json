@@ -1,986 +1,933 @@
 {
-    "_via_settings": {
-        "ui": {
-            "annotation_editor_height": 25,
-            "annotation_editor_fontsize": 0.8,
-            "leftsidebar_width": 18,
-            "image_grid": {
-                "img_height": 80,
-                "rshape_fill": "none",
-                "rshape_fill_opacity": 0.3,
-                "rshape_stroke": "yellow",
-                "rshape_stroke_width": 2,
-                "show_region_shape": true,
-                "show_image_policy": "all"
-            },
-            "image": {
-                "region_label": "Smartphone",
-                "region_label_font": "10px Sans",
-                "on_image_annotation_editor_placement": "NEAR_REGION"
-            }
-        },
-        "core": {
-            "buffer_size": 18,
-            "filepath": {},
-            "default_filepath": ""
-        },
-        "project": {
-            "name": "smartphone_labeling"
-        }
-    },
-    "_via_img_metadata": {
-        "Blau1.jpg1577045": {
-            "filename": "Blau1.jpg",
-            "size": 1577045,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 858,
-                        "y": 1275,
-                        "width": 480,
-                        "height": 666
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Blau"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Blau2.jpg1876919": {
-            "filename": "Blau2.jpg",
-            "size": 1876919,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 762,
-                        "y": 1653,
-                        "width": 645,
-                        "height": 480
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Blau"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Blau3.jpg1736667": {
-            "filename": "Blau3.jpg",
-            "size": 1736667,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 986,
-                        "y": 640,
-                        "width": 405,
-                        "height": 714
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Blau"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Blau4.jpg1717727": {
-            "filename": "Blau4.jpg",
-            "size": 1717727,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 858,
-                        "y": 1440,
-                        "width": 421,
-                        "height": 597
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Blau"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Blau5.jpg1943314": {
-            "filename": "Blau5.jpg",
-            "size": 1943314,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 752,
-                        "y": 1536,
-                        "width": 443,
-                        "height": 682
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Blau"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Blau6.jpg1724108": {
-            "filename": "Blau6.jpg",
-            "size": 1724108,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 954,
-                        "y": 1077,
-                        "width": 432,
-                        "height": 650
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Blau"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Blau7.jpg1692937": {
-            "filename": "Blau7.jpg",
-            "size": 1692937,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 640,
-                        "y": 1482,
-                        "width": 826,
-                        "height": 459
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Blau"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Grau_kurz1.jpg2205780": {
-            "filename": "Grau_kurz1.jpg",
-            "size": 2205780,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 842,
-                        "y": 1013,
-                        "width": 347,
-                        "height": 1584
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau_kurz"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Grau_kurz2.jpg2322891": {
-            "filename": "Grau_kurz2.jpg",
-            "size": 2322891,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 299,
-                        "y": 1786,
-                        "width": 1701,
-                        "height": 464
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau_kurz"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Grau_kurz3.jpg2484760": {
-            "filename": "Grau_kurz3.jpg",
-            "size": 2484760,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 261,
-                        "y": 1354,
-                        "width": 1184,
-                        "height": 1408
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau_kurz"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Grau_lang1.jpg2032100": {
-            "filename": "Grau_lang1.jpg",
-            "size": 2032100,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 752,
-                        "y": 1386,
-                        "width": 405,
-                        "height": 826
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau_lang"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Grau_lang2.jpg1936626": {
-            "filename": "Grau_lang2.jpg",
-            "size": 1936626,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 960,
-                        "y": 1173,
-                        "width": 315,
-                        "height": 1392
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau_lang"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Grau_lang3.jpg2613176": {
-            "filename": "Grau_lang3.jpg",
-            "size": 2613176,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 592,
-                        "y": 1866,
-                        "width": 1088,
-                        "height": 720
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau_lang"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Grau_lang4.jpg2249512": {
-            "filename": "Grau_lang4.jpg",
-            "size": 2249512,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 933,
-                        "y": 1546,
-                        "width": 256,
-                        "height": 1109
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau_lang"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Grau_lang5.jpg2155491": {
-            "filename": "Grau_lang5.jpg",
-            "size": 2155491,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 181,
-                        "y": 1983,
-                        "width": 2042,
-                        "height": 331
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau_lang"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Grau_lang+Kappe1.jpg2282593": {
-            "filename": "Grau_lang+Kappe1.jpg",
-            "size": 2282593,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 347,
-                        "y": 1424,
-                        "width": 1082,
-                        "height": 528
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau_lang+Kappe"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Grau_lang+Kappe2.jpg2087744": {
-            "filename": "Grau_lang+Kappe2.jpg",
-            "size": 2087744,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 629,
-                        "y": 1541,
-                        "width": 1098,
-                        "height": 618
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau_lang+Kappe"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Grau_lang+Kappe3.jpg1979422": {
-            "filename": "Grau_lang+Kappe3.jpg",
-            "size": 1979422,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 837,
-                        "y": 1413,
-                        "width": 645,
-                        "height": 1200
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau_lang+Kappe"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Kabel1.jpg2034577": {
-            "filename": "Kabel1.jpg",
-            "size": 2034577,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 36,
-                        "y": 734,
-                        "width": 2957,
-                        "height": 926
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Kabel"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Kabel2.jpg1930239": {
-            "filename": "Kabel2.jpg",
-            "size": 1930239,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 566,
-                        "y": 1121,
-                        "width": 3170,
-                        "height": 1082
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Kabel"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Kabel3.jpg1882109": {
-            "filename": "Kabel3.jpg",
-            "size": 1882109,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 980,
-                        "y": 12,
-                        "width": 2891,
-                        "height": 2211
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Kabel"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Kabel4.jpg2154040": {
-            "filename": "Kabel4.jpg",
-            "size": 2154040,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 802,
-                        "y": 6,
-                        "width": 1974,
-                        "height": 2118
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Kabel"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Kabel5.jpg1855579": {
-            "filename": "Kabel5.jpg",
-            "size": 1855579,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 138,
-                        "y": 78,
-                        "width": 3191,
-                        "height": 2028
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Kabel"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad1.jpg2700894": {
-            "filename": "Rad1.jpg",
-            "size": 2700894,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 523,
-                        "y": 1381,
-                        "width": 1056,
-                        "height": 1072
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rad"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad2.jpg2399974": {
-            "filename": "Rad2.jpg",
-            "size": 2399974,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 597,
-                        "y": 1408,
-                        "width": 1136,
-                        "height": 810
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rad"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad3.jpg1964709": {
-            "filename": "Rad3.jpg",
-            "size": 1964709,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 709,
-                        "y": 965,
-                        "width": 714,
-                        "height": 1066
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rad"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad4.jpg2324175": {
-            "filename": "Rad4.jpg",
-            "size": 2324175,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 581,
-                        "y": 1205,
-                        "width": 1109,
-                        "height": 1045
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rad"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad5.jpg2136050": {
-            "filename": "Rad5.jpg",
-            "size": 2136050,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 453,
-                        "y": 1322,
-                        "width": 1034,
-                        "height": 992
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rad"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad6.jpg2190939": {
-            "filename": "Rad6.jpg",
-            "size": 2190939,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 192,
-                        "y": 1210,
-                        "width": 1989,
-                        "height": 2010
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rad"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad7.jpg2171723": {
-            "filename": "Rad7.jpg",
-            "size": 2171723,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 123,
-                        "y": 992,
-                        "width": 1909,
-                        "height": 1962
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rad"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad8.jpg2144037": {
-            "filename": "Rad8.jpg",
-            "size": 2144037,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 133,
-                        "y": 1418,
-                        "width": 1909,
-                        "height": 1194
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rad"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad9.jpg2201470": {
-            "filename": "Rad9.jpg",
-            "size": 2201470,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 224,
-                        "y": 1424,
-                        "width": 1925,
-                        "height": 1189
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rad"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad+Grau_lang1.jpg2370832": {
-            "filename": "Rad+Grau_lang1.jpg",
-            "size": 2370832,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 570,
-                        "y": 1429,
-                        "width": 933,
-                        "height": 954
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau+Grau_lang"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad+Grau_lang2.jpg1865495": {
-            "filename": "Rad+Grau_lang2.jpg",
-            "size": 1865495,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 512,
-                        "y": 1413,
-                        "width": 1157,
-                        "height": 1232
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau+Grau_lang"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad+Grau_lang3.jpg1931986": {
-            "filename": "Rad+Grau_lang3.jpg",
-            "size": 1931986,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 421,
-                        "y": 1306,
-                        "width": 1178,
-                        "height": 1221
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau+Grau_lang"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad+Grau_lang4.jpg2331587": {
-            "filename": "Rad+Grau_lang4.jpg",
-            "size": 2331587,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 139,
-                        "y": 618,
-                        "width": 1711,
-                        "height": 2197
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau+Grau_lang"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad+Grau_lang5.jpg2346961": {
-            "filename": "Rad+Grau_lang5.jpg",
-            "size": 2346961,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 43,
-                        "y": 821,
-                        "width": 1754,
-                        "height": 1781
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau+Grau_lang"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad+Grau_lang6.jpg1774369": {
-            "filename": "Rad+Grau_lang6.jpg",
-            "size": 1774369,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 656,
-                        "y": 917,
-                        "width": 1450,
-                        "height": 1610
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau+Grau_lang"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad+Grau_lang7.jpg2085922": {
-            "filename": "Rad+Grau_lang7.jpg",
-            "size": 2085922,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 528,
-                        "y": 906,
-                        "width": 1365,
-                        "height": 1589
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Grau+Grau_lang"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad+Grau_lang+Kappe1.jpg1857243": {
-            "filename": "Rad+Grau_lang+Kappe1.jpg",
-            "size": 1857243,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 139,
-                        "y": 853,
-                        "width": 2042,
-                        "height": 1973
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rad+Grau_lang+Kappe"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad+Grau_lang+Kappe2.jpg2034255": {
-            "filename": "Rad+Grau_lang+Kappe2.jpg",
-            "size": 2034255,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 112,
-                        "y": 1066,
-                        "width": 1584,
-                        "height": 1642
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rad+Grau_lang+Kappe"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rad+Grau_lang+Kappe3.jpg2226988": {
-            "filename": "Rad+Grau_lang+Kappe3.jpg",
-            "size": 2226988,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 101,
-                        "y": 928,
-                        "width": 1616,
-                        "height": 1530
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rad+Grau_lang+Kappe"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rot1.jpg2343926": {
-            "filename": "Rot1.jpg",
-            "size": 2343926,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 730,
-                        "y": 1717,
-                        "width": 736,
-                        "height": 491
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rot"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rot2.jpg2278461": {
-            "filename": "Rot2.jpg",
-            "size": 2278461,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 944,
-                        "y": 1770,
-                        "width": 352,
-                        "height": 512
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rot"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rot3.jpg2485397": {
-            "filename": "Rot3.jpg",
-            "size": 2485397,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 954,
-                        "y": 1285,
-                        "width": 416,
-                        "height": 666
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rot"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Rot4.jpg2468643": {
-            "filename": "Rot4.jpg",
-            "size": 2468643,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 576,
-                        "y": 1472,
-                        "width": 869,
-                        "height": 842
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Rot"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Kappe1.jpg2386844": {
-            "filename": "Kappe1.jpg",
-            "size": 2386844,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 618,
-                        "y": 1727,
-                        "width": 528,
-                        "height": 565
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Kappe"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Kappe2.jpg2219400": {
-            "filename": "Kappe2.jpg",
-            "size": 2219400,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 698,
-                        "y": 1791,
-                        "width": 746,
-                        "height": 592
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Kappe"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        },
-        "Kappe3.jpg1658352": {
-            "filename": "Kappe3.jpg",
-            "size": 1658352,
-            "regions": [
-                {
-                    "shape_attributes": {
-                        "name": "rect",
-                        "x": 368,
-                        "y": 1823,
-                        "width": 1040,
-                        "height": 645
-                    },
-                    "region_attributes": {
-                        "Smartphone": "Kappe"
-                    }
-                }
-            ],
-            "file_attributes": {}
-        }
-    },
-    "_via_attributes": {
-        "region": {
-            "Smartphone": {
-                "type": "radio",
-                "description": "",
-                "options": {
-                    "Blau": "",
-                    "Grau_kurz": "",
-                    "Grau_lang": "",
-                    "Grau_lang+Kappe": "",
-                    "Kabel": "",
-                    "Kappe": "",
-                    "Rad": "",
-                    "Grau+Grau_lang": "",
-                    "Rad+Grau_lang+Kappe": "",
-                    "Rot": ""
+    "Blau1.jpg1577045": {
+        "filename": "Blau1.jpg",
+        "size": 1577045,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 858,
+                    "y": 1275,
+                    "width": 480,
+                    "height": 666
                 },
-                "default_options": {}
+                "region_attributes": {
+                    "label": "Blau"
+                }
             }
-        },
-        "file": {}
+        ],
+        "file_attributes": {}
+    },
+    "Blau2.jpg1876919": {
+        "filename": "Blau2.jpg",
+        "size": 1876919,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 762,
+                    "y": 1653,
+                    "width": 645,
+                    "height": 480
+                },
+                "region_attributes": {
+                    "label": "Blau"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Blau3.jpg1736667": {
+        "filename": "Blau3.jpg",
+        "size": 1736667,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 986,
+                    "y": 640,
+                    "width": 405,
+                    "height": 714
+                },
+                "region_attributes": {
+                    "label": "Blau"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Blau4.jpg1717727": {
+        "filename": "Blau4.jpg",
+        "size": 1717727,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 858,
+                    "y": 1440,
+                    "width": 421,
+                    "height": 597
+                },
+                "region_attributes": {
+                    "label": "Blau"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Blau5.jpg1943314": {
+        "filename": "Blau5.jpg",
+        "size": 1943314,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 752,
+                    "y": 1536,
+                    "width": 443,
+                    "height": 682
+                },
+                "region_attributes": {
+                    "label": "Blau"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Blau6.jpg1724108": {
+        "filename": "Blau6.jpg",
+        "size": 1724108,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 954,
+                    "y": 1077,
+                    "width": 432,
+                    "height": 650
+                },
+                "region_attributes": {
+                    "label": "Blau"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Blau7.jpg1692937": {
+        "filename": "Blau7.jpg",
+        "size": 1692937,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 640,
+                    "y": 1482,
+                    "width": 826,
+                    "height": 459
+                },
+                "region_attributes": {
+                    "label": "Blau"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Grau_kurz1.jpg2205780": {
+        "filename": "Grau_kurz1.jpg",
+        "size": 2205780,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 842,
+                    "y": 1013,
+                    "width": 347,
+                    "height": 1584
+                },
+                "region_attributes": {
+                    "label": "Grau_kurz"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Grau_kurz2.jpg2322891": {
+        "filename": "Grau_kurz2.jpg",
+        "size": 2322891,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 299,
+                    "y": 1786,
+                    "width": 1701,
+                    "height": 464
+                },
+                "region_attributes": {
+                    "label": "Grau_kurz"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Grau_kurz3.jpg2484760": {
+        "filename": "Grau_kurz3.jpg",
+        "size": 2484760,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 261,
+                    "y": 1354,
+                    "width": 1184,
+                    "height": 1408
+                },
+                "region_attributes": {
+                    "label": "Grau_kurz"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Grau_lang1.jpg2032100": {
+        "filename": "Grau_lang1.jpg",
+        "size": 2032100,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 752,
+                    "y": 1386,
+                    "width": 405,
+                    "height": 826
+                },
+                "region_attributes": {
+                    "label": "Grau_lang"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Grau_lang2.jpg1936626": {
+        "filename": "Grau_lang2.jpg",
+        "size": 1936626,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 960,
+                    "y": 1173,
+                    "width": 315,
+                    "height": 1392
+                },
+                "region_attributes": {
+                    "label": "Grau_lang"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Grau_lang3.jpg2613176": {
+        "filename": "Grau_lang3.jpg",
+        "size": 2613176,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 592,
+                    "y": 1866,
+                    "width": 1088,
+                    "height": 720
+                },
+                "region_attributes": {
+                    "label": "Grau_lang"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Grau_lang4.jpg2249512": {
+        "filename": "Grau_lang4.jpg",
+        "size": 2249512,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 933,
+                    "y": 1546,
+                    "width": 256,
+                    "height": 1109
+                },
+                "region_attributes": {
+                    "label": "Grau_lang"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Grau_lang5.jpg2155491": {
+        "filename": "Grau_lang5.jpg",
+        "size": 2155491,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 181,
+                    "y": 1983,
+                    "width": 2042,
+                    "height": 331
+                },
+                "region_attributes": {
+                    "label": "Grau_lang"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Grau_lang+Kappe1.jpg2282593": {
+        "filename": "Grau_lang+Kappe1.jpg",
+        "size": 2282593,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 347,
+                    "y": 1424,
+                    "width": 1082,
+                    "height": 528
+                },
+                "region_attributes": {
+                    "label": "Grau_lang+Kappe"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Grau_lang+Kappe2.jpg2087744": {
+        "filename": "Grau_lang+Kappe2.jpg",
+        "size": 2087744,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 629,
+                    "y": 1541,
+                    "width": 1098,
+                    "height": 618
+                },
+                "region_attributes": {
+                    "label": "Grau_lang+Kappe"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Grau_lang+Kappe3.jpg1979422": {
+        "filename": "Grau_lang+Kappe3.jpg",
+        "size": 1979422,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 837,
+                    "y": 1413,
+                    "width": 645,
+                    "height": 1200
+                },
+                "region_attributes": {
+                    "label": "Grau_lang+Kappe"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Kabel1.jpg2034577": {
+        "filename": "Kabel1.jpg",
+        "size": 2034577,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 39,
+                    "y": 804,
+                    "width": 2924,
+                    "height": 694
+                },
+                "region_attributes": {
+                    "label": "Kabel"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Kabel2.jpg1930239": {
+        "filename": "Kabel2.jpg",
+        "size": 1930239,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 567,
+                    "y": 1060,
+                    "width": 3079,
+                    "height": 1164
+                },
+                "region_attributes": {
+                    "label": "Kabel"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Kabel3.jpg1882109": {
+        "filename": "Kabel3.jpg",
+        "size": 1882109,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 995,
+                    "y": 49,
+                    "width": 2869,
+                    "height": 2156
+                },
+                "region_attributes": {
+                    "label": "Kabel"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Kabel4.jpg2154040": {
+        "filename": "Kabel4.jpg",
+        "size": 2154040,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 830,
+                    "y": 16,
+                    "width": 1900,
+                    "height": 2107
+                },
+                "region_attributes": {
+                    "label": "Kabel"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Kabel5.jpg1855579": {
+        "filename": "Kabel5.jpg",
+        "size": 1855579,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 126,
+                    "y": 84,
+                    "width": 3254,
+                    "height": 2023
+                },
+                "region_attributes": {
+                    "label": "Kabel"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad1.jpg2700894": {
+        "filename": "Rad1.jpg",
+        "size": 2700894,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 523,
+                    "y": 1381,
+                    "width": 1056,
+                    "height": 1072
+                },
+                "region_attributes": {
+                    "label": "Rad"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad2.jpg2399974": {
+        "filename": "Rad2.jpg",
+        "size": 2399974,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 597,
+                    "y": 1408,
+                    "width": 1136,
+                    "height": 810
+                },
+                "region_attributes": {
+                    "label": "Rad"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad3.jpg1964709": {
+        "filename": "Rad3.jpg",
+        "size": 1964709,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 709,
+                    "y": 965,
+                    "width": 714,
+                    "height": 1066
+                },
+                "region_attributes": {
+                    "label": "Rad"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad4.jpg2324175": {
+        "filename": "Rad4.jpg",
+        "size": 2324175,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 581,
+                    "y": 1205,
+                    "width": 1109,
+                    "height": 1045
+                },
+                "region_attributes": {
+                    "label": "Rad"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad5.jpg2136050": {
+        "filename": "Rad5.jpg",
+        "size": 2136050,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 453,
+                    "y": 1322,
+                    "width": 1034,
+                    "height": 992
+                },
+                "region_attributes": {
+                    "label": "Rad"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad6.jpg2190939": {
+        "filename": "Rad6.jpg",
+        "size": 2190939,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 192,
+                    "y": 1210,
+                    "width": 1989,
+                    "height": 2010
+                },
+                "region_attributes": {
+                    "label": "Rad"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad7.jpg2171723": {
+        "filename": "Rad7.jpg",
+        "size": 2171723,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 123,
+                    "y": 992,
+                    "width": 1909,
+                    "height": 1962
+                },
+                "region_attributes": {
+                    "label": "Rad"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad8.jpg2144037": {
+        "filename": "Rad8.jpg",
+        "size": 2144037,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 133,
+                    "y": 1418,
+                    "width": 1909,
+                    "height": 1194
+                },
+                "region_attributes": {
+                    "label": "Rad"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad9.jpg2201470": {
+        "filename": "Rad9.jpg",
+        "size": 2201470,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 224,
+                    "y": 1424,
+                    "width": 1925,
+                    "height": 1189
+                },
+                "region_attributes": {
+                    "label": "Rad"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad+Grau_lang1.jpg2370832": {
+        "filename": "Rad+Grau_lang1.jpg",
+        "size": 2370832,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 570,
+                    "y": 1429,
+                    "width": 933,
+                    "height": 954
+                },
+                "region_attributes": {
+                    "label": "Rad+Grau_lang"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad+Grau_lang2.jpg1865495": {
+        "filename": "Rad+Grau_lang2.jpg",
+        "size": 1865495,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 512,
+                    "y": 1413,
+                    "width": 1157,
+                    "height": 1232
+                },
+                "region_attributes": {
+                    "label": "Rad+Grau_lang"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad+Grau_lang3.jpg1931986": {
+        "filename": "Rad+Grau_lang3.jpg",
+        "size": 1931986,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 421,
+                    "y": 1306,
+                    "width": 1178,
+                    "height": 1221
+                },
+                "region_attributes": {
+                    "label": "Rad+Grau_lang"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad+Grau_lang4.jpg2331587": {
+        "filename": "Rad+Grau_lang4.jpg",
+        "size": 2331587,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 139,
+                    "y": 618,
+                    "width": 1711,
+                    "height": 2197
+                },
+                "region_attributes": {
+                    "label": "Rad+Grau_lang"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad+Grau_lang5.jpg2346961": {
+        "filename": "Rad+Grau_lang5.jpg",
+        "size": 2346961,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 43,
+                    "y": 821,
+                    "width": 1754,
+                    "height": 1781
+                },
+                "region_attributes": {
+                    "label": "Rad+Grau_lang"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad+Grau_lang6.jpg1774369": {
+        "filename": "Rad+Grau_lang6.jpg",
+        "size": 1774369,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 656,
+                    "y": 917,
+                    "width": 1450,
+                    "height": 1610
+                },
+                "region_attributes": {
+                    "label": "Rad+Grau_lang"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad+Grau_lang7.jpg2085922": {
+        "filename": "Rad+Grau_lang7.jpg",
+        "size": 2085922,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 528,
+                    "y": 906,
+                    "width": 1365,
+                    "height": 1589
+                },
+                "region_attributes": {
+                    "label": "Rad+Grau_lang"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad+Grau_lang+Kappe1.jpg1857243": {
+        "filename": "Rad+Grau_lang+Kappe1.jpg",
+        "size": 1857243,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 139,
+                    "y": 853,
+                    "width": 2042,
+                    "height": 1973
+                },
+                "region_attributes": {
+                    "label": "Rad+Grau_lang+Kappe"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad+Grau_lang+Kappe2.jpg2034255": {
+        "filename": "Rad+Grau_lang+Kappe2.jpg",
+        "size": 2034255,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 112,
+                    "y": 1066,
+                    "width": 1584,
+                    "height": 1642
+                },
+                "region_attributes": {
+                    "label": "Rad+Grau_lang+Kappe"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rad+Grau_lang+Kappe3.jpg2226988": {
+        "filename": "Rad+Grau_lang+Kappe3.jpg",
+        "size": 2226988,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 101,
+                    "y": 928,
+                    "width": 1616,
+                    "height": 1530
+                },
+                "region_attributes": {
+                    "label": "Rad+Grau_lang+Kappe"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rot1.jpg2343926": {
+        "filename": "Rot1.jpg",
+        "size": 2343926,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 730,
+                    "y": 1717,
+                    "width": 736,
+                    "height": 491
+                },
+                "region_attributes": {
+                    "label": "Rot"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rot2.jpg2278461": {
+        "filename": "Rot2.jpg",
+        "size": 2278461,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 944,
+                    "y": 1770,
+                    "width": 352,
+                    "height": 512
+                },
+                "region_attributes": {
+                    "label": "Rot"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rot3.jpg2485397": {
+        "filename": "Rot3.jpg",
+        "size": 2485397,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 954,
+                    "y": 1285,
+                    "width": 416,
+                    "height": 666
+                },
+                "region_attributes": {
+                    "label": "Rot"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Rot4.jpg2468643": {
+        "filename": "Rot4.jpg",
+        "size": 2468643,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 576,
+                    "y": 1472,
+                    "width": 869,
+                    "height": 842
+                },
+                "region_attributes": {
+                    "label": "Rot"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Kappe1.jpg2386844": {
+        "filename": "Kappe1.jpg",
+        "size": 2386844,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 618,
+                    "y": 1727,
+                    "width": 528,
+                    "height": 565
+                },
+                "region_attributes": {
+                    "label": "Kappe"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Kappe2.jpg2219400": {
+        "filename": "Kappe2.jpg",
+        "size": 2219400,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 698,
+                    "y": 1791,
+                    "width": 746,
+                    "height": 592
+                },
+                "region_attributes": {
+                    "label": "Kappe"
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "Kappe3.jpg1658352": {
+        "filename": "Kappe3.jpg",
+        "size": 1658352,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 368,
+                    "y": 1823,
+                    "width": 1040,
+                    "height": 645
+                },
+                "region_attributes": {
+                    "label": "Kappe"
+                }
+            }
+        ],
+        "file_attributes": {}
     }
 }
