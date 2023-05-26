@@ -63,7 +63,6 @@ def transformed(img_bbox, transform):
                 obj_path = os.path.join(folder_path, obj)
                 img = cv2.imread(obj_path)
                 bbox = get_bbox_from_json(json_file_path, obj)
-                # for i in range(0, COUNT):
                 transformed = transform(image=img, bboxes=bbox)
                 trans_img_bbox.append(transformed)
     return trans_img_bbox
