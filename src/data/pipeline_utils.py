@@ -43,7 +43,7 @@ def get_bbox_from_json(json_file_path, file_name):
 
 
 def transformed(path, json_file_path, count):
-    trans_img_bbox_nano = []
+    trans_img_bbox = []
     if os.path.isdir(path):
         for folder in os.listdir(path):
             folder_path = os.path.join(path, folder)
@@ -53,4 +53,5 @@ def transformed(path, json_file_path, count):
                 bbox = get_bbox_from_json(json_file_path, obj)
                 for i in range(0, count):
                     transformed = transform(image=img, bboxes=bbox)
-                    trans_img_bbox_nano.append(transformed)
+                    trans_img_bbox.append(transformed)
+                    return trans_img_bbox
