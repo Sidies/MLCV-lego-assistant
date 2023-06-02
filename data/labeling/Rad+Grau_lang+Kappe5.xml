@@ -1,0 +1,33 @@
+<annotation>
+  <folder>Rad+Grau</folder>
+  <filename>Rad+Grau_lang+Kappe5.jpg</filename>
+  <source>
+    <database>Unknown</database>
+    <annotation>Unknown</annotation>
+    <image>Unknown</image>
+  </source>
+  <size>
+    <width>2250</width>
+    <height>4000</height>
+    <depth></depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>Rad+Grau_lang+Kappe</name>
+    <truncated>0</truncated>
+    <occluded>0</occluded>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>176.21</xmin>
+      <ymin>911.82</ymin>
+      <xmax>2142.02</xmax>
+      <ymax>2849.14</ymax>
+    </bndbox>
+    <attributes>
+      <attribute>
+        <name>rotation</name>
+        <value>0.0</value>
+      </attribute>
+    </attributes>
+  </object>
+</annotation>
