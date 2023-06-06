@@ -20,7 +20,7 @@ transform = A.Compose(
 
 
 def create_annotation_file():
-    csv_path = "../data/labeling/annotations.csv"
+    csv_path = "../data/labeling/annotations_bbox.csv"
     path_labels = "../data/labeling"
     with open(csv_path, "w", newline="") as file:
         writer = csv.writer(file)
@@ -44,7 +44,7 @@ def create_annotation_file():
 
 
 def get_bbox(filename):
-    csv_file = "../data/labeling/annotations.csv"
+    csv_file = "../data/labeling/annotations_bbox.csv"
     df = pd.read_csv(csv_file)
     filtered = df[df["ImageID"] == filename]
     labelname = filtered["LabelName"].iloc[0]
