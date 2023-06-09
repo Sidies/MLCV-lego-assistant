@@ -104,10 +104,6 @@ def index():
     def detection_tracking_overlap_threshold():
         return rest_property(stream.models['detection'].net.GetTrackingParams, stream.models['detection'].net.SetTrackingParams, int, key='overlapThreshold')
    '''
-
-@app.route('/videoplayer')
-def videoplayer():
-    return flask.render_template('content/videoplayer.html')
     
 # start stream thread
 #stream.start()
