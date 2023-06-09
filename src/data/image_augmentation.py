@@ -19,6 +19,7 @@ def xml_to_dict(path):
     
     label_files = list(os.listdir(path))
     label_files.remove('augmented')
+    label_files.remove('older labels')
     for xml_file in label_files:
         '''one file corresponds to one picture'''
         tree = ET.parse(path+'/'+xml_file)
@@ -44,14 +45,16 @@ def xml_to_dict(path):
                      'XMax':xmax,
                      'YMin':ymin,
                      'YMax':ymax}
-        bbox_data = [
+        bbox = [
             floor(xmin),
             floor(ymin),
             floor(xmax),
             floor(ymax),
             label
         ]
-        label_dict[filename] = {'xml_data':xml_data, 'bbox_data': bbox_data}
+        bboxes = [bbox]
+
+        label_dict[filename] = {'xml_data':xml_data, 'bbox_data': bboxes}
 
     return label_dict
 
@@ -127,11 +130,48 @@ def to_trainvaltest(pics, labels,test_size,val_size):
 def load_pics(path_img,labels_dict):
     images = []
     labels = []
+
+    resizer = getTransformFunction(onlyResize=True)
+
     for filename in os.listdir(path_img):
+
+        if filename not in labels_dict:
+            continue
+
         path_file = os.path.join(path_img, filename)
-        images.append(cv2.imread(path_file))
-        labels.append(labels_dict[filename])
+
+        image = cv2.imread(path_file)
+
+        label_entry = labels_dict[filename]
+        bboxes = label_entry['bbox_data']
+
+        transformed = resizer(image=image, bboxes=bboxes)
+        transformed_image = transformed["image"]
+        transformed_bboxes = transformed["bboxes"]
+
+        label_entry['bbox_data']=transformed_bboxes
+
+        xMin = transformed_bboxes[0][0]
+        yMin = transformed_bboxes[0][1]
+        xMax = transformed_bboxes[0][2]
+        yMax = transformed_bboxes[0][3]
+
+        label = label_entry['xml_data']
+        label['Filename'] = filename
+        label['LabelName'] = transformed_bboxes[0][4]
+
+        label['XMin'] = xMin
+        label['YMin'] = yMin
+        label['XMax'] = xMax
+        label['YMax'] = yMax
+
+        label['Width'] = xMax - xMin
+        label['Height'] = yMax - yMin
+
+        images.append(transformed_image)
+        labels.append(label_entry)
         print(filename+' is uploaded')
+        #plot_img_with_bbox(transformed_image, label_entry[])
     
     return images, labels
 
@@ -143,13 +183,12 @@ def enlarge_dataset(factor, items, lab_path,pic_path):
     labels_dict = items[2]
 
     pic_path = pic_path + folder + '/'
-    lab_path = lab_path + folder+'/'
+    lab_path = lab_path + folder + '/'
 
     transformer = getTransformFunction()
 
     for image,labelData in zip(pics,labels_dict):
-        bbox = labelData['bbox_data']
-        bboxes = [bbox]
+        bboxes = labelData['bbox_data']
         label = labelData['xml_data']
         original_filename = label['Filename']
         filename_split = original_filename.split(".")
@@ -166,7 +205,8 @@ def enlarge_dataset(factor, items, lab_path,pic_path):
             
             save_augmentation(filename_split, transformed_image, label,transformed_bboxes,lab_path,pic_path,i=i)
             
-            #plot_img_with_bbox(transformed_image, transformed_bboxes, voc_pascal=True)
+    print('Randomly chosen picture is shown...')
+    plot_img_with_bbox(transformed_image, transformed_bboxes, voc_pascal=True)
 
 
 def save_augmentation(filename_split,image, label,bboxes,lab_path,pic_path,i):
@@ -195,20 +235,30 @@ def save_augmentation(filename_split,image, label,bboxes,lab_path,pic_path,i):
     label['Height'] = yMax - yMin
     dict_to_xml(label, lab_path)
 
+
 '''Get different Transform Functions that create loss in the data or not'''
 
-def getTransformFunction(lossOfInfo=False):
-    transform = A.Compose(
-    [
-        A.Resize(height=480, width=640),
-        A.RandomCrop(width=450, height=450),
-        A.HorizontalFlip(p=0.5),
-        A.VerticalFlip(p=0.5),
-        A.Rotate(limit=90,p=0.9),
-        A.RandomBrightnessContrast(p=0.2),
-    ],
-    bbox_params=A.BboxParams(format="pascal_voc"),
-    )
+def getTransformFunction(lossOfInfo=False,onlyResize=False):
+    
+    if onlyResize:
+        transform = A.Compose(
+        [
+            A.Resize(height=640, width=480)
+        ],
+        bbox_params=A.BboxParams(format="pascal_voc"),
+        )
+
+    else:
+        transform = A.Compose(
+        [
+            A.RandomCrop(height=580, width=450),
+            A.HorizontalFlip(p=0.5),
+            A.VerticalFlip(p=0.5),
+            A.Rotate(limit=90,p=0.9),
+            A.RandomBrightnessContrast(p=0.2),
+        ],
+        bbox_params=A.BboxParams(format="pascal_voc"),
+        )
     return transform 
 
 
