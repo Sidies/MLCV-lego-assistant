@@ -55,7 +55,7 @@ args = parser.parse_known_args()[0]
     
 # create Flask & stream instance
 app = flask.Flask(__name__)
-#stream = Stream(args)
+stream = Stream(args)
 
 # Whenever a user visits the root URL path, the index function is called and returns the rendered HTML 
 # template for the index.html file. This allows the server to dynamically generate HTML content based 
@@ -71,7 +71,7 @@ def index():
                                  action=os.path.basename(args.action), 
                                  background=os.path.basename(args.background))
         
-'''if args.detection:
+if args.detection:
     @app.route('/detection/enabled', methods=['GET', 'PUT'])
     def detection_enabled():
         return rest_property(stream.models['detection'].IsEnabled, stream.models['detection'].SetEnabled, bool)
@@ -103,10 +103,10 @@ def index():
     @app.route('/detection/tracking_overlap_threshold', methods=['GET', 'PUT'])
     def detection_tracking_overlap_threshold():
         return rest_property(stream.models['detection'].net.GetTrackingParams, stream.models['detection'].net.SetTrackingParams, int, key='overlapThreshold')
-   '''
+   
     
 # start stream thread
-#stream.start()
+stream.start()
 
 # check if HTTPS/SSL requested
 ssl_context = None
