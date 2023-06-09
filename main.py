@@ -23,4 +23,4 @@ def start_augmentation():
         cv2.imwrite(output_dir + "rotated_" + os.path.basename(file), rotated_img)
         cv2.imwrite(output_dir + "scaled_" + os.path.basename(file), scaled_img)
         cv2.imwrite(output_dir + "translated_" + os.path.basename(file), translated_img)
-        cv2.imwrite(output_dir + "flipped_" + os.path.basename(file), flipped_img)
+        cv2.imwrite(output_dir + "flipped_" + os.path.basename(file), flipped_img)     
