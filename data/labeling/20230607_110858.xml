@@ -1,0 +1,33 @@
+<annotation>
+  <folder>20230607</folder>
+  <filename>20230607_110858.jpg</filename>
+  <source>
+    <database>Unknown</database>
+    <annotation>Unknown</annotation>
+    <image>Unknown</image>
+  </source>
+  <size>
+    <width>3024</width>
+    <height>4032</height>
+    <depth></depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>Rad</name>
+    <truncated>0</truncated>
+    <occluded>0</occluded>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>755.17</xmin>
+      <ymin>1612.84</ymin>
+      <xmax>2034.4500000000003</xmax>
+      <ymax>2887.15</ymax>
+    </bndbox>
+    <attributes>
+      <attribute>
+        <name>rotation</name>
+        <value>0.0</value>
+      </attribute>
+    </attributes>
+  </object>
+</annotation>
