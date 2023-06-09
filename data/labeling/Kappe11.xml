@@ -1,0 +1,33 @@
+<annotation>
+  <folder></folder>
+  <filename>Kappe11.jpg</filename>
+  <source>
+    <database>Unknown</database>
+    <annotation>Unknown</annotation>
+    <image>Unknown</image>
+  </source>
+  <size>
+    <width>3024</width>
+    <height>4032</height>
+    <depth></depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>Kappe</name>
+    <truncated>0</truncated>
+    <occluded>0</occluded>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>1072.67</xmin>
+      <ymin>1452.89</ymin>
+      <xmax>1451.74</xmax>
+      <ymax>2061.71</ymax>
+    </bndbox>
+    <attributes>
+      <attribute>
+        <name>rotation</name>
+        <value>0.0</value>
+      </attribute>
+    </attributes>
+  </object>
+</annotation>
