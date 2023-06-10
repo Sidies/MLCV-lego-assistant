@@ -4,22 +4,46 @@ import sys
 from pathlib import Path
 import image_augmentation as utils
 
-pic_path = os.getcwd()+"/data/raw"
-lab_path = os.getcwd()+"/data/labeling"
+pic_path = os.getcwd()+"/data/raw/"
+lab_path = os.getcwd()+"/data/labeling/"
 
-new_lab_path = os.getcwd()+"/data/labeling/augmented/"
-new_pic_path = os.getcwd()+"/data/processed/"
+new_lab_path = os.getcwd()+"/data/Output/Annotations/"
+new_pic_path = os.getcwd()+"/data/Output/JPEGImages/"
 
-labels_dict = utils.xml_to_dict(lab_path)
+labels, annotations_dict = utils.xml_to_dict(lab_path)
 
-images, labels = utils.load_pics(pic_path,labels_dict)
+images, annotations = utils.load_pics(pic_path,annotations_dict)
 
-train, val, test = utils.to_trainvaltest(images, labels,test_size=0.2, val_size=0.3)
+train, val, test = utils.to_trainvaltest(images, annotations,test_size=0.2, val_size=0.3)
 
-factors=[5,5,5]
+txtlists = {}
+
+factors=[10,3,3]
 for item,factor in zip([train,val,test],factors):
     print('\n{}-set:\n'.format(item[0]))
-    utils.enlarge_dataset(factor, item,new_lab_path,new_pic_path)
+    type, liste = utils.enlarge_dataset(factor, item,new_lab_path,new_pic_path)
+    txtlists[type] = liste
+
+    with open(os.getcwd()+"/data/Output/ImageSets/Main/"+ type + '.txt', 'w') as fp:
+        for item in liste:
+            # write each item on a new line
+            fp.write("%s\n" % item)
+        print(type+' written')
+
+trainvallist = txtlists['train'] + txtlists['val']
+
+with open(os.getcwd()+"/data/Output/ImageSets/Main/trainval.txt", 'w') as fp:
+    for item in trainvallist:
+        # write each item on a new line
+        fp.write("%s\n" % item)
+    print('Trainval written')
+
+with open(os.getcwd()+"/data/Output/labels.txt", 'w') as fp:
+    for item in labels:
+        # write each item on a new line
+        fp.write("%s\n" % item)
+    print('Labels written')
+
 
 #utils.dict_to_xml(label_dict,new_lab_to_path)
 #here the pics should be loaded, ut lets see if it works with meandingless zeros

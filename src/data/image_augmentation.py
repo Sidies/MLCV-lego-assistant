@@ -15,12 +15,13 @@ from math import floor
 returns them as dictionary with Filename as key'''
 def xml_to_dict(path):
 
-    label_dict = {}
+    labels = set()
+    anno_dict = {}
     
-    label_files = list(os.listdir(path))
-    label_files.remove('augmented')
-    label_files.remove('older labels')
-    for xml_file in label_files:
+    anno_files = list(os.listdir(path))
+    anno_files.remove('older labels')
+
+    for xml_file in anno_files:
         '''one file corresponds to one picture'''
         tree = ET.parse(path+'/'+xml_file)
         root = tree.getroot()
@@ -35,16 +36,13 @@ def xml_to_dict(path):
             ymax = float(bbx.find('ymax').text)
             label = member.find('name').text
 
+        labels.add(label)
+
         filename = root.find('filename').text
 
-        xml_data = {'Filename':filename,
-                     'LabelName':label,
+        annotation = {'Filename':filename,
                      'Width':width,
-                     'Height':height,
-                     'XMin':xmin,
-                     'XMax':xmax,
-                     'YMin':ymin,
-                     'YMax':ymax}
+                     'Height':height}
         bbox = [
             floor(xmin),
             floor(ymin),
@@ -54,14 +52,16 @@ def xml_to_dict(path):
         ]
         bboxes = [bbox]
 
-        label_dict[filename] = {'xml_data':xml_data, 'bbox_data': bboxes}
+        annotation['bboxes'] = bboxes
 
-    return label_dict
+        anno_dict[filename] = annotation
+
+    return list(labels), anno_dict
 
 ############ Labels abspeichern #########################################
 
 '''writes the labels in the right xml format'''
-def dict_to_xml(bboxOfPic,to_path):
+def dict_to_xml(annotation,to_path):
 
     root_element = ET.Element('annotation')
     
@@ -92,158 +92,146 @@ def dict_to_xml(bboxOfPic,to_path):
     attr_value_element = ET.SubElement(attribute_element, 'value')
 
     folder_element.text = ''
-    filename_element.text = str(bboxOfPic['Filename'])
+    filename_element.text = str(annotation['Filename'])
     database_element.text = 'Unknown'
     annotation_element.text = 'Unknown'
     image_element.text = 'Unknown'
-    width_element.text = str(bboxOfPic['Width'])
-    height_element.text = str(bboxOfPic['Height'])
+    width_element.text = str(int(annotation['Width']))
+    height_element.text = str(int(annotation['Height']))
     depth_element.text = ''
     segmented_element.text = '0'
-    name_element.text = bboxOfPic['LabelName']
+    name_element.text = annotation['bboxes'][0][-1]
     truncated_element.text = '0'
     occluded_element.text = '0'
     difficult_element.text = '0'
-    xmin_element.text = str(bboxOfPic['XMin'])
-    ymin_element.text = str(bboxOfPic['YMin'])
-    xmax_element.text = str(bboxOfPic['XMax'])
-    ymax_element.text = str(bboxOfPic['YMax']) 
+    xmin_element.text = str(int(annotation['bboxes'][0][0]))
+    ymin_element.text = str(int(annotation['bboxes'][0][1]))
+    xmax_element.text = str(int(annotation['bboxes'][0][2]))
+    ymax_element.text = str(int(annotation['bboxes'][0][3])) 
     attr_name_element.text = 'rotation'
     attr_value_element.text = '0.0'
 
     tree = ET.ElementTree(root_element)
-    filepath = os.path.join(to_path, bboxOfPic['Filename'][:-4])
+    filepath = os.path.join(to_path, annotation['Filename'][:-4])
     tree.write(filepath+'.xml', encoding='utf-8')
-
 
 
 '''Splits the training set into train validation and test'''
 def to_trainvaltest(pics, labels,test_size,val_size):
-    labels = labels
+
     X_train, X_test, y_train, y_test = train_test_split(pics, labels,test_size=test_size, shuffle = True, random_state = 8)
     X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train,test_size=val_size, shuffle = True, random_state = 8)
-    #y_train = pd.DataFrame(y_train, columns=columns)
-    #y_test = pd.DataFrame(y_test, columns=columns)
-    #y_validation = pd.DataFrame(y_validation, columns=columns)
-    return ('train',X_train,y_train),('validation',X_validation,y_validation),('test',X_test,y_test)
+    
+    return ('train',X_train,y_train),('val',X_validation,y_validation),('test',X_test,y_test)
  
-def load_pics(path_img,labels_dict):
-    images = []
-    labels = []
+def load_pics(path_img,annotations_dict):
+
+    ordered_images = []
+    ordered_annotations = []
 
     resizer = getTransformFunction(onlyResize=True)
 
     for filename in os.listdir(path_img):
 
-        if filename not in labels_dict:
+        if filename not in annotations_dict:
             continue
 
         path_file = os.path.join(path_img, filename)
 
         image = cv2.imread(path_file)
 
-        label_entry = labels_dict[filename]
-        bboxes = label_entry['bbox_data']
+        annotation = annotations_dict[filename]
+        bboxes = annotation['bboxes']
 
-        transformed = resizer(image=image, bboxes=bboxes)
+        #plot_img_with_bbox(image, bboxes,message='Loaded picture '+filename)
+
+        width=480
+        height=640
+
+        transformed = resizer(image=image, bboxes=bboxes,width=width,height=height)
         transformed_image = transformed["image"]
         transformed_bboxes = transformed["bboxes"]
 
-        label_entry['bbox_data']=transformed_bboxes
+        annotation['bboxes'] = transformed_bboxes
 
-        xMin = transformed_bboxes[0][0]
-        yMin = transformed_bboxes[0][1]
-        xMax = transformed_bboxes[0][2]
-        yMax = transformed_bboxes[0][3]
+        annotation['Filename'] = filename
+        annotation['Width'] = width
+        annotation['Height'] = height
 
-        label = label_entry['xml_data']
-        label['Filename'] = filename
-        label['LabelName'] = transformed_bboxes[0][4]
+        ordered_images.append(transformed_image)
+        ordered_annotations.append(annotation)
 
-        label['XMin'] = xMin
-        label['YMin'] = yMin
-        label['XMax'] = xMax
-        label['YMax'] = yMax
-
-        label['Width'] = xMax - xMin
-        label['Height'] = yMax - yMin
-
-        images.append(transformed_image)
-        labels.append(label_entry)
         print(filename+' is uploaded')
-        #plot_img_with_bbox(transformed_image, label_entry[])
+
+        #plot_img_with_bbox(transformed_image, transformed_bboxes,message='Loaded and resized picture '+filename)
     
-    return images, labels
+    return ordered_images, ordered_annotations
 
 
-def enlarge_dataset(factor, items, lab_path,pic_path):
+def enlarge_dataset(factor, items, lab_path,image_path):
     
-    folder = items[0]
-    pics = items[1]
-    labels_dict = items[2]
-
-    pic_path = pic_path + folder + '/'
-    lab_path = lab_path + folder + '/'
+    type = items[0]
+    images = items[1]
+    annotations_dict = items[2]
 
     transformer = getTransformFunction()
 
-    for image,labelData in zip(pics,labels_dict):
-        bboxes = labelData['bbox_data']
-        label = labelData['xml_data']
-        original_filename = label['Filename']
+    trainvaltest = []
+
+    for image,annotation in zip(images,annotations_dict):
+        bboxes = annotation['bboxes'].copy()
+        original_filename = annotation['Filename']
         filename_split = original_filename.split(".")
 
         print('write {}'.format(filename_split[0]))
         
-        save_augmentation(filename_split, image, label,bboxes,lab_path,pic_path,i=0)
+        new_image = image
+        filename = 'original'+original_filename
+        save_augmentation('original'+original_filename, new_image, annotation,lab_path,image_path)
         
+        trainvaltest.append(filename)
+
         for i in range(1, factor):
-            
+
             transformed = transformer(image=image, bboxes=bboxes)
-            transformed_image = transformed["image"]
-            transformed_bboxes = transformed["bboxes"]
+            new_image = transformed["image"]
+            annotation["bboxes"] = transformed["bboxes"]
+
+            filename = filename_split[0] + '_v' + str(i) + '.' + filename_split[1]
+            annotation['Filename'] = filename
+
+            save_augmentation(filename, new_image, annotation,lab_path,image_path)
             
-            save_augmentation(filename_split, transformed_image, label,transformed_bboxes,lab_path,pic_path,i=i)
+            trainvaltest.append(filename)
             
     print('Randomly chosen picture is shown...')
-    plot_img_with_bbox(transformed_image, transformed_bboxes, voc_pascal=True)
+    plot_img_with_bbox(new_image, annotation["bboxes"], voc_pascal=True,message='Randomly chosen picture '+filename)
+
+    return type, trainvaltest
 
 
-def save_augmentation(filename_split,image, label,bboxes,lab_path,pic_path,i):
-    #print('write version {}'.format(i))
-    filename = filename_split[0] + '_v' + str(i) + '.' + filename_split[1]
+
+def save_augmentation(filename,image, annotation,lab_path,pic_path):
+        
+    #plot_img_with_bbox(image, annotation["bboxes"], voc_pascal=True,message='This will be saved: '+filename)
+
     cv2.imwrite(
         pic_path + filename,
         image,
         [cv2.IMWRITE_JPEG_QUALITY, 100],
     )
 
-    xMin = bboxes[0][0]
-    yMin = bboxes[0][1]
-    xMax = bboxes[0][2]
-    yMax = bboxes[0][3]
-
-    label['Filename'] = filename
-    label['LabelName'] = bboxes[0][4]
-
-    label['XMin'] = xMin
-    label['YMin'] = yMin
-    label['XMax'] = xMax
-    label['YMax'] = yMax
-
-    label['Width'] = xMax - xMin
-    label['Height'] = yMax - yMin
-    dict_to_xml(label, lab_path)
+    dict_to_xml(annotation, lab_path)
 
 
 '''Get different Transform Functions that create loss in the data or not'''
 
-def getTransformFunction(lossOfInfo=False,onlyResize=False):
+def getTransformFunction(lossOfInfo=False,onlyResize=False,width=480,height=640):
     
     if onlyResize:
         transform = A.Compose(
         [
-            A.Resize(height=640, width=480)
+            A.Resize(height=height, width=width)
         ],
         bbox_params=A.BboxParams(format="pascal_voc"),
         )
@@ -254,8 +242,12 @@ def getTransformFunction(lossOfInfo=False,onlyResize=False):
             A.RandomCrop(height=580, width=450),
             A.HorizontalFlip(p=0.5),
             A.VerticalFlip(p=0.5),
-            A.Rotate(limit=90,p=0.9),
-            A.RandomBrightnessContrast(p=0.2),
+            A.Rotate(limit=15,p=0.5),
+            A.RandomFog(fog_coef_lower=0, fog_coef_upper=0.3,alpha_coef=0.05,p=0.5),
+            A.Blur(blur_limit=3, always_apply=True, p=0.5),
+            A.PixelDropout (dropout_prob=0.01, drop_value=0, p=0.8),
+            A.PixelDropout (dropout_prob=0.1, drop_value=0, p=0.1),
+            A.RandomBrightnessContrast(brightness_limit=0.1, contrast_limit=0.1,p=0.8),
         ],
         bbox_params=A.BboxParams(format="pascal_voc"),
         )
@@ -265,23 +257,25 @@ def getTransformFunction(lossOfInfo=False,onlyResize=False):
 
 '''Shows the image and bboxes on that image on the screen'''
 
-def plot_img_with_bbox(transformed_image, transformed_bboxes,voc_pascal=False):
+def plot_img_with_bbox(new_image, bboxes,voc_pascal=True,message="Image with Bounding Box"):
+    image = new_image.copy()
     if voc_pascal:
-        x, y, xmax, ymax, label = transformed_bboxes[0]
+        x, y, xmax, ymax, label = bboxes[0]
     else:
         #assume coco
-        x, y, width, height, label = transformed_bboxes[0]
+        x, y, width, height, label = bboxes[0]
         xmax = x+width
         ymax = y+height
+    print(bboxes)
     cv2.rectangle(
-        transformed_image,
+        image,
         (int(x), int(y)),
         (int(xmax), int(ymax)),
         (0, 255, 0),
         2,
     )
     cv2.putText(
-        transformed_image,
+        image,
         label,
         (int(x), int(y) - 10),
         cv2.FONT_HERSHEY_SIMPLEX,
@@ -289,7 +283,7 @@ def plot_img_with_bbox(transformed_image, transformed_bboxes,voc_pascal=False):
         (0, 255, 0),
         2,
     )
-    cv2.imshow("Image with Bounding Box", transformed_image)
+    cv2.imshow(message, image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
