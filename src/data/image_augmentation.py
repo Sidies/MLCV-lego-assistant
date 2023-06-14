@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 import os
-#import xmltodict
 import glob
 import xml.etree.ElementTree as ET
 from sklearn.model_selection import train_test_split
@@ -28,6 +27,8 @@ def xml_to_dict(path):
         for member in root.findall('size'):
             height = float(member.find('height').text)
             width = float(member.find('width').text)
+
+        bboxes = []
         for member in root.findall('object'):
             bbx = member.find('bndbox')
             xmin = float(bbx.find('xmin').text)
@@ -36,6 +37,16 @@ def xml_to_dict(path):
             ymax = float(bbx.find('ymax').text)
             label = member.find('name').text
 
+            bbox = [
+            floor(xmin),
+            floor(ymin),
+            floor(xmax),
+            floor(ymax),
+            label
+            ]
+
+            bboxes.append(bbox)
+
         labels.add(label)
 
         filename = root.find('filename').text
@@ -43,19 +54,14 @@ def xml_to_dict(path):
         annotation = {'Filename':filename,
                      'Width':width,
                      'Height':height}
-        bbox = [
-            floor(xmin),
-            floor(ymin),
-            floor(xmax),
-            floor(ymax),
-            label
-        ]
-        bboxes = [bbox]
 
         annotation['bboxes'] = bboxes
 
         anno_dict[filename] = annotation
 
+    #print(anno_dict)
+    #print('--------------------')
+    print(labels)
     return list(labels), anno_dict
 
 ############ Labels abspeichern #########################################
@@ -63,6 +69,66 @@ def xml_to_dict(path):
 '''writes the labels in the right xml format'''
 def dict_to_xml(annotation,to_path):
 
+    object_data = annotation['bboxes']
+
+    root_element = ET.Element('annotation')
+    
+    folder_element = ET.SubElement(root_element, 'folder')
+    filename_element = ET.SubElement(root_element, 'filename')
+    source_element = ET.SubElement(root_element, 'source')
+    database_element = ET.SubElement(source_element, 'database')
+    annotation_element = ET.SubElement(source_element, 'annotation')
+    image_element = ET.SubElement(source_element, 'image')
+    size_element = ET.SubElement(root_element, 'size')
+    width_element = ET.SubElement(size_element, 'width')
+    height_element = ET.SubElement(size_element, 'height')
+    depth_element = ET.SubElement(size_element, 'depth')
+    segmented_element = ET.SubElement(root_element, 'segmented')
+    
+    folder_element.text = 'Rad+Grau'
+    filename_element.text = annotation['Filename']
+    database_element.text = 'Unknown'
+    annotation_element.text = 'Unknown'
+    image_element.text = 'Unknown'
+    width_element.text = str(annotation['Width'])
+    height_element.text = str(annotation['Width'])
+    depth_element.text = ''
+    segmented_element.text = '0'
+    
+    for obj_data in object_data:
+        object_element = ET.SubElement(root_element, 'object')
+        
+        name_element = ET.SubElement(object_element, 'name')
+        truncated_element = ET.SubElement(object_element, 'truncated')
+        occluded_element = ET.SubElement(object_element, 'occluded')
+        difficult_element = ET.SubElement(object_element, 'difficult')
+        bndbox_element = ET.SubElement(object_element, 'bndbox')
+        xmin_element = ET.SubElement(bndbox_element, 'xmin')
+        ymin_element = ET.SubElement(bndbox_element, 'ymin')
+        xmax_element = ET.SubElement(bndbox_element, 'xmax')
+        ymax_element = ET.SubElement(bndbox_element, 'ymax')
+        attributes_element = ET.SubElement(object_element, 'attributes')
+        attribute_element = ET.SubElement(attributes_element, 'attribute')
+        attr_name_element = ET.SubElement(attribute_element, 'name')
+        attr_value_element = ET.SubElement(attribute_element, 'value')
+        
+        name_element.text = obj_data[4]
+        truncated_element.text = '0'
+        occluded_element.text = '0'
+        difficult_element.text = '0'
+        xmin_element.text = str(obj_data[0])
+        ymin_element.text = str(obj_data[1])
+        xmax_element.text = str(obj_data[2])
+        ymax_element.text = str(obj_data[3])
+        attr_name_element.text = 'rotation'
+        attr_value_element.text = '0.0'
+    
+    tree = ET.ElementTree(root_element)
+    filepath = os.path.join(to_path, annotation['Filename'][:-4])
+    tree.write(filepath+'.xml', encoding='utf-8')
+
+
+    '''
     root_element = ET.Element('annotation')
     
     folder_element = ET.SubElement(root_element, 'folder')
@@ -114,6 +180,7 @@ def dict_to_xml(annotation,to_path):
     tree = ET.ElementTree(root_element)
     filepath = os.path.join(to_path, annotation['Filename'][:-4])
     tree.write(filepath+'.xml', encoding='utf-8')
+    '''
 
 
 '''Splits the training set into train validation and test'''
@@ -128,6 +195,9 @@ def load_pics(path_img,annotations_dict):
 
     ordered_images = []
     ordered_annotations = []
+
+    width=480
+    height=640
 
     resizer = getTransformFunction(onlyResize=True)
 
@@ -144,9 +214,6 @@ def load_pics(path_img,annotations_dict):
         bboxes = annotation['bboxes']
 
         #plot_img_with_bbox(image, bboxes,message='Loaded picture '+filename)
-
-        width=480
-        height=640
 
         transformed = resizer(image=image, bboxes=bboxes,width=width,height=height)
         transformed_image = transformed["image"]
@@ -186,10 +253,12 @@ def enlarge_dataset(factor, items, lab_path,image_path):
         print('write {}'.format(filename_split[0]))
         
         new_image = image
-        filename = 'original'+original_filename
-        save_augmentation('original'+original_filename, new_image, annotation,lab_path,image_path)
+        filenametxt = 'original_'+ filename_split[0]
+        trainvaltest.append(filenametxt)
+        filename = filenametxt + '.' + filename_split[1]
         
-        trainvaltest.append(filename)
+        save_augmentation(filename, new_image, annotation,lab_path,image_path)
+        annotation['Filename'] = filename
 
         for i in range(1, factor):
 
@@ -197,12 +266,15 @@ def enlarge_dataset(factor, items, lab_path,image_path):
             new_image = transformed["image"]
             annotation["bboxes"] = transformed["bboxes"]
 
-            filename = filename_split[0] + '_v' + str(i) + '.' + filename_split[1]
+            filenametxt = filename_split[0] + '_v' + str(i)
+            trainvaltest.append(filenametxt)
+            
+            filename = filenametxt + '.' + filename_split[1]
             annotation['Filename'] = filename
-
+            
             save_augmentation(filename, new_image, annotation,lab_path,image_path)
             
-            trainvaltest.append(filename)
+            
             
     print('Randomly chosen picture is shown...')
     plot_img_with_bbox(new_image, annotation["bboxes"], voc_pascal=True,message='Randomly chosen picture '+filename)
@@ -259,30 +331,32 @@ def getTransformFunction(lossOfInfo=False,onlyResize=False,width=480,height=640)
 
 def plot_img_with_bbox(new_image, bboxes,voc_pascal=True,message="Image with Bounding Box"):
     image = new_image.copy()
-    if voc_pascal:
-        x, y, xmax, ymax, label = bboxes[0]
-    else:
-        #assume coco
-        x, y, width, height, label = bboxes[0]
-        xmax = x+width
-        ymax = y+height
-    print(bboxes)
-    cv2.rectangle(
-        image,
-        (int(x), int(y)),
-        (int(xmax), int(ymax)),
-        (0, 255, 0),
-        2,
-    )
-    cv2.putText(
-        image,
-        label,
-        (int(x), int(y) - 10),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.9,
-        (0, 255, 0),
-        2,
-    )
+
+    for bbox in bboxes:
+        if voc_pascal:
+            x, y, xmax, ymax, label = bbox
+        else:
+            #assume coco
+            x, y, width, height, label = bbox
+            xmax = x+width
+            ymax = y+height
+        print(bbox)
+        cv2.rectangle(
+            image,
+            (int(x), int(y)),
+            (int(xmax), int(ymax)),
+            (0, 255, 0),
+            2,
+        )
+        cv2.putText(
+            image,
+            label,
+            (int(x), int(y) - 10),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.9,
+            (0, 255, 0),
+            2,
+        )
     cv2.imshow(message, image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()

@@ -14,7 +14,7 @@ labels, annotations_dict = utils.xml_to_dict(lab_path)
 
 images, annotations = utils.load_pics(pic_path,annotations_dict)
 
-train, val, test = utils.to_trainvaltest(images, annotations,test_size=0.2, val_size=0.3)
+train, val, test = utils.to_trainvaltest(images, annotations,test_size=1/3, val_size=0.5)
 
 txtlists = {}
 
@@ -44,6 +44,8 @@ with open(os.getcwd()+"/data/Output/labels.txt", 'w') as fp:
         fp.write("%s\n" % item)
     print('Labels written')
 
+
+# Old functions:
 
 #utils.dict_to_xml(label_dict,new_lab_to_path)
 #here the pics should be loaded, ut lets see if it works with meandingless zeros
