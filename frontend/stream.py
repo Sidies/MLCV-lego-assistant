@@ -71,7 +71,8 @@ class Stream(threading.Thread):
             return
             
         for model in self.models.values():
-            model.Process(img)
+            results = model.Process(img)
+            print(f"The results from the model are: {results}")
             
         for model in self.models.values():
             img = model.Visualize(img)
