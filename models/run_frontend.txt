@@ -1,0 +1,1 @@
+python3 app.py --detection=../models/lego3.onnx --ssl-key=../../jetson-inference/data/key.pem --ssl-cert=../../jetson-inference/data/cert.pem --labels=../data/lego/labels.txt --input-layer=input_0 --output-layer=scores,boxes
