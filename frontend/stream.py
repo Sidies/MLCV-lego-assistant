@@ -54,6 +54,8 @@ class Stream(threading.Thread):
             'action': args.action
         }
         
+        print(f"DEBUG: The model types are: {model_types}")
+        
         for key, model in model_types.items():
             if model:
                 self.models[key] = Model(key, model=model, labels=args.labels, colors=args.colors, input_layer=args.input_layer, output_layer=args.output_layer)

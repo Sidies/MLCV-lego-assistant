@@ -40,6 +40,9 @@ class Model:
             input_layer (string or dict) -- the model's input layer(s)
             output_layer (string or dict) -- the model's output layers()
         """
+        
+        print(f"DEBUG: Initializing model with type {type} and model {model}")
+        
         self.type = type
         self.model = model
         self.enabled = True
