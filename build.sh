@@ -13,7 +13,7 @@
 BASE_IMAGE=$1
 
 # find L4T_VERSION
-source docker/tag.sh
+source jetson-inference/docker/tag.sh
 
 if [ -z $BASE_IMAGE ]; then
 	if [ $ARCH = "aarch64" ]; then
