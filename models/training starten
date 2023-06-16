@@ -1,0 +1,1 @@
+python3 train_ssd.py --dataset-type=voc --data=data/lego4 --model-dir=models/lego4 --batch-size=40 --epochs=120 --workers=6 --resume

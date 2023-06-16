@@ -1,0 +1,17 @@
+Blau8
+Blau9
+Blau10
+Rot2
+Grau_kurz4
+Grau_lang5
+Kabel2
+Kabel6
+Rad16
+Rad19
+Rad21
+Rad23
+Kappe3
+Kappe6
+Rad+Grau_lang7
+Rad+Grau_lang9
+Rad+Grau_lang+Kappe3
