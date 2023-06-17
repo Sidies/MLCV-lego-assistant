@@ -9,8 +9,8 @@ import os
 
 transform = A.Compose(
     [
-        A.Resize(height=480, width=640),
-        A.RandomCrop(width=450, height=450),
+        A.Resize(height=224, width=224),
+        #A.RandomCrop(width=256, height=256),
         A.HorizontalFlip(p=0.5),
         A.VerticalFlip(p=0.5),
         A.RandomBrightnessContrast(p=0.2),
