@@ -103,11 +103,18 @@ def copy_all_files(source_folder: str, destination_folder: str):
         destination_path = os.path.join(destination_folder, file_name)
         shutil.copy(source_path, destination_path)
         
+def write_traintxt():
+    file_path = '../data/lego/ImageSets/Main/train.txt'
+    folder = os.listdir('../data/lego/Annotations/')
+    for filename in folder:
+        write_img_name(image_name=filename, txt_path=file_path)
+        
 def reset():
     delete_all_entries('../data/lego/ImageSets/Main/train.txt')
     delete_all_files('../data/lego/JPEGImages/')
     delete_all_files('../data/lego/Annotations/')
     copy_all_files(source_folder='../data/labeling/', destination_folder='../data/lego/Annotations/')
+    write_traintxt()
     
 def augmentation(folder_name: str):
     path = "../data/raw/" + folder_name
