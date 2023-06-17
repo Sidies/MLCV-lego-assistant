@@ -1,5 +1,6 @@
 import cv2
 import albumentations as A
+import shutil
 import numpy as np
 import pandas as pd
 import csv
@@ -18,87 +19,124 @@ transform = A.Compose(
     bbox_params=A.BboxParams(format="pascal_voc"),
 )
 
+def get_bbox(xml_filename: str):
+    path_annotations ='../data/lego/Annotations'
+    for file in os.listdir(path=path_annotations):
+        if file.endswith(".xml") and file == xml_filename:
+            path_file = os.path.join(path_annotations, file)
+            tree = et.parse(path_file)
+            root = tree.getroot()
 
-def create_annotation_file():
-    csv_path = "../data/labeling/annotations_bbox.csv"
-    path_labels = "../data/labeling"
-    with open(csv_path, "w", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow(["ImageID", "LabelName", "XMin", "XMax", "YMin", "YMax"])
+            filename = root.find("filename").text
 
-        for filename in os.listdir(path_labels):
-            if filename.endswith(".xml"):
-                path_file = os.path.join(path_labels, filename)
-                tree = et.parse(path_file)
-                root = tree.getroot()
+            xmin = float(root.find("./object/bndbox/xmin").text)
+            ymin = float(root.find("./object/bndbox/ymin").text)
+            xmax = float(root.find("./object/bndbox/xmax").text)
+            ymax = float(root.find("./object/bndbox/ymax").text)
 
-                filename = root.find("filename").text
+            label = root.find("./object/name").text
+            # Pascal Voc: [x_min, y_min, x_max, y_max, label]
+            return [[xmin, ymin, xmax, ymax, label]]
+        
+def get_unique_filename(filename: str):
+    # Überprüfe, ob die Basisdatei bereits existiert
+    path = "../data/lego/Annotations/" + filename
+    if not os.path.exists(path):
+        return filename
+    # Suche nach einer eindeutigen Nummer für den Namen
+    filename_split = filename.split(".")
+    base_name = filename_split[0]
+    extension = filename_split[1]
+    counter = 1
+    unique_name = base_name + "_" + str(counter) + '.' + extension
+    while os.path.exists(unique_name):
+        counter += 1
+        unique_name = base_name + "_" + str(counter) + '.' + extension
 
-                label = root.find("./object/name").text
-                xmin = root.find("./object/bndbox/xmin").text
-                xmax = root.find("./object/bndbox/xmax").text
-                ymin = root.find("./object/bndbox/ymin").text
-                ymax = root.find("./object/bndbox/ymax").text
+    return unique_name
 
-                writer.writerow([filename, label, xmin, xmax, ymin, ymax])
+def create_bbox_xml_file(filename: str, filename_new: str):
+    bbox = get_bbox(filename)
+    # Pascal Voc: [x_min, y_min, x_max, y_max, label]
+    path_annotations ='../data/lego/Annotations/'
+    for xml_file in os.listdir(path_annotations):
+        if xml_file == filename:
+            path_file = os.path.join(path_annotations, xml_file)
+            new_filename = filename_new.split(".")[0] + ".xml"
+            tree = et.parse(path_file)
+            root = tree.getroot()
 
-
-def get_bbox(filename):
-    csv_file = "../data/labeling/annotations_bbox.csv"
-    df = pd.read_csv(csv_file)
-    filtered = df[df["ImageID"] == filename]
-    labelname = filtered["LabelName"].iloc[0]
-    xmin = filtered["XMin"].iloc[0]
-    xmax = filtered["XMax"].iloc[0]
-    ymin = filtered["YMin"].iloc[0]
-    ymax = filtered["YMax"].iloc[0]
-    return [[xmin, xmax, ymin, ymax, labelname]]
-
-
-def write_bbox_to_csv(transformed_bbox, image_name):
-    # Pascal Voc [x_min, y_min, x_max, y_max, label]
-    xmin = transformed_bbox[0][0]
-    ymin = transformed_bbox[0][1]
-    xmax = transformed_bbox[0][2]
-    ymax = transformed_bbox[0][3]
-    label = transformed_bbox[0][4]
-
-    csv_file = "../data/labeling/annotations_bbox.csv"
-    with open(csv_file, "a", newline="") as file:
-        writer = csv.writer(file)
-
-        writer.writerow([image_name, label, xmin, xmax, ymin, ymax])
-
-
-def enlarge_dataset(factor: int):
-    path_img = "../data/raw/"
-    for filename in os.listdir(path_img):
-        path_file = os.path.join(path_img, filename)
-        image = cv2.imread(path_file)
-        bboxes = get_bbox(filename)
-        bboxes[0][1], bboxes[0][2] = bboxes[0][2], bboxes[0][1]
-
-        for i in range(0, factor):
-            transformed = transform(image=image, bboxes=bboxes)
-            transformed_image = transformed["image"]
-            transformed_bboxes = transformed["bboxes"]
-            filename_split = filename.split(".")
-            filename = filename_split[0] + "_P." + filename_split[1]
-            cv2.imwrite(
-                "../data/processed/" + filename,
-                transformed_image,
-                [cv2.IMWRITE_JPEG_QUALITY, 100],
-            )
-            write_bbox_to_csv(transformed_bboxes, filename)
-            # plot_img_with_bbox(transformed_image, transformed_bboxes)
-
-
-def remove_processed_imgs():
-    path = "../data/processed/"
-    for file_name in os.listdir(path):
-        file = path + file_name
-        if os.path.isfile(file):
-            os.remove(file)
+            filename_element = root.find("filename")
+            filename_element.text = new_filename
+            xmin = root.find("./object/bndbox/xmin")
+            xmin.text = str(bbox[0][0])
+            ymin = root.find("./object/bndbox/ymin")
+            ymin.text = str(bbox[0][1])
+            xmax = root.find("./object/bndbox/xmax")
+            xmax.text = str(bbox[0][2])
+            ymax = root.find("./object/bndbox/ymax")
+            ymax.text = str(bbox[0][3])
+            label = root.find("./object/name")
+            
+            new_path_file = os.path.join(path_annotations, new_filename)
+            tree.write(new_path_file)
+            
+def write_img_name(image_name: str, txt_path: str):
+    with open(txt_path, "a") as file:
+        file.write(image_name.split('.')[0] + "\n")
+        
+def delete_all_entries(file_path: str):
+    with open(file_path, 'w') as file:
+        file.truncate(0)
+        
+def delete_all_files(folder_path: str):
+    file_list = os.listdir(folder_path)
+    for file_name in file_list:
+        file_path = os.path.join(folder_path, file_name)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+            
+def copy_all_files(source_folder: str, destination_folder: str):
+    file_list = os.listdir(source_folder)
+    for file_name in file_list:
+        source_path = os.path.join(source_folder, file_name)
+        destination_path = os.path.join(destination_folder, file_name)
+        shutil.copy(source_path, destination_path)
+        
+def reset():
+    delete_all_entries('../data/lego/ImageSets/Main/train.txt')
+    delete_all_files('../data/lego/JPEGImages/')
+    delete_all_files('../data/lego/Annotations/')
+    copy_all_files(source_folder='../data/labeling/', destination_folder='../data/lego/Annotations/')
+    
+def augmentation(folder_name: str):
+    path = "../data/raw/" + folder_name
+    for file in os.listdir(path):
+        file_path = os.path.join(path, file)
+        image = cv2.imread(file_path)
+        xml_filename = file.split('.')[0] + '.xml'
+        bboxes = get_bbox(xml_filename)
+        
+        # transform img and its bbox
+        transformed = transform(image=image, bboxes=bboxes)
+        transformed_image = transformed["image"]
+        transformed_bboxes = transformed["bboxes"]
+        
+        unique_filename_xml = get_unique_filename(xml_filename)
+        print('augmentation filename_new:', unique_filename_xml)
+        # create bbox file for aug img
+        create_bbox_xml_file(xml_filename, unique_filename_xml)
+        
+        # save aug img in JPEGImages
+        path_write = '../data/lego/JPEGImages/' 
+        unique_filename_jpg = unique_filename_xml.split('.')[0] + '.jpg'
+        cv2.imwrite(
+            path_write + unique_filename_jpg,
+            transformed_image,
+            [cv2.IMWRITE_JPEG_QUALITY, 100],
+        )
+        write_img_name(unique_filename_jpg, '../data/lego/ImageSets/Main/train.txt')
+        #plot_img_with_bbox(transformed_image, transformed_bboxes)
 
 
 def plot_img_with_bbox(transformed_image, transformed_bboxes):
