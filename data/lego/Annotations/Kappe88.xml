@@ -1,0 +1,33 @@
+<annotation>
+  <folder></folder>
+  <filename>Kappe88.jpg</filename>
+  <source>
+    <database>Unknown</database>
+    <annotation>Unknown</annotation>
+    <image>Unknown</image>
+  </source>
+  <size>
+    <width>3024</width>
+    <height>4032</height>
+    <depth></depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>Kappe</name>
+    <truncated>0</truncated>
+    <occluded>0</occluded>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>876.81</xmin>
+      <ymin>1671.15</ymin>
+      <xmax>1871.03</xmax>
+      <ymax>2211.05</ymax>
+    </bndbox>
+    <attributes>
+      <attribute>
+        <name>rotation</name>
+        <value>0.0</value>
+      </attribute>
+    </attributes>
+  </object>
+</annotation>

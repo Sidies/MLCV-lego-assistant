@@ -8,81 +8,91 @@ import xml.etree.ElementTree as et
 import os
 
 
-transform = A.Compose(
-    [
-        A.Resize(height=224, width=224),
-        #A.RandomCrop(width=256, height=256),
-        A.HorizontalFlip(p=0.5),
-        A.VerticalFlip(p=0.5),
-        A.RandomBrightnessContrast(p=0.2),
-    ],
-    bbox_params=A.BboxParams(format="pascal_voc"),
-)
+transform = A.Compose([
+    A.Resize(height=256, width=256),  # Größeres Resize auf 256x256
+    A.RandomCrop(height=224, width=224),  # Random Crop auf 224x224
+    A.HorizontalFlip(p=0.5),
+    A.VerticalFlip(p=0.5),
+    A.RandomRotate90(p=0.5),
+    A.RandomBrightnessContrast(p=0.2),
+    A.RandomGamma(p=0.2),
+    A.GaussianBlur(p=0.2),
+    A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.2, rotate_limit=45, p=0.5),
+], bbox_params=A.BboxParams(format="pascal_voc"))
 
-def get_bbox(xml_filename: str):
+
+
+
+
+# Get bbox via xml filename from Annotations folder
+def get_bbox(filename: str):
+    filename += '.xml'
     path_annotations ='../data/lego/Annotations'
     for file in os.listdir(path=path_annotations):
-        if file.endswith(".xml") and file == xml_filename:
+        if file.endswith(".xml") and file == filename:
             path_file = os.path.join(path_annotations, file)
             tree = et.parse(path_file)
             root = tree.getroot()
-
-            filename = root.find("filename").text
 
             xmin = float(root.find("./object/bndbox/xmin").text)
             ymin = float(root.find("./object/bndbox/ymin").text)
             xmax = float(root.find("./object/bndbox/xmax").text)
             ymax = float(root.find("./object/bndbox/ymax").text)
-
             label = root.find("./object/name").text
-            # Pascal Voc: [x_min, y_min, x_max, y_max, label]
             return [[xmin, ymin, xmax, ymax, label]]
-        
+
+# Return an adapted unique filename for entered filename        
 def get_unique_filename(filename: str):
-    # Überprüfe, ob die Basisdatei bereits existiert
+    # Check if the base file already exists
+    filename += '.xml'
     path = "../data/lego/Annotations/" + filename
     if not os.path.exists(path):
         return filename
-    # Suche nach einer eindeutigen Nummer für den Namen
+    # Search for a unique number for the name
     filename_split = filename.split(".")
     base_name = filename_split[0]
     extension = filename_split[1]
     counter = 1
-    unique_name = base_name + "_" + str(counter) + '.' + extension
-    while os.path.exists(unique_name):
+    unique_filename = base_name + "_" + str(counter) + '.' + extension
+    path = "../data/lego/Annotations/" + unique_filename
+    while os.path.exists(path):
         counter += 1
-        unique_name = base_name + "_" + str(counter) + '.' + extension
+        unique_filename = base_name + "_" + str(counter) + '.' + extension
+        path = "../data/lego/Annotations/" + unique_filename
+        
+    return unique_filename
 
-    return unique_name
-
-def create_bbox_xml_file(filename: str, filename_new: str):
-    bbox = get_bbox(filename)
-    # Pascal Voc: [x_min, y_min, x_max, y_max, label]
+# Creates a bbox-xml-file for new augmented file
+def create_xml_file(initial_filename: str, new_filename: str, transformed_bbox):
+    initial_filename += '.xml'
     path_annotations ='../data/lego/Annotations/'
     for xml_file in os.listdir(path_annotations):
-        if xml_file == filename:
+        if xml_file == initial_filename:
             path_file = os.path.join(path_annotations, xml_file)
-            new_filename = filename_new.split(".")[0] + ".xml"
+            new_filename = new_filename.split(".")[0] + ".xml"
             tree = et.parse(path_file)
             root = tree.getroot()
 
             filename_element = root.find("filename")
             filename_element.text = new_filename
             xmin = root.find("./object/bndbox/xmin")
-            xmin.text = str(bbox[0][0])
+            xmin.text = str(transformed_bbox[0][0])
             ymin = root.find("./object/bndbox/ymin")
-            ymin.text = str(bbox[0][1])
+            ymin.text = str(transformed_bbox[0][1])
             xmax = root.find("./object/bndbox/xmax")
-            xmax.text = str(bbox[0][2])
+            xmax.text = str(transformed_bbox[0][2])
             ymax = root.find("./object/bndbox/ymax")
-            ymax.text = str(bbox[0][3])
-            label = root.find("./object/name")
+            ymax.text = str(transformed_bbox[0][3])
+            width = root.find('./size/width')
+            width.text = '224'
+            height = root.find('./size/height')
+            height.text = '224'
             
             new_path_file = os.path.join(path_annotations, new_filename)
             tree.write(new_path_file)
             
-def write_img_name(image_name: str, txt_path: str):
-    with open(txt_path, "a") as file:
+def write_name_to_file(image_name: str, path: str):
+    with open(path, "a") as file:
         file.write(image_name.split('.')[0] + "\n")
         
 def delete_all_entries(file_path: str):
@@ -103,46 +113,49 @@ def copy_all_files(source_folder: str, destination_folder: str):
         destination_path = os.path.join(destination_folder, file_name)
         shutil.copy(source_path, destination_path)
         
-def write_traintxt():
-    file_path = '../data/lego/ImageSets/Main/train.txt'
-    folder = os.listdir('../data/lego/Annotations/')
+def write_traintxt(foldername:str):
+    traintxt_path = '../data/lego/ImageSets/Main/train.txt'
+    base_path = '../data/raw/' 
+    target_path = os.path.join(base_path, foldername)
+    folder = os.listdir(target_path)
     for filename in folder:
-        write_img_name(image_name=filename, txt_path=file_path)
+        write_name_to_file(image_name=filename, path=traintxt_path)
         
 def reset():
     delete_all_entries('../data/lego/ImageSets/Main/train.txt')
     delete_all_files('../data/lego/JPEGImages/')
     delete_all_files('../data/lego/Annotations/')
     copy_all_files(source_folder='../data/labeling/', destination_folder='../data/lego/Annotations/')
-    write_traintxt()
+    #write_traintxt("Iteration_1")
     
 def augmentation(folder_name: str):
     path = "../data/raw/" + folder_name
     for file in os.listdir(path):
-        file_path = os.path.join(path, file)
-        image = cv2.imread(file_path)
-        xml_filename = file.split('.')[0] + '.xml'
-        bboxes = get_bbox(xml_filename)
+        file_path = os.path.join(path, file) # Build path to file
+        image = cv2.imread(file_path) # Get image via path
+        file = file.split('.')[0]
+        bboxes = get_bbox(file) # Get bbox of file
+        print(f'get bbox: {bboxes}')
         
-        # transform img and its bbox
-        transformed = transform(image=image, bboxes=bboxes)
+        # Transform img and its bbox
+        transformed = transform(image=image, bboxes=bboxes) # Augmentation on image and bbox
         transformed_image = transformed["image"]
         transformed_bboxes = transformed["bboxes"]
         
-        unique_filename_xml = get_unique_filename(xml_filename)
-        print('augmentation filename_new:', unique_filename_xml)
-        # create bbox file for aug img
-        create_bbox_xml_file(xml_filename, unique_filename_xml)
+        new_filename_xml = get_unique_filename(file) # Create a unique filename for new aug file
+        create_xml_file(initial_filename=file, new_filename=new_filename_xml, transformed_bbox=transformed_bboxes) # Create XML-file for new aug file
         
-        # save aug img in JPEGImages
+        # Save aug img in JPEGImages
         path_write = '../data/lego/JPEGImages/' 
-        unique_filename_jpg = unique_filename_xml.split('.')[0] + '.jpg'
+        new_filename_jpg = new_filename_xml.split('.')[0] + '.jpg'
         cv2.imwrite(
-            path_write + unique_filename_jpg,
+            path_write + new_filename_jpg,
             transformed_image,
             [cv2.IMWRITE_JPEG_QUALITY, 100],
         )
-        write_img_name(unique_filename_jpg, '../data/lego/ImageSets/Main/train.txt')
+        write_name_to_file(image_name=new_filename_jpg, path='../data/lego/ImageSets/Main/train.txt')
+        
+        # how aug img + bbox
         #plot_img_with_bbox(transformed_image, transformed_bboxes)
 
 

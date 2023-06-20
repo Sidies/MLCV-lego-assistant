@@ -1,0 +1,33 @@
+<annotation>
+  <folder>Grau</folder>
+  <filename>Grau_lang82.jpg</filename>
+  <source>
+    <database>Unknown</database>
+    <annotation>Unknown</annotation>
+    <image>Unknown</image>
+  </source>
+  <size>
+    <width>2942</width>
+    <height>3924</height>
+    <depth></depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>Grau_lang</name>
+    <truncated>0</truncated>
+    <occluded>0</occluded>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>1233.7</xmin>
+      <ymin>1308.04</ymin>
+      <xmax>1557.9</xmax>
+      <ymax>3303.58</ymax>
+    </bndbox>
+    <attributes>
+      <attribute>
+        <name>rotation</name>
+        <value>0.0</value>
+      </attribute>
+    </attributes>
+  </object>
+</annotation>
