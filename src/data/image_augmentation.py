@@ -143,6 +143,7 @@ def reset():
     delete_all_entries('../data/lego/ImageSets/Main/train.txt')
     delete_all_entries('../data/lego/ImageSets/Main/trainval.txt')
     delete_all_entries('../data/lego/ImageSets/Main/test.txt')
+    delete_all_entries('../data/lego/ImageSets/Main/val.txt')
     delete_all_files('../data/lego/JPEGImages/')
     delete_all_files('../data/lego/Annotations/')
     copy_all_files(source_folder='../data/labeling/', destination_folder='../data/lego/Annotations/')
