@@ -113,16 +113,36 @@ def copy_all_files(source_folder: str, destination_folder: str):
         destination_path = os.path.join(destination_folder, file_name)
         shutil.copy(source_path, destination_path)
         
-def write_traintxt(foldername:str):
+def write_train_trainval(foldername:str):
     traintxt_path = '../data/lego/ImageSets/Main/train.txt'
+    trainvaltxt_path = '../data/lego/ImageSets/Main/trainval.txt'
     base_path = '../data/raw/' 
     target_path = os.path.join(base_path, foldername)
     folder = os.listdir(target_path)
     for filename in folder:
         write_name_to_file(image_name=filename, path=traintxt_path)
+        write_name_to_file(image_name=filename, path=trainvaltxt_path)
+        
+def write_test(foldername:str):
+    testtxt_path = '../data/lego/ImageSets/Main/test.txt'
+    base_path = '../data/raw/' 
+    target_path = os.path.join(base_path, foldername)
+    folder = os.listdir(target_path)
+    for filename in folder:
+        write_name_to_file(image_name=filename, path=testtxt_path)
+        
+def write_val(foldername:str):
+    valtxt_path = '../data/lego/ImageSets/Main/val.txt'
+    base_path = '../data/raw/' 
+    target_path = os.path.join(base_path, foldername)
+    folder = os.listdir(target_path)
+    for filename in folder:
+        write_name_to_file(image_name=filename, path=valtxt_path)
         
 def reset():
     delete_all_entries('../data/lego/ImageSets/Main/train.txt')
+    delete_all_entries('../data/lego/ImageSets/Main/trainval.txt')
+    delete_all_entries('../data/lego/ImageSets/Main/test.txt')
     delete_all_files('../data/lego/JPEGImages/')
     delete_all_files('../data/lego/Annotations/')
     copy_all_files(source_folder='../data/labeling/', destination_folder='../data/lego/Annotations/')
@@ -135,7 +155,6 @@ def augmentation(folder_name: str):
         image = cv2.imread(file_path) # Get image via path
         file = file.split('.')[0]
         bboxes = get_bbox(file) # Get bbox of file
-        print(f'get bbox: {bboxes}')
         
         # Transform img and its bbox
         transformed = transform(image=image, bboxes=bboxes) # Augmentation on image and bbox
@@ -154,6 +173,7 @@ def augmentation(folder_name: str):
             [cv2.IMWRITE_JPEG_QUALITY, 100],
         )
         write_name_to_file(image_name=new_filename_jpg, path='../data/lego/ImageSets/Main/train.txt')
+        write_name_to_file(image_name=new_filename_jpg, path='../data/lego/ImageSets/Main/trainval.txt')
         
         # how aug img + bbox
         #plot_img_with_bbox(transformed_image, transformed_bboxes)
