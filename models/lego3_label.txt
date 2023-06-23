@@ -1,4 +1,3 @@
 Rad
-Grau_lang
-Rot
 Kappe
+Grau_lang
