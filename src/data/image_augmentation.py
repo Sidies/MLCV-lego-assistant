@@ -20,8 +20,9 @@ transform = A.Compose([
     A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.2, rotate_limit=45, p=0.5),
 ], bbox_params=A.BboxParams(format="pascal_voc"))
 
-
-
+transform_test = A.Compose([
+    A.Resize(height=224, width=224),  
+], bbox_params=A.BboxParams(format="pascal_voc"))
 
 
 # Get bbox via xml filename from Annotations folder
@@ -175,6 +176,35 @@ def augmentation(folder_name: str):
         )
         write_name_to_file(image_name=new_filename_jpg, path='../data/lego/ImageSets/Main/train.txt')
         write_name_to_file(image_name=new_filename_jpg, path='../data/lego/ImageSets/Main/trainval.txt')
+        
+        # how aug img + bbox
+        #plot_img_with_bbox(transformed_image, transformed_bboxes)
+        
+def resize_test(folder_name: str):
+    path = "../data/raw/" + folder_name
+    for file in os.listdir(path):
+        file_path = os.path.join(path, file) # Build path to file
+        image = cv2.imread(file_path) # Get image via path
+        file = file.split('.')[0]
+        bboxes = get_bbox(file) # Get bbox of file
+        
+        # Transform img and its bbox
+        transformed = transform_test(image=image, bboxes=bboxes) # Augmentation on image and bbox
+        transformed_image = transformed["image"]
+        transformed_bboxes = transformed["bboxes"]
+        
+        new_filename_xml = get_unique_filename(file) # Create a unique filename for new aug file
+        create_xml_file(initial_filename=file, new_filename=new_filename_xml, transformed_bbox=transformed_bboxes) # Create XML-file for new aug file
+        
+        # Save aug img in JPEGImages
+        path_write = '../data/lego/JPEGImages/' 
+        new_filename_jpg = new_filename_xml.split('.')[0] + '.jpg'
+        cv2.imwrite(
+            path_write + new_filename_jpg,
+            transformed_image,
+            [cv2.IMWRITE_JPEG_QUALITY, 100],
+        )
+        write_name_to_file(image_name=new_filename_jpg, path='../data/lego/ImageSets/Main/test.txt')
         
         # how aug img + bbox
         #plot_img_with_bbox(transformed_image, transformed_bboxes)
