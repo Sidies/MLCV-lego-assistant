@@ -22,6 +22,7 @@
 
 from jetson_inference import imageNet, detectNet, segNet, poseNet, actionNet, backgroundNet
 from jetson_utils import cudaFont, cudaAllocMapped, Log
+import inspect
 
 
 class Model:
@@ -60,20 +61,23 @@ class Model:
                 
         elif type == 'detection':
             if not output_layer:
-                output_layer = {'scores': '', 'bbox': ''}
+                output_layer = {'scores': 'scores', 'boxes': 'boxes'}
             elif isinstance(output_layer, str):
                 output_layer = output_layer.split(',')
-                output_layer = {'scores': output_layer[0], 'bbox': output_layer[1]}
-            elif not isinstance(output_layer, dict) or output_layer.keys() < {'scores', 'bbox'}:
+                output_layer = {'scores': output_layer[0], 'boxes': output_layer[1]}
+            elif not isinstance(output_layer, dict) or output_layer.keys() < {'scores', 'boxes'}:
                 raise ValueError("for detection models, output_layer should be a dict with keys 'scores' and 'bbox'")
              
             print(input_layer)
             print(output_layer)
-            
+            print("DEBUG --------------------------")            
+            print(dir(detectNet))
+
             self.net = detectNet(model=model, labels=labels, colors=colors,
                                  input_blob=input_layer, 
                                  output_cvg=output_layer['scores'], 
-                                 output_bbox=output_layer['bbox'])
+                                 output_bbox=output_layer['boxes'])
+
         else:
             raise ValueError(f"invalid model type '{type}'")
             
@@ -141,6 +145,9 @@ class Model:
         Enable/disable processing of the model.
         """
         self.enabled = enabled
+
+    def GetNet(self):
+        return self.net
         
     @staticmethod
     def Usage():

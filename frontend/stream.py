@@ -23,6 +23,7 @@
 import sys
 import threading
 import traceback
+import time
 
 from model import Model
 from jetson_utils import videoSource, videoOutput
@@ -45,23 +46,9 @@ class Stream(threading.Thread):
         self.models = {}
         
         # these are in the order that the overlays should be composited
-        model_types = {
-            'background' : args.background,
-            'segmentation' : args.segmentation,
-            'classification': args.classification,
-            'detection': args.detection,
-            'pose': args.pose,
-            'action': args.action
-        }
-        
-        print(f"DEBUG: The model types are: {model_types}")
-        
-        for key, model in model_types.items():
-            if model:
-                self.models[key] = Model(key, model=model, labels=args.labels, colors=args.colors, input_layer=args.input_layer, output_layer=args.output_layer)
+
+        self.model = Model("detection", model=args.detection, labels=args.labels, colors=args.colors, input_layer=args.input_layer, output_layer=args.output_layer)
             
-        if args.action and args.classification:
-            self.models['action'].fontLine = 1
         
     def process(self):
         """
@@ -72,12 +59,19 @@ class Stream(threading.Thread):
         if img is None:  # timeout
             return
             
-        for model in self.models.values():
-            results = model.Process(img)
-            print(f"The results from the model are: {results}")
+        # get model results
+        results = self.model.Process(img)
+        print(f"The results from the model are: {results}")
+        #time.sleep(5)
+        
+        model_net = self.model.getNet()
+        class_desc = model_net.GetClassDesc(results["ClassID"])
+        
+        print(f"The class description is: {class_desc}")
+
             
-        for model in self.models.values():
-            img = model.Visualize(img)
+        #visualize model results
+        img = self.model.Visualize(img)
 
         self.output.Render(img)
 

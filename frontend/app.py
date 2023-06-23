@@ -34,20 +34,15 @@ parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, 
 
 parser.add_argument("--host", default='0.0.0.0', type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
 parser.add_argument("--port", default=8050, type=int, help="port used for webserver (default is 8050)")
-parser.add_argument("--ssl-key", default=".\\data\\localhost.key", type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
-parser.add_argument("--ssl-cert", default=".\\data\\localhost.crt", type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
+parser.add_argument("--ssl-key", default="../../jetson-inference/data/key.pem", type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
+parser.add_argument("--ssl-cert", default="../../jetson-inference/data/cert.pem", type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
 parser.add_argument("--title", default='Jetson Lego Classifier', type=str, help="the title of the webpage as shown in the browser")
 parser.add_argument("--input", default='webrtc://@:8554/input', type=str, help="input camera stream or video file")
 parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help="WebRTC output stream to serve from --input")
-parser.add_argument("--classification", default='', type=str, help="load classification model (see imageNet arguments)")
-parser.add_argument("--detection", default='', type=str, help="load object detection model (see detectNet arguments)")
-parser.add_argument("--segmentation", default='', type=str, help="load semantic segmentation model (see segNet arguments)")
-parser.add_argument("--background", default='', type=str, help="load background removal model (see backgroundNet arguments)")
-parser.add_argument("--action", default='', type=str, help="load action recognition model (see actionNet arguments)")
-parser.add_argument("--pose", default='', type=str, help="load action recognition model (see actionNet arguments)")
-parser.add_argument("--labels", default='', type=str, help="path to labels.txt for loading a custom model")
+parser.add_argument("--detection", default='../models/lego3.onnx', type=str, help="load object detection model (see detectNet arguments)")
+parser.add_argument("--labels", default='../data/lego/labels.txt', type=str, help="path to labels.txt for loading a custom model")
 parser.add_argument("--colors", default='', type=str, help="path to colors.txt for loading a custom model")
-parser.add_argument("--input-layer", default='', type=str, help="name of input layer for loading a custom model")
+parser.add_argument("--input-layer", default='input_0', type=str, help="name of input layer for loading a custom model")
 parser.add_argument("--output-layer", default='', type=str, help="name of output layer(s) for loading a custom model (comma-separated if multiple)")
 
 args = parser.parse_known_args()[0]
@@ -63,46 +58,41 @@ stream = Stream(args)
 @app.route('/') # A flask app route is a URL that the app “listens” for.
 def index():
     return flask.render_template('index.html', title=args.title, send_webrtc=args.input.startswith('webrtc'),
-                                 input_stream=args.input, output_stream=args.output,
-                                 classification=os.path.basename(args.classification), 
-                                 detection=os.path.basename(args.detection), 
-                                 segmentation=os.path.basename(args.segmentation), 
-                                 pose=os.path.basename(args.pose),
-                                 action=os.path.basename(args.action), 
-                                 background=os.path.basename(args.background))
+                                 input_stream=args.input, output_stream=args.output,                                  
+                                 detection=os.path.basename(args.detection))
         
 if args.detection:
     @app.route('/detection/enabled', methods=['GET', 'PUT'])
     def detection_enabled():
-        return rest_property(stream.models['detection'].IsEnabled, stream.models['detection'].SetEnabled, bool)
+        return rest_property(stream.model.IsEnabled, stream.model.SetEnabled, bool)
       
     @app.route('/detection/confidence_threshold', methods=['GET', 'PUT'])
     def detection_confidence_threshold():
-        return rest_property(stream.models['detection'].net.GetConfidenceThreshold, stream.models['detection'].net.SetConfidenceThreshold, float)
+        return rest_property(stream.model.net.GetConfidenceThreshold, stream.model.net.SetConfidenceThreshold, float)
       
     @app.route('/detection/clustering_threshold', methods=['GET', 'PUT'])
     def detection_clustering_threshold():
-        return rest_property(stream.models['detection'].net.GetClusteringThreshold, stream.models['detection'].net.SetClusteringThreshold, float)
+        return rest_property(stream.model.net.GetClusteringThreshold, stream.model.net.SetClusteringThreshold, float)
         
     @app.route('/detection/overlay_alpha', methods=['GET', 'PUT'])
     def detection_overlay_alpha():
-        return rest_property(stream.models['detection'].net.GetOverlayAlpha, stream.models['detection'].net.SetOverlayAlpha, float)
+        return rest_property(stream.model.net.GetOverlayAlpha, stream.model.net.SetOverlayAlpha, float)
         
     @app.route('/detection/tracking_enabled', methods=['GET', 'PUT'])
     def detection_tracking_enabled():
-        return rest_property(stream.models['detection'].net.IsTrackingEnabled, stream.models['detection'].net.SetTrackingEnabled, bool)
+        return rest_property(stream.model.net.IsTrackingEnabled, stream.model.net.SetTrackingEnabled, bool)
 
     @app.route('/detection/tracking_min_frames', methods=['GET', 'PUT'])
     def detection_tracking_min_frames():
-        return rest_property(stream.models['detection'].net.GetTrackingParams, stream.models['detection'].net.SetTrackingParams, int, key='minFrames')
+        return rest_property(stream.model.net.GetTrackingParams, stream.model.net.SetTrackingParams, int, key='minFrames')
 
     @app.route('/detection/tracking_drop_frames', methods=['GET', 'PUT'])
     def detection_tracking_drop_frames():
-        return rest_property(stream.models['detection'].net.GetTrackingParams, stream.models['detection'].net.SetTrackingParams, int, key='dropFrames')
+        return rest_property(stream.model.net.GetTrackingParams, stream.model.net.SetTrackingParams, int, key='dropFrames')
 
     @app.route('/detection/tracking_overlap_threshold', methods=['GET', 'PUT'])
     def detection_tracking_overlap_threshold():
-        return rest_property(stream.models['detection'].net.GetTrackingParams, stream.models['detection'].net.SetTrackingParams, int, key='overlapThreshold')
+        return rest_property(stream.model.net.GetTrackingParams, stream.model.net.SetTrackingParams, int, key='overlapThreshold')
    
     
 # start stream thread

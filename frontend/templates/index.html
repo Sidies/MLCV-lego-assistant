@@ -147,21 +147,6 @@
             {{ collapse_handler('stream_controls') }}
             </div>
         </div>
-        
-        <!-- Classification Controls -->
-        {% if classification|length %}
-        <div class="card" style="width: 36rem;">
-            <div class="card-body">
-            {{ card_header('classification_controls', 'Classification', classification) }}
-            <div class="collapse" id="classification_controls">
-                {{ checkbox('classification_enabled', '/classification/enabled', 'Classification Enabled') }}
-                {{ slider('classification_confidence_threshold', '/classification/confidence_threshold', 'Confidence Threshold') }}
-                {{ slider('classification_output_smoothing', '/classification/output_smoothing', 'Output Smoothing') }}
-            </div>
-            {{ collapse_handler('classification_controls') }}
-            </div>
-        </div>
-        {% endif %}
 
         <!-- Detection Controls -->
         {% if detection|length %}
@@ -194,34 +179,6 @@
                 </script>
             </div>
             {{ collapse_handler('detection_controls') }}
-            </div>
-        </div>
-        {% endif %}
-
-        <!-- Action Controls -->
-        {% if action|length %}
-        <div class="card" style="width: 36rem;">
-            <div class="card-body">
-            {{ card_header('action_controls', 'Action Recognition', action) }}
-            <div class="collapse" id="action_controls">
-                {{ checkbox('action_enabled', '/action/enabled', 'Actions Enabled') }}
-                {{ slider('action_confidence_threshold', '/action/confidence_threshold', 'Confidence Threshold') }}
-                {{ slider('action_skip_frames', '/action/skip_frames', 'Skip Frames', min=0, max=30, step=1) }}
-            </div>
-            {{ collapse_handler('action_controls') }}
-            </div>
-        </div>
-        {% endif %}
-
-        <!-- Background Controls -->
-        {% if background|length %}
-        <div class="card" style="width: 36rem;">
-            <div class="card-body">
-            {{ card_header('background_controls', 'Background Removal', background) }}
-            <div class="collapse" id="background_controls">
-                {{ checkbox('background_enabled', '/background/enabled', 'Removal Enabled') }}
-            </div>
-            {{ collapse_handler('background_controls') }}
             </div>
         </div>
         {% endif %}
