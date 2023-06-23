@@ -14,11 +14,11 @@ labels, annotations_dict = utils.xml_to_dict(lab_path)
 
 images, annotations = utils.load_pics(pic_path,annotations_dict)
 
-train, val, test = utils.to_trainvaltest(images, annotations,test_size=1/3, val_size=0.5)
+train, val, test = utils.to_trainvaltest(images, annotations,val_test_size=2/3, val_size=0.5)
 
 txtlists = {}
 
-factors=[10,3,3]
+factors=[10,1,1]
 for item,factor in zip([train,val,test],factors):
     print('\n{}-set:\n'.format(item[0]))
     type, liste = utils.enlarge_dataset(factor, item,new_lab_path,new_pic_path)
@@ -36,27 +36,10 @@ with open(os.getcwd()+"/data/Output/ImageSets/Main/trainval.txt", 'w') as fp:
     for item in trainvallist:
         # write each item on a new line
         fp.write("%s\n" % item)
-    print('Trainval written')
+    print('trainval written')
 
 with open(os.getcwd()+"/data/Output/labels.txt", 'w') as fp:
     for item in labels:
         # write each item on a new line
         fp.write("%s\n" % item)
-    print('Labels written')
-
-
-# Old functions:
-
-#utils.dict_to_xml(label_dict,new_lab_to_path)
-#here the pics should be loaded, ut lets see if it works with meandingless zeros
-#pics = [0]*len(df)
-#df = utils.matchPicsToLabels(df,pic_path)
-#print(df)
-'''
-parts = utils.to_trainvaltest(pics, df)
-
-utils.labels_creation(df)
-utils.df_to_csv('label_validation.csv', parts['y_va'])
-utils.df_to_csv('label_train.csv', parts['y_tr'])
-utils.df_to_csv('label_test.csv', parts['y_te'])
-'''
+    print('labels written')
