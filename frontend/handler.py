@@ -13,13 +13,29 @@ class Handler():
         return self.stream.get_latest_class_label()
     
     
-    def _get_imagepath_for_label(self):
-        label = self.get_current_detection()
-        print("Getting image path for label: ", label)
-        path = os.path.join("static", "images", label + ".jpg")
-        print("The path is: ", path)
-        return str(path)
+    def get_next_detection(self):
+        # get current position for the current detection
+        current_label = self.get_current_detection()
+        idx_current = self.labels.index(current_label)
+        idx_next = idx_current + 1
         
+        # check if this exceeds the number of labels
+        if idx_next >= len(self.labels):
+            return "Done"
+        return self.labels[idx_next]
+    
+    
+    def get_imagepath_for_currentlabel(self):
+        label = self.get_current_detection()
+        path = os.path.join("static", "images", label + ".jpg")
+        return str(path)
+    
+    
+    def get_imagepath_for_nextlabel(self):
+        label = self.get_next_detection()
+        path = os.path.join("static", "images", label + ".jpg")
+        return str(path)
+    
     
     def _get_labels(self, label_path):
         with open(label_path) as f:

@@ -99,13 +99,21 @@ if args.detection:
     def detection_tracking_overlap_threshold():
         return rest_property(stream.model.net.GetTrackingParams, stream.model.net.SetTrackingParams, int, key='overlapThreshold')
     
-    @app.route('/detection/class_label', methods=['GET'])
+    @app.route('/detection/current_label', methods=['GET'])
     def detection_get_latest_label():
         return rest_property(handler.get_current_detection, None, str)
     
-    @app.route('/detection/label_image', methods=['GET'])
-    def detection_get_label_image():
-        return rest_property(handler._get_imagepath_for_label, None, str)
+    @app.route('/detection/next_label', methods=['GET'])
+    def detection_get_next_label():
+        return rest_property(handler.get_next_detection, None, str)
+    
+    @app.route('/detection/current_label_image', methods=['GET'])
+    def detection_get_latest_label_image():
+        return rest_property(handler.get_imagepath_for_currentlabel, None, str)
+    
+    @app.route('/detection/next_label_image', methods=['GET'])
+    def detection_get_next_label_image():
+        return rest_property(handler.get_imagepath_for_nextlabel, None, str)
    
     
 # start stream thread
