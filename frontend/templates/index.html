@@ -6,7 +6,7 @@
     <title>{{ title }}</title>
 
     <!-- Importing the jinja macros -->
-    {% from 'macros.html' import checkbox, slider, card_header, collapse_handler, label %}
+    {% from 'macros.html' import checkbox, slider, card_header, collapse_handler, label, image %}
         
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     
@@ -79,10 +79,10 @@
 
       <!-- Left Container -->
       <div class="col-sm-6" style="background-color:lavender;">
-        <div class="container d-flex align-items-center justify-content-center text-center" style="height: 20rem;">
+        <div class="container d-flex align-items-center justify-content-center text-center overflow-hidden" style="height: 20rem;">
           <div>
-            <h1>Image</h1>
-            <img src="path/to/image.jpg" alt="Image" class="img-fluid">
+            <!-- <img src="/static/images/Rad.jpg" alt="../data/images/Rad.jpg" class="img-fluid rounded mx-auto d-block" style="width: 100%; height:auto;"> -->
+            {{ image('class_image', '/detection/label_image') }}
             {{ label('class_label', '/detection/class_label') }}
           </div>
         </div>
