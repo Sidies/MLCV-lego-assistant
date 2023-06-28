@@ -45,7 +45,7 @@ class Stream(threading.Thread):
         self.frames = 0
         self.models = {}
         self.process_count = 0
-        self.latest_class_label = ""
+        self.latest_class_label = "Initial Label"
         
         # these are in the order that the overlays should be composited
 
@@ -105,6 +105,13 @@ class Stream(threading.Thread):
                 self.process()
             except:
                 traceback.print_exc()
+                
+                
+    def get_latest_class_label(self):
+        print("Getting latest class label")
+        print("_________________________________________")
+        return self.latest_class_label
+        
                 
     @staticmethod
     def usage():

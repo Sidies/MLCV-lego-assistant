@@ -37,26 +37,34 @@
 {%- endmacro %}
 
 {# Jinja macro for setting the class label #}
-{%macro label(id, rest_path) -%}
-<div class="row">
-  <script type='text/javascript'>
-    function get_{{ id }}() {
-      return rest_get('{{ rest_path }}').then(function(value) {
-        document.getElementById('{{ id }}').value = value;   
-        document.getElementById('{{ id }}_value').innerHTML = value;
-        console.log(`get_{{ id }}(${value})`);
-        return value;
-      });
-    }
-  </script>
-  <div class="col-4">
-    <div id="{{ id }}_value">{{ value }}</div>
+{% macro label(id, rest_path) -%}
+  <div class="row">
+    <script type='text/javascript'>
+      console.log('GETTING LABEL');
+      function get_{{ id }}() {
+        console.log('Function working');
+        return rest_get('{{ rest_path }}').then(function(value) {
+          document.getElementById('{{ id }}_value').innerHTML = value;
+          console.log(`get_{{ id }}(${value})`);
+          return value;
+        });
+      }
+      
+    </script>
+    <div class="col-4">
+      <div> TEST </div>
+      <div id="{{ id }}_value">{{ value }}</div>
+      <script>
+        var intervalId = window.setInterval(function(){
+          get_{{ id }}();
+        }, 5000);
+      </script>
+    </div>
   </div>
-</div>
 {%- endmacro %}
 
 {# Jinja macro for creating a checkbox element that connects to a backend JSON REST API #}
-{% macro checkbox(id, label, oninput=none) -%}
+{% macro checkbox(id, rest_path, label, oninput=none) -%}
   <div class="row">
     <script type='text/javascript'>
       function get_{{ id }}() {
