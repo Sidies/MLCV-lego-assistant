@@ -45,7 +45,7 @@ class Stream(threading.Thread):
         self.frames = 0
         self.models = {}
         self.process_count = 0
-        self.latest_class_label = "Initial Label"
+        self.latest_class_label = "Start"
         
         # these are in the order that the overlays should be composited
 

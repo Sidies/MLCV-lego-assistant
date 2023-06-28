@@ -78,27 +78,31 @@
     <div class="row">
 
       <!-- Left Container -->
-      <div class="col-sm-6" style="background-color:lavender;">
-        <div class="container d-flex align-items-center justify-content-center text-center overflow-hidden" style="height: 20rem;">
-          <div class="row">
-            <div class="col-sm-6">
-              {{ image('current_label_image', '/detection/current_label_image') }}
-              {{ label('current_label', '/detection/current_label') }}
-            </div>
-            <div class="col-sm-6">
-              {{ image('next_label_image', '/detection/next_label_image') }}
-              {{ label('next_label', '/detection/next_label') }}
-            </div>
+      <div class="col" style="background-color:lavender;">        
+        <div class="row">
+          <div class="col">
+            {{ image('current_label_image', '/detection/current_label_image') }}        
+          </div>
+          <div class="col">
+            {{ image('next_label_image', '/detection/next_label_image') }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center p-2">
+            {{ label('current_label', '/detection/current_label', 'current label:') }}
+          </div>
+          <div class="col text-center p-2">
+            {{ label('next_label', '/detection/next_label', 'next label:') }}
           </div>
         </div>
       </div>
 
       <!-- Right Container -->
-      <div class="col-sm-6" style="background-color:lavender;">
+      <div class="col" style="background-color:lavender;">
 
         <!-- Video Player -->
         <div style="position: sticky; top: 0px; z-index: 999;">
-          <video id="video-player" autoplay controls playsinline muted>Your browser does not support video</video>
+          <video id="video-player" width=640 height= 480 autoplay playsinline muted poster="static/images/Thumb.jpeg">Your browser does not support video</video>
         </div>
         
         <!-- Stream Controls -->

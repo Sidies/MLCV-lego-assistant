@@ -16,6 +16,10 @@ class Handler():
     def get_next_detection(self):
         # get current position for the current detection
         current_label = self.get_current_detection()
+        
+        if current_label == "Start":
+            return self.labels[0]
+        
         idx_current = self.labels.index(current_label)
         idx_next = idx_current + 1
         
