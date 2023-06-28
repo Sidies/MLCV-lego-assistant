@@ -93,6 +93,10 @@ if args.detection:
     @app.route('/detection/tracking_overlap_threshold', methods=['GET', 'PUT'])
     def detection_tracking_overlap_threshold():
         return rest_property(stream.model.net.GetTrackingParams, stream.model.net.SetTrackingParams, int, key='overlapThreshold')
+    
+    @app.route('/detection/class_label', methods=['GET', 'PUT'])
+    def detection_get_latest_label():
+        return rest_property(stream.latest_class_label, None, str, key='classLabel')
    
     
 # start stream thread

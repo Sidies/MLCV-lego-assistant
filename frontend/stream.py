@@ -44,6 +44,8 @@ class Stream(threading.Thread):
         self.output = videoOutput(args.output, argv=sys.argv)
         self.frames = 0
         self.models = {}
+        self.process_count = 0
+        self.latest_class_label = ""
         
         # these are in the order that the overlays should be composited
 
@@ -63,8 +65,7 @@ class Stream(threading.Thread):
         results = self.model.Process(img)
         if len(results) > 0:
             
-            # results is a list of detected objects. The object with the highest confidence seems to be at the top
-            
+            # results is a list of detected objects. The object with the highest confidence seems to be at the top            
             print(f"The results from the model are: {results}")
             
             # get the class id of the highest confidence class
@@ -74,6 +75,8 @@ class Stream(threading.Thread):
             class_label = model_net.GetClassLabel(class_id)
             
             print(f"The class label is: {class_label}")
+            if self.latest_class_label == "":
+                self.latest_class_label = class_label
 
             
         #visualize model results
@@ -85,6 +88,13 @@ class Stream(threading.Thread):
             print(f"captured {self.frames} frames from {self.args.input} => {self.args.output} ({img.width} x {img.height})")
    
         self.frames += 1
+        
+        # reset the process count
+        self.process_count += 1
+        if self.process_count > 100:
+            self.process_count = 0
+            self.latest_class_label = ""
+            
         
     def run(self):
         """

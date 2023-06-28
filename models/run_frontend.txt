@@ -5,4 +5,4 @@ sudo chown -R $USER ~/AISS_CV_Lego
 cd AISS_CV_Lego/jetson-inference
 docker/run.sh --volume ~/AISS_CV_Lego:/AISS
 cd ../AISS/frontend
-python3 app.py --detection=../models/lego3.onnx --ssl-key=../../jetson-inference/data/key.pem --ssl-cert=../../jetson-inference/data/cert.pem --labels=../data/lego/labels.txt --input-layer=input_0 --output-layer=scores,boxes
+python3 app.py --detection=../models/Iteration1/lego_Iteration_1.2.onnx --ssl-key=../../jetson-inference/data/key.pem --ssl-cert=../../jetson-inference/data/cert.pem --labels=../models/Iteration1/lego_Iteration_1_labels.txt --input-layer=input_0 --output-layer=scores,boxes
