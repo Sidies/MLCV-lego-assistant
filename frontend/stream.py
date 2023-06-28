@@ -61,13 +61,19 @@ class Stream(threading.Thread):
             
         # get model results
         results = self.model.Process(img)
-        print(f"The results from the model are: {results}")
-        #time.sleep(5)
-        
-        model_net = self.model.getNet()
-        class_desc = model_net.GetClassDesc(results["ClassID"])
-        
-        print(f"The class description is: {class_desc}")
+        if len(results) > 0:
+            
+            # results is a list of detected objects. The object with the highest confidence seems to be at the top
+            
+            print(f"The results from the model are: {results}")
+            
+            # get the class id of the highest confidence class
+            class_id = int(results[0].ClassID)            
+            
+            model_net = self.model.net
+            class_label = model_net.GetClassLabel(class_id)
+            
+            print(f"The class label is: {class_label}")
 
             
         #visualize model results
