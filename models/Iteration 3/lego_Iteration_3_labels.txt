@@ -1,0 +1,6 @@
+BACKGROUND
+Grau_lang
+Kappe
+Rad
+Rad+Grau_lang
+Rad+Grau_lang+Kappe
