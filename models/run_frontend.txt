@@ -5,8 +5,18 @@ sudo chown -R $USER ~/AISS_CV_Lego
 cd AISS_CV_Lego/jetson-inference
 docker/run.sh --volume ~/AISS_CV_Lego:/AISS
 cd ../AISS/frontend
-python3 app.py --detection=../models/Single_Object/Iteration_2/lego_Iteration_2.2.onnx --ssl-key=../../jetson-inference/data/key.pem --ssl-cert=../../jetson-inference/data/cert.pem --labels=../models/Single_Object/Iteration_2/lego_Iteration_2_labels.txt --input-layer=input_0 --output-layer=scores,boxes
 
-ODER
+SINGLE 
+python3 app.py --detection=../models/Single_Object/Iteration_N_4/lego_Iteration_4.onnx --ssl-key=../../jetson-inference/data/key.pem --ssl-cert=../../jetson-inference/data/cert.pem --labels=../models/Single_Object/Iteration_N_4/lego_Iteration_4_labels.txt --input-layer=input_0 --output-layer=scores,boxes
 
-python3 app.py --detection=../models/Single+Combined_Object/Iteration_3/lego_Iteration_3.onnx --ssl-key=../../jetson-inference/data/key.pem --ssl-cert=../../jetson-inference/data/cert.pem --labels=../models/Single+Combined_Object/Iteration_3/lego_Iteration_3_labels.txt --input-layer=input_0 --output-layer=scores,boxes
+
+python3 app.py --detection=../models/Single_Object/Iteration_2/lego_Iteration_2.2.onnx --ssl-key=../../jetson-inference/data/key.pem --ssl-cert=../../jetson-inference/data/cert.pem --labels=../models/Single_Object/Iteration_2/lego_Iteration_2.2_labels.txt --input-layer=input_0 --output-layer=scores,boxes
+
+
+
+ODER COMBINED
+
+python3 app.py --detection=../models/Single+Combined_Object/Iteration_4.2/leog_Iteration_4.2.onnx --ssl-key=../../jetson-inference/data/key.pem --ssl-cert=../../jetson-inference/data/cert.pem --labels=../models/Single+Combined_Object/Iteration_4.2/leog_Iteration_4.2_labels.txt --input-layer=input_0 --output-layer=scores,boxes
+
+
+python3 app.py --detection=../models/Combined_Object/Iteration_4.2/lego_Iteration_4.2.onnx --ssl-key=../../jetson-inference/data/key.pem --ssl-cert=../../jetson-inference/data/cert.pem --labels=../models/Combined_Object/Iteration_4.2/lego_Iteration_4.2_labels.txt --input-layer=input_0 --output-layer=scores,boxes
