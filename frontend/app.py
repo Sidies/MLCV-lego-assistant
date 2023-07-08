@@ -30,7 +30,7 @@ from stream import Stream
 from utils import rest_property
 from handler import Handler
     
-# run without jetson: python app.py --ssl-key data/RootCA.key --ssl-cert data/RootCA.crt --labels ../models/Iteration1/lego_Iteration_1_labels.txt
+# run without jetson: python app.py --ssl-key data/RootCA.key --ssl-cert data/RootCA.crt --labels ../models/Single_Object/Iteration_1/lego_Iteration_1_labels.txt
 
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, epilog=Stream.usage())
 #parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)

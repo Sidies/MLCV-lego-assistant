@@ -50,7 +50,7 @@
     }
     
   </script>
-  <div>
+  <div class="card m-3 bg-dark text-white">
     <p>{{ text }}</p>
     <h1 id="{{ id }}_value">{{ value }}</h1>
     <script>
@@ -62,7 +62,7 @@
 
 {%- endmacro %}
 
-{# Jinja macro for the current label #}
+{# Jinja macro for the current label image#}
 {% macro image(id, rest_path) -%}  
   <script type='text/javascript'>
     console.log('getting image path for current label');
