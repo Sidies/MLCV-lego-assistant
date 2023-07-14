@@ -19,4 +19,4 @@ ODER COMBINED
 python3 app.py --detection=../models/Single+Combined_Object/Iteration_4.2/leog_Iteration_4.2.onnx --ssl-key=../../jetson-inference/data/key.pem --ssl-cert=../../jetson-inference/data/cert.pem --labels=../models/Single+Combined_Object/Iteration_4.2/leog_Iteration_4.2_labels.txt --input-layer=input_0 --output-layer=scores,boxes
 
 
-python3 app.py --detection=../models/Combined_Object/Iteration_4.2/lego_Iteration_4.2.onnx --ssl-key=../../jetson-inference/data/key.pem --ssl-cert=../../jetson-inference/data/cert.pem --labels=../models/Combined_Object/Iteration_4.2/lego_Iteration_4.2_labels.txt --input-layer=input_0 --output-layer=scores,boxes
+python3 app.py --detection=../models/Combined_Object/Iteration_4.2_New/lego_Iteration_4.2.onnx --ssl-key=../../jetson-inference/data/key.pem --ssl-cert=../../jetson-inference/data/cert.pem --labels=../models/Combined_Object/Iteration_4.2_New/lego_Iteration_4.2_labels.txt --input-layer=input_0 --output-layer=scores,boxes --input=csi://0

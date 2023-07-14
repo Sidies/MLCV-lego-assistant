@@ -36,6 +36,26 @@
   </div>
 {%- endmacro %}
 
+{# Jinja macro for a text with a icon #}
+{% macro icon_text(icon, text, icon_size=35) -%}
+  
+  <div class="container-fluid d-flex justify-content-center m-2">
+    <div class="row align-items-center h-100">
+      <div class="col-sm-3 box">
+        <div class="icon" style="margin:auto;">
+          <div class="image nvidia-text-color" style="line-height: {{ icon_size + 43 }}px; height: {{ icon_size + 53}}px; width: {{ icon_size + 53}}px"><i style="font-size: {{ icon_size }}px" class="{{ icon }}"></i></div>
+        </div>
+      </div>
+      <div class="col d-flex pt-2 align-items-center h-100" style="max-width: 800px; min-height:120px">
+        <p>
+          {{ text }}
+        </p>     
+      </div>
+    </div>
+  </div>
+
+{%- endmacro %}
+
 {# Jinja macro for setting the class label #}
 {% macro label(id, rest_path, text) -%}
   
@@ -50,7 +70,7 @@
     }
     
   </script>
-  <div class="card m-3 bg-dark text-white">
+  <div class="nvidia-background-color text-white">
     <p>{{ text }}</p>
     <h1 id="{{ id }}_value">{{ value }}</h1>
     <script>
@@ -76,7 +96,7 @@
     
   </script>
   <div>
-    <img id="{{ id }}_value" src="{{ value }}" class="img-fluid rounded mx-auto d-block">
+    <img id="{{ id }}_value" src="{{ value }}" class="img-fluid">
     <script>
       var intervalId = window.setInterval(function(){
         get_{{ id }}();
@@ -84,6 +104,33 @@
     </script>
   </div>
   
+{%- endmacro %}
+
+{# Jinja macro for setting the direction#}
+{% macro direction(id, rest_path) -%}  
+  <script type='text/javascript'>
+    console.log('setting direction');
+    function set_{{ id }}() {
+      var value = document.getElementById('{{ id }}').checked;
+      int_value = -1 ? value == false : 1;
+      rest_put('{{ rest_path }}', value);
+      {% if oninput is not none %}
+        {{ oninput }};
+      {% endif %}
+      console.log(`set_{{ id }}(${value})`);
+    }
+  </script>
+  <p>Set whether you want to assemble or dissassemble</p>
+  <div class="row">
+    <label for="{{ id }}" class="col-4">Assemble</label>
+    <div class="col-2">
+      <input id="{{ id }}" type="checkbox" class="form-check-input" checked oninput="set_{{ id }}()">
+    </div>
+  </div>
+  <script>
+    get_{{ id }}();
+  </script>
+
 {%- endmacro %}
 
 {# Jinja macro for creating a checkbox element that connects to a backend JSON REST API #}
@@ -109,7 +156,7 @@
     </script>
     <label for="{{ id }}" class="col-4">{{ label }}</label>
     <div class="col-2">
-      <input id="{{ id }}" type="checkbox" class="form-checkbox" oninput="set_{{ id }}()">
+      <input id="{{ id }}" type="checkbox" class="form-check-input" oninput="set_{{ id }}()">
     </div>
     <script>
       get_{{ id }}();
@@ -119,12 +166,11 @@
 
 {# Jinja macro for creating a card header #}
 {% macro card_header(collapse_id, title, subtitle, arrow='up') -%}
-  <div class="card-title" data-bs-toggle="collapse" href="#{{ collapse_id }}" role="button">
+  <div class="card-title">
     <h5 class="d-inline">{{ title }}</h5>
   {% if subtitle|length %}
     <p class="d-inline">({{ subtitle }})</p>
   {% endif %}
-    <span class="float-end float-top fa fa-chevron-circle-{{ arrow }} fa-lg mt-1" id="{{ collapse_id }}_collapse_btn"></span>
   </div>
 {%- endmacro %}
 

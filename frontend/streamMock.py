@@ -21,7 +21,7 @@ class StreamMock(threading.Thread):
         self.frames = 0
         self.models = {}
         self.process_count = 0
-        self.latest_class_label = "Initial Label"
+        self.latest_class_label = "Start"
         
         # these are in the order that the overlays should be composited
 
@@ -87,8 +87,7 @@ class StreamMock(threading.Thread):
     def get_latest_class_label(self):
         print("Getting latest class label")
         print("_________________________________________")
-        return "Rad"
-        
+        return self.latest_class_label
                 
     @staticmethod
     def usage():

@@ -6,13 +6,13 @@
     <title>{{ title }}</title>
 
     <!-- Importing the jinja macros -->
-    {% from 'macros.html' import checkbox, slider, card_header, collapse_handler, label, image %}
+    {% from 'macros.html' import checkbox, slider, card_header, collapse_handler, label, image, direction, icon_text %}
         
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     
     <link rel="stylesheet" href="/static/css/bootstrap.css">
     <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script type='text/javascript' src='https://webrtc.github.io/adapter/adapter-latest.js'></script>
     <script type='text/javascript' src='/static/js/webrtc.js'></script>
@@ -77,31 +77,14 @@
       <p>A students project for the course <i>AISS-CV</i> at the Karlsruhe Institute of Technology (KIT)</p>
     </div>
 
-    <!-- Short Description -->
-    <div class="container-fluid d-flex justify-content-center m-5">
-      <div class="row">
-        <div class="col-sm-3 box h-100 d-flex">
-          <div class="icon" style="margin:auto;">
-            <div class="image nvidia-text-color" style="font-size: 85px; line-height: 30px"><i class="fa fa-info"></i></div>
-          </div>
-        </div>
-        <div class="col" style="max-width: 800px">
-          <div>
-            <div>
-              <div>
-                <p>
-                  This project is a proof of concept for an assembly assistant for Lego blocks. 
-                  The goal is to build a Lego model by following the instructions of a predefined Lego building manual. 
-                  The Lego blocks are detected by a camera and the detected blocks are compared to the next block in the building manual. 
-                  The detected blocks are then highlighted in a livestream and the next building block is shown in an image next to the stream. 
-                  The user can then pick up the next building block and place it on the lego model. 
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    {% with text = 'This project is a proof of concept for an assembly assistant for Lego blocks. 
+    The goal is to build a Lego model by following the instructions of a predefined Lego building manual. 
+    The Lego blocks are detected by a camera and the detected blocks are compared to the next block in the building manual. 
+    The detected blocks are then highlighted in a livestream and the next building block is shown in an image next to the stream. 
+    The user can then pick up the next building block and place it on the lego model. ' %}
+      {{ icon_text('fa fa-info', text) }}
+    {% endwith %}
+  
 
     <!-- START BUTTON -->
     <div class="container-fluid align-items-center d-flex justify-content-center p-5 bg-dark-subtle">
@@ -111,127 +94,161 @@
     <!-- DETECTION HUB -->
     <div id="detection-hub" class="bg-dark-subtle" style="display: none">
 
-      <!-- Stream Controls -->
-      <div class="card">
-        <div class="card-body">
-        {{ card_header('stream_controls', 'Stream Controls', arrow='down') }}
-        <div class="collapse show" id="stream_controls">
-        {% if send_webrtc %}
-            <div class="row">
-            <label for="send-stream" class="col-2">Webcam:</label>
-            <div class="col-6">
-                <select class="btn btn-outline-dark" id="send-stream" name="send-stream"></select>
-            </div>
-            <div class="col-4 m">
-                <button class="btn btn-dark mx-2" id="send-button" onclick="send()">Send</button>
-            </div>
-            </div>
-        {% else %}
-            <div class="row">
-            <label for="input-stream" class="col-2">Input:</label>
-            <div id="input-stream" class="col-10">
-                {{ input_stream }}
-            </div>
-            </div>
-        {% endif %}
-            <div class="row">
-            <label for="play-stream" class="col-2">Playback:</label>
-            <div class="col-6">
-                <input class="btn btn-outline-dark" id="play-stream" name="play-stream" type="text" size="32">
-            </div>
-            <div class="col-4">
-                <button class="btn btn-dark mx-2" id="play-button" onclick="play()">Play</button>
-            </div>
-            </div>
-            <div class="row">
-            <label for="connection-stats-show" class="col-2">Statistics:</label>
-            <div class="col-2">
-                <input id="connection-stats-show" type="checkbox" class="form-checkbox" oninput="onConnectionStats()">
-            </div>
-            <script type='text/javascript'>
-                function onConnectionStats() {
-                var show = document.getElementById('connection-stats-show').checked;
-                document.getElementById('connection-stats').style.display = show ? null : 'none';
-                }
-            </script>
-            </div>
-            <div class="row" id="connection-stats" style="display: none">
-            <pre class="col-6" id='connection-stats-play'></pre>
-            <pre class="col-6" id='connection-stats-send'></pre>
-            </div>
-        </div>
-        {{ collapse_handler('stream_controls') }}
+      <!-- Instruction -->
+      <div class="row container-fluid align-items-center d-flex justify-content-center pb-3 bg-dark-subtle">
+        <div class="card col" style="max-width:800px">
+          <div class="card-body">
+            <div style="margin-left:71px">
+              <h4>Instructions</h4>
+              <p>Please follow the instructions for the best experience.</p>  
+            </div>        
+            {% with text = 'In case you are not using the installed jetson camera, please select a camera device in the webcam selection below.For best detection results, a neutral background is advised. Please prepare a blank background like a sheet and point your camera at it.' %}
+              {{ icon_text('fa-solid fa-1', text, 21) }}
+            {% endwith %}
+
+            {% with text = 'Under "Building Controls" make sure that you select whether you want to assemble or dissassemble. Take a building block and hold it into the camera. Make sure that the block is clearly visible.' %}
+              {{ icon_text('fa-solid fa-2', text, 21) }}
+            {% endwith %}
+
+            {% with text = 'Wait for a couple of seconds until the Building Assitant recognized the block. You can see that the block has been recognized when the left image is showing the recognized block.' %}
+              {{ icon_text('fa-solid fa-3', text, 21) }}
+            {% endwith %}
+          </div>
         </div>
       </div>
 
-      <div class="row">
+      <div class="d-flex align-items-center">
+        <div class="mx-auto" style="max-width:1300px">
 
-        <!-- Left Container -->
-        <div class="col-sm">        
-          <div class="row" style="overflow:hidden; max-height:300px">
-            <div class="col">
-              {{ image('current_label_image', '/detection/current_label_image') }}        
-            </div>
-            <div class="col">
-              {{ image('next_label_image', '/detection/next_label_image') }}
-            </div>
+          <div class="container-fluid bg-dark text-white justify-content-center p-3">
+            <h4 class="text-center">Building Assistant</h4>
           </div>
+
           <div class="row">
-            <div class="col text-center p-2">
-              {{ label('current_label', '/detection/current_label', 'current label') }}
+            <!-- Left Container -->
+            <div class="col-sm">        
+              <div class="row" style="overflow:hidden; max-height:300px">
+                <div class="col">
+                  {{ image('current_label_image', '/detection/current_label_image') }}        
+                </div>
+                <div class="col">
+                  {{ image('next_label_image', '/detection/next_label_image') }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col text-center">
+                  {{ label('current_label', '/detection/current_label', 'recognized block') }}
+                </div>
+                <div class="col text-center">
+                  {{ label('next_label', '/detection/next_label', 'next step') }}
+                </div>
+              </div>
             </div>
-            <div class="col text-center p-2">
-              {{ label('next_label', '/detection/next_label', 'next label') }}
+
+            <!-- Right Container -->
+            <div class="col-sm">
+              <!-- Video Player -->
+              <div>
+                <video id="video-player" width=640 autoplay playsinline muted poster="static/images/Thumb.jpeg">Your browser does not support video</video>
+              </div>         
+              
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="row">
+            <div class="card col bg-dark text-white">
+              <div class="card-body">
+                <div class="card-title">
+                  <h4 class="d-inline">Stream Controls</h4>
+                </div>
+                <div id="stream_controls">
+                {% if send_webrtc %}
+                    <div class="row">
+                      <label for="send-stream" class="col-2">Webcam:</label>
+                      <div class="col-6">
+                          <select class="btn btn-outline-light" id="send-stream" name="send-stream"></select>
+                      </div>
+                      <div class="col-4 m">
+                          <button class="btn btn-light mx-2" id="send-button" onclick="send()">Use</button>
+                      </div>
+                    </div>
+                {% else %}
+                    <div class="row">
+                      <label for="input-stream" class="col-2">Input:</label>
+                      <div id="input-stream" class="col-10">
+                          {{ input_stream }}
+                      </div>
+                    </div>
+                {% endif %}
+                    <div class="row" style="display:none">
+                      <label for="play-stream" class="col-2">Playback:</label>
+                      <div class="col-6">
+                          <input class="btn btn-outline-light" id="play-stream" name="play-stream" type="text" size="32">
+                      </div>
+                      <div class="col-4">
+                          <button class="btn btn-light mx-2" id="play-button" onclick="play()">Play</button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label for="connection-stats-show" class="col-2">Statistics:</label>
+                      <div class="col-2">
+                          <input id="connection-stats-show" type="checkbox" class="form-check-input" oninput="onConnectionStats()">
+                      </div>
+                      <script type='text/javascript'>
+                          function onConnectionStats() {
+                          var show = document.getElementById('connection-stats-show').checked;
+                          document.getElementById('connection-stats').style.display = show ? null : 'none';
+                          }
+                      </script>
+                    </div>
+                    <div class="row" id="connection-stats" style="display: none">
+                    <pre class="col-6" id='connection-stats-play'></pre>
+                    <pre class="col-6" id='connection-stats-send'></pre>
+                    </div>
+                </div>
+                {{ collapse_handler('stream_controls') }}
+              </div>
+            </div>
+            <div class="card col bg-dark text-white">
+              <div class="card-body">
+                <div class="card-title">
+                  <h4 class="d-inline">Building Controls</h4>
+                  {{ direction('set_direction', '/detection/set_direction') }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detection Settings -->
+          <div class="card mx-auto m-3" style="max-width: 600px">
+            <div class="card-body">
+            {{ card_header('detection_controls', 'Settings for the detection', detection) }}
+            <div id="detection_controls">
+                {{ slider('detection_confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
+                {{ slider('detection_clustering_threshold', '/detection/clustering_threshold', 'Clustering Threshold') }}
+                {{ slider('detection_overlay_alpha', '/detection/overlay_alpha', 'Overlay Alpha', min=0, max=255, step=1) }}
+                
+                <script type='text/javascript'>
+                function onDetectionTrackingEnabled() {
+                    var value = document.getElementById('detection_tracking_enabled').checked;
+                    document.getElementById('detection_tracking_controls').style.display = value ? null : 'none';
+                    console.log(`onTrackingEnabled(${value})`);
+                }
+                </script>
+                
+                <script type='text/javascript'>
+                onDetectionTrackingEnabled();  // set default visibility of tracking controls
+                </script>
+            </div>
+            {{ collapse_handler('detection_controls') }}
             </div>
           </div>
         </div>
-
-        <!-- Right Container -->
-        <div class="col-sm">
-          <!-- Video Player -->
-          <div style="position: sticky; top: 0px; z-index: 999;">
-            <video id="video-player" width=640 height= 480 autoplay playsinline muted poster="static/images/Thumb.jpeg">Your browser does not support video</video>
-          </div>         
-          
-        </div>
-      </div>
-
-      <!-- Detection Controls -->
-      <div class="card">
-        <div class="card-body">
-        {{ card_header('detection_controls', 'Object Detection', detection) }}
-        <div class="collapse" id="detection_controls">
-            {{ checkbox('detection_enabled', '/detection/enabled', 'Detection Enabled') }}
-            {{ slider('detection_confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
-            {{ slider('detection_clustering_threshold', '/detection/clustering_threshold', 'Clustering Threshold') }}
-            {{ slider('detection_overlay_alpha', '/detection/overlay_alpha', 'Overlay Alpha', min=0, max=255, step=1) }}
-            
-            <script type='text/javascript'>
-            function onDetectionTrackingEnabled() {
-                var value = document.getElementById('detection_tracking_enabled').checked;
-                document.getElementById('detection_tracking_controls').style.display = value ? null : 'none';
-                console.log(`onTrackingEnabled(${value})`);
-            }
-            </script>
-            
-            {{ checkbox('detection_tracking_enabled', '/detection/tracking_enabled', 'Tracking Enabled', oninput='onDetectionTrackingEnabled()') }}
-
-            <div id="detection_tracking_controls">
-            {{ slider('detection_tracking_min_frames', '/detection/tracking_min_frames', 'Tracking Min Frames', min=0, max=60, step=1) }}
-            {{ slider('detection_tracking_drop_frames', '/detection/tracking_drop_frames', 'Tracking Drop Frames', min=0, max=60, step=1) }}
-            {{ slider('detection_tracking_overlap_threshold', '/detection/tracking_overlap_threshold', 'Overlap Threshold') }}
-            </div>
-            <script type='text/javascript'>
-            onDetectionTrackingEnabled();  // set default visibility of tracking controls
-            </script>
-        </div>
-        {{ collapse_handler('detection_controls') }}
-        </div>
-      </div>
-      
+      </div>      
     </div>
 
-    <!-- TESTS -->
+    <!-- Information -->
     <div class="container">
       <div class="row">
             <!-- Boxes -->
@@ -245,7 +262,7 @@
                   If you are having any issues or questions, have a look at our FAQ in the projects Wiki.
                 </p>
                 <div class="more">
-                  <a href="#" title="Title Link">
+                  <a href="https://git.scc.kit.edu/stark/AISS_CV_Lego/-/wikis/home" title="Title Link">
                     Read More <i class="fa fa-angle-double-right"></i>
                   </a>
                 </div>
@@ -265,7 +282,7 @@
                     The AISS-CV course teaches students how to apply machine learning concepts to develop predictive models and build analytics-based services. Through selected use cases, students learn foundational algorithms, development frameworks, and Python coding skills to create functional prototypes in practical settings.
                 </p>
                 <div class="more">
-                  <a href="#" title="Title Link">
+                  <a href="https://dsi.iism.kit.edu/courses_411.php" title="Title Link">
                     Read More <i class="fa fa-angle-double-right"></i>
                   </a>
                 </div>
