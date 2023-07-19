@@ -91,3 +91,6 @@ target/
 # Virtual Environment
 venv/
 venv/*
+
+# Core
+frontend/core
