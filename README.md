@@ -2,27 +2,15 @@ Nvidia Jetson Nano - Assembly Assistant for Lego Blocks
 ==============================
 This project is a proof of concept for an assembly assistant for Lego blocks. The goal of this project is to build and deploy a machine learning model that assists the user in assembling or disassembling a Lego object. This is assisted by a camera that detects the Lego blocks and highlights the next block to be placed. The user can then pick up the next block and place it on the Lego object. To guide the user, provide a better user experience and interaction, a web application is built. This web application shows the camera stream and the next block to be placed. The web application is built with Flask and Bootstrap. The machine learning model is built with the Jetson Inference library and deployed on a Nvidia Jetson Nano.
 
+If you are first-time setting up the project we have a comprehensive guide to read through in our [Wiki](./wiki/home).
 
-Installation
+Running the project
 ------------
+> **INFO** We provide a pre-configured Jetson Nano that let's you skip a lot of time in the installation process. If you have such a device, you only have to setup the client computer.
 
-To run the following commands you need to have Python 3 and pip installed. 
-After pulling the repository, open the terminal and run the following commands.
+To get the project running some steps are required. First you need to have a configured Jetson Nano and client computer. They need to be connected and able to communicate with each other. The following wiki page provides you with all the necessary steps to get this done: [Installation Instructions](./wiki/Installation). 
 
-#### Linux
-
-```
-pip install -e .
-pip install -r requirements.txt
-```
-
-#### Windows
-
-```
-py -m pip install -e .
-py -m pip install -r requirements.txt
-```
-
+The next step is to start the web server with a camera and one of the models we provide. After the server has been started, the client computer can connect to the web application using any browser. In depth instructions for this are provided on the following wiki page: [Application Manual](./wiki/Application-Manual). 
 
 Project Organization
 ------------
@@ -61,3 +49,12 @@ Project Organization
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+
+Contact
+------------
+For any questions or feedback you may contact us at:  
+marco.schneider@student.kit.edu  - frontend implementation and configuration
+Leonard - Jetson Nano configuration and model training
+Anton - Image Augmentation
+Paul - Image Augmentation
+Patrick - Image Augmentation
