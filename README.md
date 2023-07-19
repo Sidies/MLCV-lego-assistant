@@ -1,7 +1,7 @@
-AISS_jetson_nano
+Nvidia Jetson Nano - Assembly Assistant for Lego Blocks
 ==============================
+This project is a proof of concept for an assembly assistant for Lego blocks. The goal of this project is to build and deploy a machine learning model that assists the user in assembling or disassembling a Lego object. This is assisted by a camera that detects the Lego blocks and highlights the next block to be placed. The user can then pick up the next block and place it on the Lego object. To guide the user, provide a better user experience and interaction, a web application is built. This web application shows the camera stream and the next block to be placed. The web application is built with Flask and Bootstrap. The machine learning model is built with the Jetson Inference library and deployed on a Nvidia Jetson Nano.
 
-to-do
 
 Installation
 ------------
@@ -46,12 +46,7 @@ Project Organization
     │
     ├── models             <- Trained and serialized models
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
+    ├── notebooks          <- Jupyter notebooks.
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`
@@ -60,16 +55,7 @@ Project Organization
     ├── src                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module
     │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+    │   ├── data           <- Scripts for data augmentation
 
 
 --------
