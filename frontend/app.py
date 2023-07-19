@@ -25,15 +25,15 @@ import os
 import flask
 import argparse
 
-#from stream import Stream
-from streamMock import StreamMock
+from stream import Stream
+#from streamMock import StreamMock
 from utils import rest_property
 from handler import Handler
     
 # run without jetson: python app.py --ssl-key data/RootCA.key --ssl-cert data/RootCA.crt --labels ../models/Single_Object/Iteration_1/lego_Iteration_1_labels.txt
 
-#parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, epilog=Stream.usage())
-parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
+parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, epilog=Stream.usage())
+#parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
 
 parser.add_argument("--host", default='0.0.0.0', type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
 parser.add_argument("--port", default=8050, type=int, help="port used for webserver (default is 8050)")
@@ -53,8 +53,8 @@ args = parser.parse_known_args()[0]
 # create Flask & stream instance
 app = flask.Flask(__name__)
 
-#stream = Stream(args)
-stream = StreamMock(args)
+stream = Stream(args)
+#stream = StreamMock(args)
 handler = Handler(stream, args.labels)
 
 # Whenever a user visits the root URL path, the index function is called and returns the rendered HTML 
