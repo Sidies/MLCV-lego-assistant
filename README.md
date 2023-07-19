@@ -28,13 +28,7 @@ Project Organization
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
-    │   
-    ├── app                <- Directory to store Flask application and REST API
-    │   ├── __init__.py
-    │   ├── templates      <- HTML templates for Flask application
-    │   └── static         <- CSS, JavaScript, Images, and other static files
+    ├── README.md          <- The top-level README
     │ 
     ├── data
     │   ├── external       <- Data from third party sources.
@@ -42,11 +36,15 @@ Project Organization
     │   ├── processed      <- The final, canonical data sets for modeling.
     │   └── raw            <- The original, immutable data dump.
     │
-    ├── frontend           <- Directory to store REACT frontend code 
-    │   ├── public
-    │   └── src
+    ├── frontend           <- Directory to store frontend code
+    │   ├── data           <- Directory to store HTTPS certifications 
+    |   ├── node_modules   <- Directory to store node modules for Bootstrap
+    │   ├── static         <- Directory to store images, css and javascript files
+    │   └── templates      <- Directory to store html files
+    |
+    ├── jetson-inference   <- The jetson-inference repository including the configured dockerfile
     │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
+    ├── models             <- Trained and serialized models
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         the creator's initials, and a short `-` delimited description, e.g.
