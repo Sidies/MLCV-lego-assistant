@@ -8,9 +8,9 @@ Running the project
 ------------
 > **INFO** We provide a pre-configured Jetson Nano that let's you skip a lot of time in the installation process. If you have such a device, you only have to setup the client computer.
 
-To get the project running some steps are required. First you need to have a configured Jetson Nano and client computer. They need to be connected and able to communicate with each other. The following wiki page provides you with all the necessary steps to get this done: [Installation Instructions](./wikis/Installation). 
+To get the project running some steps are required. First you need to have a configured Jetson Nano and client computer. They need to be connected and able to communicate with each other. The following wiki page provides you with all the necessary steps to get this done: [Installation Instructions](../../wikis/Installation). 
 
-The next step is to start the web server with a camera and one of the models we provide. After the server has been started, the client computer can connect to the web application using any browser. In depth instructions for this are provided on the following wiki page: [Application Manual](./wikis/Application-Manual). 
+The next step is to start the web server with a camera and one of the models we provide. After the server has been started, the client computer can connect to the web application using any browser. In depth instructions for this are provided on the following wiki page: [Application Manual](../../wikis/Application-Manual). 
 
 Project Organization
 ------------
