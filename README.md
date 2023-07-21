@@ -53,8 +53,8 @@ Project Organization
 Contact
 ------------
 For any questions or feedback you may contact us at:  
-Marco Schneider - marco.schneider@student.kit.edu  - frontend implementation and configuration
-Leonard Ramadani - leoanrd.ramadani@student.kit.edu - Jetson Nano configuration and model training
-Anton - Image Augmentation
-Paul - Image Augmentation
+Marco Schneider - marco.schneider@student.kit.edu  - frontend implementation and configuration\
+Leonard Ramadani - leoanrd.ramadani@student.kit.edu - Jetson Nano configuration and model training\
+Anton - Image Augmentation\
+Paul - Image Augmentation\
 Patrick - Image Augmentation
