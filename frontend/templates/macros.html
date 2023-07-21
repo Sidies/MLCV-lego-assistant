@@ -103,7 +103,25 @@
       }, 5000);
     </script>
   </div>
-  
+
+{%- endmacro %}
+
+{# Jinja macro for changing the model#}
+{% macro change_model(id, rest_path, model) -%}  
+  <script type='text/javascript'>
+    console.log('init change model);
+    function set_{{ id }}() {
+      console.log('Changing model')
+      rest_put('{{ rest_path }}', model);
+      console.log(`{{ id }}(${model})`);
+    }
+  </script>
+  <div class="row">
+    <!-- START BUTTON -->
+    <div class="container-fluid align-items-center d-flex justify-content-center p-5 bg-dark-subtle">
+        <button id="{{ id }}" class="btn btn-lg nvidia-background-color" onclick="set_{{ id }}()">Change Model</button>
+    </div>
+  </div>  
 {%- endmacro %}
 
 {# Jinja macro for setting the direction#}
@@ -112,7 +130,6 @@
     console.log('setting direction');
     function set_{{ id }}() {
       var value = document.getElementById('{{ id }}').checked;
-      int_value = -1 ? value == false : 1;
       rest_put('{{ rest_path }}', value);
       {% if oninput is not none %}
         {{ oninput }};
@@ -120,16 +137,13 @@
       console.log(`set_{{ id }}(${value})`);
     }
   </script>
-  <p>Set whether you want to assemble or dissassemble</p>
+  <p>Uncheck if you want to disassemble. Check if you want to assemble.</p>
   <div class="row">
     <label for="{{ id }}" class="col-4">Assemble</label>
     <div class="col-2">
       <input id="{{ id }}" type="checkbox" class="form-check-input" checked oninput="set_{{ id }}()">
     </div>
   </div>
-  <script>
-    get_{{ id }}();
-  </script>
 
 {%- endmacro %}
 

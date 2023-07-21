@@ -118,7 +118,14 @@ if args.detection:
     @app.route('/detection/set_direction', methods=['PUT'])
     def detection_set_direction():
         return rest_property(None, handler.set_direction, int)
-   
+        
+    @app.route('/detection/change_model', methods=['PUT'])
+    def detection_change_model():
+        return rest_property(None, change_model, str)
+
+def change_model(model_type):
+    print("Stopping current stream")
+    stream.stop()
     
 # start stream thread
 stream.start()

@@ -56,9 +56,8 @@ class Handler():
         return labels
     
     def set_direction(self, direction):
-        if direction == False:
-            self.direction = -1
-        elif:
-            self.direction = 1
+        if direction == 0:
+            direction = -1
+        self.direction = direction
     
     

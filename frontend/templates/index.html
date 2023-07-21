@@ -6,7 +6,7 @@
     <title>{{ title }}</title>
 
     <!-- Importing the jinja macros -->
-    {% from 'macros.html' import checkbox, slider, card_header, collapse_handler, label, image, direction, icon_text %}
+    {% from 'macros.html' import checkbox, slider, card_header, collapse_handler, label, image, direction, icon_text, change_model %}
         
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     
@@ -84,8 +84,7 @@
     The user can then pick up the next building block and place it on the lego model. ' %}
       {{ icon_text('fa fa-info', text) }}
     {% endwith %}
-  
-
+    
     <!-- START BUTTON -->
     <div class="container-fluid align-items-center d-flex justify-content-center p-5 bg-dark-subtle">
       <button id="toggle-container" class="btn btn-lg nvidia-background-color" onclick="send()">Start Building</button>
@@ -99,8 +98,8 @@
         <div class="card col" style="max-width:800px">
           <div class="card-body">
             <div style="margin-left:71px">
-              <h4>Instructions</h4>
-              <p>Please follow the instructions for the best experience.</p>  
+              <h4>Quick Instructions</h4>
+              <p>The projects Wiki provides a in-depth <a href="https://git.scc.kit.edu/stark/AISS_CV_Lego/-/wikis/application-manual">Application Manual </a>. The next section provides some quick instructions. Please follow the instructions for the best experience.</p>  
             </div>        
             {% with text = 'In case you are not using the installed jetson camera, please select a camera device in the webcam selection below.For best detection results, a neutral background is advised. Please prepare a blank background like a sheet and point your camera at it.' %}
               {{ icon_text('fa-solid fa-1', text, 21) }}
@@ -127,7 +126,7 @@
           <div class="row">
             <!-- Left Container -->
             <div class="col-sm">        
-              <div class="row" style="overflow:hidden; max-height:300px">
+              <div class="row" style="overflow:hidden; max-height:500px">
                 <div class="col">
                   {{ image('current_label_image', '/detection/current_label_image') }}        
                 </div>
@@ -295,14 +294,14 @@
         <div class="col-xs-12 col-sm-6 col-lg-4">
           <div class="box">							
             <div class="icon">
-              <div class="image"><i class="fa fa-desktop"></i></div>
+              <div class="image"><i class="fa-brands fa-simplybuilt"></i></div>
               <div class="info">
-                <h2 class="title pt-4">Something Else</h2>
+                <h2 class="title pt-4">Building your own</h2>
                   <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in lobortis nisl, vitae iaculis sapien. Phasellus ultrices gravida massa luctus ornare. Suspendisse blandit quam elit, eu imperdiet neque semper.
+                  The application is built from ground up with transformation in mind. The backend and frontend can be easily modified to take a model of your own which allows any object to be added to the assistant.
                   </p>
                 <div class="more">
-                  <a href="#" title="Title Link">
+                  <a href="https://git.scc.kit.edu/stark/AISS_CV_Lego/-/wikis/build-your-own-model" title="Title Link">
                     Read More <i class="fa fa-angle-double-right"></i>
                   </a>
                 </div>
