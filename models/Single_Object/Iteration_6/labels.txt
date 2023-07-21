@@ -1,9 +1,0 @@
-BACKGROUND
-Grau_lang
-Kappe
-Rad
-Motor
-Rot
-Grau_gebogen
-Schwarz_kurz
-Blau
