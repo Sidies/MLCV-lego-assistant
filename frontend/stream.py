@@ -46,6 +46,7 @@ class Stream(threading.Thread):
         self.models = {}
         self.process_count = 0
         self.latest_class_label = "Start"
+        self.should_run = True
         
         # these are in the order that the overlays should be composited
 
@@ -75,8 +76,9 @@ class Stream(threading.Thread):
             class_label = model_net.GetClassLabel(class_id)
             
             print(f"The class label is: {class_label}")
-            if self.latest_class_label == "":
-                self.latest_class_label = class_label
+            #if self.latest_class_label == "":
+            # set the class label
+            self.latest_class_label = class_label
 
             
         #visualize model results
@@ -90,17 +92,17 @@ class Stream(threading.Thread):
         self.frames += 1
         
         # reset the process count
-        # self.process_count += 1
-        # if self.process_count > 100:
-        #     self.process_count = 0
-        #     self.latest_class_label = "Start"
+        #self.process_count += 1
+        #if self.process_count > 100:
+        #    self.process_count = 0
+        #    self.latest_class_label = ""
             
         
     def run(self):
         """
         Run the stream processing thread's main loop.
         """
-        while True:
+        while self.should_run:
             try:
                 self.process()
             except:
@@ -111,6 +113,10 @@ class Stream(threading.Thread):
         print("Getting latest class label")
         print("_________________________________________")
         return self.latest_class_label
+        
+        
+    def stop(self):
+        self.should_run = False
         
                 
     @staticmethod

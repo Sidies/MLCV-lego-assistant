@@ -1,7 +1,7 @@
 BACKGROUND
-Kappe
-Grau_lang
 Rad
+Grau_lang
+Kappe
 Motor
 Rot
 Grau_gebogen
