@@ -90,10 +90,10 @@ class Stream(threading.Thread):
         self.frames += 1
         
         # reset the process count
-        self.process_count += 1
-        if self.process_count > 100:
-            self.process_count = 0
-            self.latest_class_label = ""
+        # self.process_count += 1
+        # if self.process_count > 100:
+        #     self.process_count = 0
+        #     self.latest_class_label = "Start"
             
         
     def run(self):
