@@ -1,3 +1,4 @@
 [submodule "jetson-inference"]
 	path = jetson-inference
+	#url = https://github.com/dusty-nv/jetson-inference
 	url = https://github.com/dusty-nv/jetson-inference
