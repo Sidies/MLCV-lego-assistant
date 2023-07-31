@@ -125,29 +125,29 @@
 
           <div class="row">
             <!-- Left Container -->
-            <div class="col-sm">
+            <div class="col-sm">   
               <div class="row">
-                <div class="col">
-                  <div class="text-center">
-                    {{ label('current_label', '/detection/current_label', 'last detected object') }}
-                  </div>
-                  <div class="">
-                    {{ image('current_label_image', '/detection/current_label_image') }}        
-                  </div>
-                  <div class="text-center">
-                    {{ label('current_progress', '', 'current assembling progress') }}
-                  </div>
+                <div class="col text-center">
+                  {{ label('current_label', '/detection/current_label', 'last detected object') }}
                 </div>
-                <div class="col">     
-                  <div class="text-center">
-                    {{ label('next_label', '/detection/next_label', 'next object to detect') }}
-                  </div>
-                  <div class="">
-                    {{ image('next_label_image', '/detection/next_label_image') }}
-                  </div>
-                  <div class="text-center">
-                    {{ label('next_progress', '', 'next assembling progress') }}
-                  </div>
+                <div class="col text-center">
+                  {{ label('next_label', '/detection/next_label', 'next object to detect') }}
+                </div>
+              </div>     
+              <div class="row" style="overflow:hidden; max-height:500px">
+                <div class="col">
+                  {{ image('current_label_image', '/detection/current_label_image') }}        
+                </div>
+                <div class="col">
+                  {{ image('next_label_image', '/detection/next_label_image') }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col text-center">
+                  {{ label('current_progress', '', 'current assembling progress') }}
+                </div>
+                <div class="col text-center">
+                  {{ label('next_progress', '', 'next assembling progress') }}
                 </div>
               </div>
             </div>

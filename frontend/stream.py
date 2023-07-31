@@ -46,6 +46,7 @@ class Stream(threading.Thread):
         self.models = {}
         self.process_count = 0
         self.latest_class_label = "Start"
+        self.detections = {}
         self.should_run = True
         
         # these are in the order that the overlays should be composited
@@ -66,7 +67,7 @@ class Stream(threading.Thread):
         results = self.model.Process(img)
         if len(results) > 0:
             
-            # results is a list of detected objects. The object with the highest confidence seems to be at the top            
+            # results is a list of detected objects. The object with the highest confidence is at the top
             print(f"The results from the model are: {results}")
             
             # get the class id of the highest confidence class
@@ -76,10 +77,15 @@ class Stream(threading.Thread):
             class_label = model_net.GetClassLabel(class_id)
             
             print(f"The class label is: {class_label}")
-            #if self.latest_class_label == "":
-            # set the class label
-            self.latest_class_label = class_label
-
+            # if the class label is to long, the frontend gets issues with the visuals
+            # therefore it is replaced here with a shorter name
+            if len(class_label) > 10:
+                class_label = "Stage" + str(class_id)
+                
+            if class_label in self.detections:
+                self.detections[class_label] = self.detections[class_label] + 1
+            else:
+                self.detections[class_label] = 1           
             
         #visualize model results
         img = self.model.Visualize(img)
@@ -92,11 +98,21 @@ class Stream(threading.Thread):
         self.frames += 1
         
         # reset the process count
-        #self.process_count += 1
-        #if self.process_count > 100:
-        #    self.process_count = 0
-        #    self.latest_class_label = ""
-            
+        self.process_count += 1
+        if self.process_count > 100:
+            # set the class label
+            class_label = self.latest_class_label
+            highest_value = 10 # set to a higher number to prevent short detections
+            for key, value in self.detections.items():
+                if value > highest_value:
+                    class_label = key
+                    highest_value = value
+                    
+            self.latest_class_label = class_label
+            self.process_count = 0
+            # remove all detections
+            self.detections.clear()
+                        
         
     def run(self):
         """

@@ -25,15 +25,16 @@ import os
 import flask
 import argparse
 
-#from stream import Stream
-from streamMock import StreamMock
+from multiprocessing import Process
+from stream import Stream
+#from streamMock import StreamMock
 from utils import rest_property
 from handler import Handler
     
 # run without jetson: python app.py --ssl-key data/RootCA.key --ssl-cert data/RootCA.crt --labels ../models/Single_Object/Iteration_1/lego_Iteration_1_labels.txt
 
-#parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, epilog=Stream.usage())
-parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
+parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, epilog=Stream.usage())
+#parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
 
 parser.add_argument("--host", default='0.0.0.0', type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
 parser.add_argument("--port", default=8050, type=int, help="port used for webserver (default is 8050)")
@@ -53,8 +54,8 @@ args = parser.parse_known_args()[0]
 # create Flask & stream instance
 app = flask.Flask(__name__)
 
-#stream = Stream(args)
-stream = StreamMock(args)
+stream = Stream(args)
+#stream = StreamMock(args)
 handler = Handler(stream, args.labels)
 
 # Whenever a user visits the root URL path, the index function is called and returns the rendered HTML 
@@ -65,6 +66,7 @@ def index():
     return flask.render_template('index.html', title=args.title, send_webrtc=args.input.startswith('webrtc'),
                                  input_stream=args.input, output_stream=args.output,                                  
                                  detection=os.path.basename(args.detection))
+                                 
         
 if args.detection:
     @app.route('/detection/enabled', methods=['GET', 'PUT'])
@@ -122,10 +124,6 @@ if args.detection:
     @app.route('/detection/change_model', methods=['PUT'])
     def detection_change_model():
         return rest_property(None, change_model, bool)
-
-def change_model(model_type):
-    print("Stopping current stream")
-    stream.stop()
     
 # start stream thread
 stream.start()
@@ -138,3 +136,8 @@ if args.ssl_cert and args.ssl_key:
     
 # start the webserver
 app.run(host=args.host, port=args.port, ssl_context=ssl_context, debug=True, use_reloader=False)
+#server = Process(target=app.run, args=(args.host, args.port), kwargs={'ssl_context': ssl_context, 'debug': True, 'use_reloader': False})
+#server.start()
+
+
+

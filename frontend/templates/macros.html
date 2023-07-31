@@ -70,13 +70,13 @@
     }
     
   </script>
-  <div class="bg-dark text-white">
-    <h3 style="margin-left: 1rem; margin-right: 1rem;">{{ text }}</h3>
+  <div class="bg-dark text-white" style="overflow: hidden">
+    <h3 id="{{ id }}_text" style="margin-left: 1rem; margin-right: 1rem;">{{ text }}</h3>
     <h4 id="{{ id }}_value" class="nvidia-text-color">{{ value }}</h4>
     <script>
       var intervalId = window.setInterval(function(){
         get_{{ id }}();
-      }, 5000);
+      }, 1000);
     </script>
   </div>
 
@@ -100,7 +100,7 @@
     <script>
       var intervalId = window.setInterval(function(){
         get_{{ id }}();
-      }, 5000);
+      }, 1000);
     </script>
   </div>
 
@@ -135,6 +135,17 @@
         {{ oninput }};
       {% endif %}
       console.log(`set_{{ id }}(${value})`);
+      // Now set the detection text
+      var show = document.getElementById('set_direction').checked;
+      if(show) {
+        document.getElementById('current_progress_text').innerHTML = "current assembling progress";
+        document.getElementById('next_progress_text').innerHTML = "next assembling progress";
+      }
+      else {
+        document.getElementById('current_progress_text').innerHTML = "current dismantling progress";
+        document.getElementById('next_progress_text').innerHTML = "next dismantling progress";
+      }
+                       
     }
   </script>
   <p>Uncheck if you want to disassemble. Check if you want to assemble.</p>

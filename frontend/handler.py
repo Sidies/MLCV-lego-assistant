@@ -1,6 +1,9 @@
 import os
 
 class Handler():
+    """
+    Class for handling the detection
+    """
     def __init__(self, stream, label_path:str):
         self.stream = stream
         self.labels = []
@@ -40,21 +43,13 @@ class Handler():
     
     def get_imagepath_for_currentlabel(self):
         label = self.get_current_detection()
-        if self.direction == -1:
-            # direction is to disassemble
-            path = os.path.join("static", "images", "disassemble", label + ".jpg")
-        else:
-            path = os.path.join("static", "images", "assemble", label + ".jpg")
+        path = os.path.join("static", "images", label + ".jpg")
         return str(path)
     
     
     def get_imagepath_for_nextlabel(self):
         label = self.get_next_detection()
-        if self.direction == -1:
-            # direction is to disassemble
-            path = os.path.join("static", "images", "disassemble", label + ".jpg")
-        else:
-            path = os.path.join("static", "images", "assemble", label + ".jpg")
+        path = os.path.join("static", "images", label + ".jpg")
         return str(path)
     
     
