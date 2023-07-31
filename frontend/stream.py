@@ -46,6 +46,7 @@ class Stream(threading.Thread):
         self.models = {}
         self.process_count = 0
         self.latest_class_label = "Start"
+        self.latest_class_id = -1
         self.detections = {}
         self.should_run = True
         
@@ -77,15 +78,11 @@ class Stream(threading.Thread):
             class_label = model_net.GetClassLabel(class_id)
             
             print(f"The class label is: {class_label}")
-            # if the class label is to long, the frontend gets issues with the visuals
-            # therefore it is replaced here with a shorter name
-            if len(class_label) > 10:
-                class_label = "Stage" + str(class_id)
-                
-            if class_label in self.detections:
-                self.detections[class_label] = self.detections[class_label] + 1
+            if class_id in self.detections:
+                self.detections[class_id] = self.detections[class_id] + 1
             else:
-                self.detections[class_label] = 1           
+                self.detections[class_id] = 1    
+            print(f"DETECTIONS IS ########################################: \n {self.detections}")       
             
         #visualize model results
         img = self.model.Visualize(img)
@@ -102,13 +99,16 @@ class Stream(threading.Thread):
         if self.process_count > 100:
             # set the class label
             class_label = self.latest_class_label
+            class_id = self.latest_class_id
             highest_value = 10 # set to a higher number to prevent short detections
             for key, value in self.detections.items():
                 if value > highest_value:
-                    class_label = key
+                    class_label = model_net.GetClassLabel(key)
                     highest_value = value
+                    class_id = key
                     
             self.latest_class_label = class_label
+            self.latest_class_id = class_id
             self.process_count = 0
             # remove all detections
             self.detections.clear()
@@ -129,6 +129,9 @@ class Stream(threading.Thread):
         print("Getting latest class label")
         print("_________________________________________")
         return self.latest_class_label
+        
+    def get_latest_class_id(self):
+        return self.latest_class_id
         
         
     def stop(self):

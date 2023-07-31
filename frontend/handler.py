@@ -16,13 +16,20 @@ class Handler():
         self.direction = 1
         
     
-    def get_current_detection(self):
-        return self.stream.get_latest_class_label()
+    def get_current_detection(self, short=True):
+        class_label = self.stream.get_latest_class_label()
+        
+        # if the class label is to long, the frontend gets issues with the visuals
+        # therefore it is replaced here with a shorter name
+        if short and len(class_label) > 10:
+            class_label = "Stage" + str(self.labels.index(class_label))
+            
+        return class_label
     
     
-    def get_next_detection(self):
+    def get_next_detection(self, short=True):
         # get current position for the current detection
-        current_label = self.get_current_detection()
+        current_label = self.get_current_detection(False)
         
         if current_label == "Start" and self.direction == 1:
             return self.labels[0]
@@ -38,17 +45,24 @@ class Handler():
             return "Done"
         elif idx_next < 0:
             return "Done"
-        return self.labels[idx_next]
+        
+        next_label = self.labels[idx_next]
+        # if the class label is to long, the frontend gets issues with the visuals
+        # therefore it is replaced here with a shorter name
+        if short and len(next_label) > 10:
+            next_label = "Stage" + str(idx_next)
+            
+        return next_label
     
     
     def get_imagepath_for_currentlabel(self):
-        label = self.get_current_detection()
+        label = self.get_current_detection(False)
         path = os.path.join("static", "images", label + ".jpg")
         return str(path)
     
     
     def get_imagepath_for_nextlabel(self):
-        label = self.get_next_detection()
+        label = self.get_next_detection(False)
         path = os.path.join("static", "images", label + ".jpg")
         return str(path)
     
