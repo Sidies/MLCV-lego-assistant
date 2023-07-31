@@ -50,7 +50,11 @@ class Handler():
     
     def get_imagepath_for_nextlabel(self):
         label = self.get_next_detection()
-        path = os.path.join("static", "images", label + ".jpg")
+        if self.direction == -1:
+            # direction is to disassemble
+            path = os.path.join("static", "images", "disassemble", label + ".jpg")
+        else:
+            path = os.path.join("static", "images", "assemble", label + ".jpg")
         return str(path)
     
     
