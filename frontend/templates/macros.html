@@ -109,15 +109,15 @@
 {# Jinja macro for changing the model#}
 {% macro change_model(id, rest_path, model) -%}  
   <script type='text/javascript'>
-    console.log('init change model);
+    console.log('init change model');
     function set_{{ id }}() {
       console.log('Changing model')
-      rest_put('{{ rest_path }}', model);
-      console.log(`{{ id }}(${model})`);
+      var value = true;
+      rest_put('{{ rest_path }}', value);
+      console.log(`{{ id }}(${value})`);
     }
   </script>
   <div class="row">
-    <!-- START BUTTON -->
     <div class="container-fluid align-items-center d-flex justify-content-center p-5 bg-dark-subtle">
         <button id="{{ id }}" class="btn btn-lg nvidia-background-color" onclick="set_{{ id }}()">Change Model</button>
     </div>

@@ -82,7 +82,9 @@ class StreamMock(threading.Thread):
                 pass
             except:
                 pass
-                
+            
+    def stop(self):
+        self.should_run = False               
                 
     def get_latest_class_label(self):
         print("Getting latest class label")

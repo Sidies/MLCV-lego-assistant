@@ -121,7 +121,7 @@ if args.detection:
         
     @app.route('/detection/change_model', methods=['PUT'])
     def detection_change_model():
-        return rest_property(None, change_model, str)
+        return rest_property(None, change_model, bool)
 
 def change_model(model_type):
     print("Stopping current stream")
