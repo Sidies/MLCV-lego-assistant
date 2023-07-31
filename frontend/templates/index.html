@@ -125,7 +125,15 @@
 
           <div class="row">
             <!-- Left Container -->
-            <div class="col-sm">        
+            <div class="col-sm">   
+              <div class="row">
+                <div class="col text-center">
+                  {{ label('current_label', '/detection/current_label', 'last detected object') }}
+                </div>
+                <div class="col text-center">
+                  {{ label('next_label', '/detection/next_label', 'next object to detect') }}
+                </div>
+              </div>     
               <div class="row" style="overflow:hidden; max-height:500px">
                 <div class="col">
                   {{ image('current_label_image', '/detection/current_label_image') }}        
@@ -136,10 +144,10 @@
               </div>
               <div class="row">
                 <div class="col text-center">
-                  {{ label('current_label', '/detection/current_label', 'recognized block') }}
+                  {{ label('current_progress', '', 'current building progress') }}
                 </div>
                 <div class="col text-center">
-                  {{ label('next_label', '/detection/next_label', 'next step') }}
+                  {{ label('next_progress', '', 'next building progress      ') }}
                 </div>
               </div>
             </div>
@@ -150,7 +158,30 @@
               <div>
                 <video id="video-player" width=640 autoplay playsinline muted poster="static/images/Thumb.jpg">Your browser does not support video</video>
               </div>         
-              
+              <!-- Detection Settings -->
+              <div class="card mx-auto" style="max-width: 600px">
+                <div class="card-body">
+                {{ card_header('detection_controls', 'Settings for the detection', detection) }}
+                <div id="detection_controls">
+                    {{ slider('detection_confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
+                    {{ slider('detection_clustering_threshold', '/detection/clustering_threshold', 'Clustering Threshold') }}
+                    {{ slider('detection_overlay_alpha', '/detection/overlay_alpha', 'Overlay Alpha', min=0, max=255, step=1) }}
+                    
+                    <script type='text/javascript'>
+                    function onDetectionTrackingEnabled() {
+                        var value = document.getElementById('detection_tracking_enabled').checked;
+                        document.getElementById('detection_tracking_controls').style.display = value ? null : 'none';
+                        console.log(`onTrackingEnabled(${value})`);
+                    }
+                    </script>
+                    
+                    <script type='text/javascript'>
+                    onDetectionTrackingEnabled();  // set default visibility of tracking controls
+                    </script>
+                </div>
+                {{ collapse_handler('detection_controls') }}
+                </div>
+              </div>
             </div>
           </div>
 
@@ -209,6 +240,8 @@
                 {{ collapse_handler('stream_controls') }}
               </div>
             </div>
+
+            <!-- Building Controls -->
             <div class="card col bg-dark text-white">
               <div class="card-body">
                 <div class="card-title">
@@ -216,31 +249,6 @@
                   {{ direction('set_direction', '/detection/set_direction') }}
                 </div>
               </div>
-            </div>
-          </div>
-
-          <!-- Detection Settings -->
-          <div class="card mx-auto m-3" style="max-width: 600px">
-            <div class="card-body">
-            {{ card_header('detection_controls', 'Settings for the detection', detection) }}
-            <div id="detection_controls">
-                {{ slider('detection_confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
-                {{ slider('detection_clustering_threshold', '/detection/clustering_threshold', 'Clustering Threshold') }}
-                {{ slider('detection_overlay_alpha', '/detection/overlay_alpha', 'Overlay Alpha', min=0, max=255, step=1) }}
-                
-                <script type='text/javascript'>
-                function onDetectionTrackingEnabled() {
-                    var value = document.getElementById('detection_tracking_enabled').checked;
-                    document.getElementById('detection_tracking_controls').style.display = value ? null : 'none';
-                    console.log(`onTrackingEnabled(${value})`);
-                }
-                </script>
-                
-                <script type='text/javascript'>
-                onDetectionTrackingEnabled();  // set default visibility of tracking controls
-                </script>
-            </div>
-            {{ collapse_handler('detection_controls') }}
             </div>
           </div>
         </div>

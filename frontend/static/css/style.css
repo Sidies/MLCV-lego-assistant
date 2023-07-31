@@ -1,13 +1,17 @@
 .nvidia-text-color {
-    color: #76b900;
+    color: #97BC62;
 }
 
 .nvidia-background-color {
-    background-color: #76b900;
+    background-color: #97BC62;
 }
 
 p {
     font-family: 'Lato', sans-serif;
+}
+
+a {
+    color: #97BC62;
 }
 
 /* Third Party */
@@ -28,7 +32,7 @@ p {
   border: 8px solid white;
   line-height: 88px;
   border-radius: 50%;
-  background: #76b900;
+  background: #97BC62;
   vertical-align: middle;
 }
 

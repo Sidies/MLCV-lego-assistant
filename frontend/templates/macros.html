@@ -27,7 +27,7 @@
     </script>
     <label for="{{ id }}" class="col-4">{{ label }}</label>
     <div class="col-6">
-      <input id="{{ id }}" type="range" class="form-range" min="{{ min }}" max="{{ max }}" step="{{ step }}" oninput="debounce(set_{{ id }})()">
+      <input id="{{ id }}" type="range" class="form-range" min="{{ min }}" max="{{ max }}" step="{{ step }}" oninput="debounce(set_{{ id }})()" style="accent-color:#97BC62">
     </div>
     <div id="{{ id }}_value" class="col-2">{{ value }}</div>
     <script>
@@ -70,9 +70,9 @@
     }
     
   </script>
-  <div class="nvidia-background-color text-white">
-    <p>{{ text }}</p>
-    <h1 id="{{ id }}_value">{{ value }}</h1>
+  <div class="bg-dark text-white">
+    <h3 style="margin-left: 1rem; margin-right: 1rem;">{{ text }}</h3>
+    <h4 id="{{ id }}_value" class="nvidia-text-color">{{ value }}</h4>
     <script>
       var intervalId = window.setInterval(function(){
         get_{{ id }}();
