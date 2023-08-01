@@ -57,4 +57,4 @@ Marco Schneider - marco.schneider@student.kit.edu  - frontend implementation and
 Leonard Ramadani - leonard.ramadani@student.kit.edu - Jetson Nano configuration and model training\
 Anton - Image Augmentation\
 Paul - Image Augmentation\
-Patrick - Image Augmentation
+Patrick - patrick.roth@student.kit.edu - Image Augmentation
