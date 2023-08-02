@@ -56,5 +56,5 @@ For any questions or feedback you may contact us at:
 Marco Schneider - marco.schneider@student.kit.edu  - frontend implementation and configuration\
 Leonard Ramadani - leonard.ramadani@student.kit.edu - Jetson Nano configuration and model training\
 Anton Schwertfeger - uwilw@student.kit.edu - Image Augmentation
-Paul Ibele - ufqrb@student.kit.edu - Image Augmentation\
+Paul Ibele - ufqrb@student.kit.edu - Image Augmentation
 Patrick - patrick.roth@student.kit.edu - Image Augmentation
