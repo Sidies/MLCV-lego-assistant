@@ -1,25 +1,13 @@
-#!/usr/bin/env python3
-#
-# Copyright (c) 2023, NVIDIA CORPORATION. All rights reserved.
-#
-# Permission is hereby granted, free of charge, to any person obtaining a
-# copy of this software and associated documentation files (the 'Software'),
-# to deal in the Software without restriction, including without limitation
-# the rights to use, copy, modify, merge, publish, distribute, sublicense,
-# and/or sell copies of the Software, and to permit persons to whom the
-# Software is furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# DEALINGS IN THE SOFTWARE.
-#
+# This python file is the entry point for starting the projects frontend.
+# It is a Flask web application that serves a webpage for the Jetson Nano
+# based Lego classifier. The application uses a custom class called Stream
+# that is used to detect Lego objects in a camera stream. The user can
+# interact with the application through the web interface to start or 
+# disable the object detection and adjust detection parameters.
+# This file also provides REST endpoints for accessing the detection
+# parameters and communicate the current detection with the web page.
+# This file includes command line arguments for configuring the 
+# web server, input and output video streams and the detection model
 
 import os
 import flask
@@ -27,11 +15,11 @@ import argparse
 
 from multiprocessing import Process
 from stream import Stream
-#from streamMock import StreamMock
+# The mocking file is used for testing the frontend without a Jetson Nano
+# run without jetson: python app.py --ssl-key data/RootCA.key --ssl-cert data/RootCA.crt --labels ../models/Single_Object/Iteration_1/lego_Iteration_1_labels.txt
+# from streamMock import StreamMock
 from utils import rest_property
 from handler import Handler
-    
-# run without jetson: python app.py --ssl-key data/RootCA.key --ssl-cert data/RootCA.crt --labels ../models/Single_Object/Iteration_1/lego_Iteration_1_labels.txt
 
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, epilog=Stream.usage())
 #parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
@@ -67,63 +55,70 @@ def index():
                                  input_stream=args.input, output_stream=args.output,                                  
                                  detection=os.path.basename(args.detection))
                                  
-        
-if args.detection:
-    @app.route('/detection/enabled', methods=['GET', 'PUT'])
-    def detection_enabled():
-        return rest_property(stream.model.IsEnabled, stream.model.SetEnabled, bool)
-      
+# Create flask app routes for the REST endpoints                                
+if args.detection:      
     @app.route('/detection/confidence_threshold', methods=['GET', 'PUT'])
     def detection_confidence_threshold():
+        '''
+        REST endpoint for getting and setting the detection confidence threshold property
+        '''
         return rest_property(stream.model.net.GetConfidenceThreshold, stream.model.net.SetConfidenceThreshold, float)
       
     @app.route('/detection/clustering_threshold', methods=['GET', 'PUT'])
     def detection_clustering_threshold():
+        '''
+        REST endpoint for getting and setting the detection clustering threshold property
+        '''
         return rest_property(stream.model.net.GetClusteringThreshold, stream.model.net.SetClusteringThreshold, float)
         
     @app.route('/detection/overlay_alpha', methods=['GET', 'PUT'])
     def detection_overlay_alpha():
+        '''
+        REST endpoint for getting and setting the detection overlay alpha property
+        '''
         return rest_property(stream.model.net.GetOverlayAlpha, stream.model.net.SetOverlayAlpha, float)
-        
-    @app.route('/detection/tracking_enabled', methods=['GET', 'PUT'])
-    def detection_tracking_enabled():
-        return rest_property(stream.model.net.IsTrackingEnabled, stream.model.net.SetTrackingEnabled, bool)
 
     @app.route('/detection/tracking_min_frames', methods=['GET', 'PUT'])
     def detection_tracking_min_frames():
+        '''
+        REST endpoint for getting and setting the detection tracking min frames property
+        '''
         return rest_property(stream.model.net.GetTrackingParams, stream.model.net.SetTrackingParams, int, key='minFrames')
-
-    @app.route('/detection/tracking_drop_frames', methods=['GET', 'PUT'])
-    def detection_tracking_drop_frames():
-        return rest_property(stream.model.net.GetTrackingParams, stream.model.net.SetTrackingParams, int, key='dropFrames')
-
-    @app.route('/detection/tracking_overlap_threshold', methods=['GET', 'PUT'])
-    def detection_tracking_overlap_threshold():
-        return rest_property(stream.model.net.GetTrackingParams, stream.model.net.SetTrackingParams, int, key='overlapThreshold')
     
     @app.route('/detection/current_label', methods=['GET'])
     def detection_get_latest_label():
+        '''
+        REST endpoint for getting the current detection label
+        '''
         return rest_property(handler.get_current_detection, None, str)
     
     @app.route('/detection/next_label', methods=['GET'])
     def detection_get_next_label():
+        '''
+        REST endpoint for getting the next detection label
+        '''
         return rest_property(handler.get_next_detection, None, str)
     
     @app.route('/detection/current_label_image', methods=['GET'])
     def detection_get_latest_label_image():
+        '''
+        REST endpoint for getting the current detection label image path
+        '''
         return rest_property(handler.get_imagepath_for_currentlabel, None, str)
     
     @app.route('/detection/next_label_image', methods=['GET'])
     def detection_get_next_label_image():
+        '''
+        REST endpoint for getting the next detection label image path
+        '''
         return rest_property(handler.get_imagepath_for_nextlabel, None, str)
     
     @app.route('/detection/set_direction', methods=['PUT'])
     def detection_set_direction():
+        '''
+        REST endpoint for setting the direction of the building process
+        '''
         return rest_property(None, handler.set_direction, int)
-        
-    @app.route('/detection/change_model', methods=['PUT'])
-    def detection_change_model():
-        return rest_property(None, change_model, bool)
     
 # start stream thread
 stream.start()
