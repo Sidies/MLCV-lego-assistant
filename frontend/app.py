@@ -13,7 +13,6 @@ import os
 import flask
 import argparse
 
-from multiprocessing import Process
 from stream import Stream
 # The mocking file is used for testing the frontend without a Jetson Nano
 # run without jetson: python app.py --ssl-key data/RootCA.key --ssl-cert data/RootCA.crt --labels ../models/Single_Object/Iteration_1/lego_Iteration_1_labels.txt
@@ -125,14 +124,12 @@ stream.start()
 
 # check if HTTPS/SSL requested
 ssl_context = None
-
 if args.ssl_cert and args.ssl_key:
     ssl_context = (args.ssl_cert, args.ssl_key)
     
 # start the webserver
 app.run(host=args.host, port=args.port, ssl_context=ssl_context, debug=True, use_reloader=False)
-#server = Process(target=app.run, args=(args.host, args.port), kwargs={'ssl_context': ssl_context, 'debug': True, 'use_reloader': False})
-#server.start()
+
 
 
 

@@ -23,28 +23,41 @@
 import flask
 import http
 
+
 def rest_property(getter, setter, type, key=None):
     """
     Handle the boilerplate of getting/setting a REST JSON property.
     This function handles GET and PUT requests for different datatypes.
     """
+    # If the request method is GET, retrieve the value of the property using the getter function
     if flask.request.method == 'GET':
         value = getter()
         
+        # If a key is provided, retrieve the value of the property using the key
         if key:
             value = value[key]
             
+        # Return the value as a JSON response
         response = flask.jsonify(value)
+    
+    # If the request method is PUT, set the value of the property using the setter function
     elif flask.request.method == 'PUT':
+        # Retrieve the new value of the property from the request JSON data and convert it to the specified type
         value = type(flask.request.get_json())
         
+        # If a key is provided, set the value of the property using the key
         if key:
             setter(**{key:value})
         else:
+            # Otherwise, set the value of the property directly
             setter(value)
             
+        # Return an empty response with a 200 OK status code
         response = ('', http.HTTPStatus.OK)
         
-    print(f"{flask.request.remote_addr} - - REST {flask.request.method} {flask.request.path} => {value}")
+    # Print a log message with the IP address, request method, request path, and value of the property
+    print(f"{flask.request.remote_addr} - - REST {flask.request.method} {flask.request.path} => {value}")    
+
+    # Return the response
     return response
         

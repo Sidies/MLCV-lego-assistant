@@ -1,25 +1,3 @@
-#!/usr/bin/env python3
-#
-# Copyright (c) 2023, NVIDIA CORPORATION. All rights reserved.
-#
-# Permission is hereby granted, free of charge, to any person obtaining a
-# copy of this software and associated documentation files (the 'Software'),
-# to deal in the Software without restriction, including without limitation
-# the rights to use, copy, modify, merge, publish, distribute, sublicense,
-# and/or sell copies of the Software, and to permit persons to whom the
-# Software is furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# DEALINGS IN THE SOFTWARE.
-#
 import sys
 import threading
 import traceback
@@ -49,15 +27,12 @@ class Stream(threading.Thread):
         self.latest_class_id = -1
         self.detections = {}
         self.should_run = True
-        
-        # these are in the order that the overlays should be composited
-
-        self.model = Model("detection", model=args.detection, labels=args.labels, colors=args.colors, input_layer=args.input_layer, output_layer=args.output_layer)
+        self.model = Model(model=args.detection, labels=args.labels, colors=args.colors, input_layer=args.input_layer, output_layer=args.output_layer)
             
         
     def process(self):
         """
-        Capture one image from the stream, process it, and output it.
+        Capture one image from the stream, process and save it.
         """
         img = self.input.Capture()
         
@@ -72,26 +47,24 @@ class Stream(threading.Thread):
             print(f"The results from the model are: {results}")
             
             # get the class id of the highest confidence class
-            class_id = int(results[0].ClassID)            
-            
+            class_id = int(results[0].ClassID)       
             model_net = self.model.net
             class_label = model_net.GetClassLabel(class_id)
             
             print(f"The class label is: {class_label}")
+            # save the detection in the dictionary
             if class_id in self.detections:
                 self.detections[class_id] = self.detections[class_id] + 1
             else:
-                self.detections[class_id] = 1    
-            print(f"DETECTIONS IS ########################################: \n {self.detections}")       
+                self.detections[class_id] = 1      
             
         #visualize model results
         img = self.model.Visualize(img)
-
         self.output.Render(img)
 
+        # print out performance info
         if self.frames % 25 == 0 or self.frames < 15:
             print(f"captured {self.frames} frames from {self.args.input} => {self.args.output} ({img.width} x {img.height})")
-   
         self.frames += 1
         
         # reset the process count
@@ -126,15 +99,22 @@ class Stream(threading.Thread):
                 
                 
     def get_latest_class_label(self):
-        print("Getting latest class label")
-        print("_________________________________________")
+        '''
+        Returns the latest class label
+        '''
         return self.latest_class_label
         
     def get_latest_class_id(self):
+        '''
+        Returns the latest class id
+        '''
         return self.latest_class_id
         
         
     def stop(self):
+        '''
+        Stops the stream
+        '''
         self.should_run = False
         
                 
