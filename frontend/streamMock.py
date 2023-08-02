@@ -1,3 +1,7 @@
+# The StreamMock class is designed to be used as a mock implementation 
+# for testing purposes, and includes mock objects for the input and 
+# output video sources, as well as the DNN model.
+
 import sys
 import threading
 import traceback

@@ -2,7 +2,8 @@ import os
 
 class Handler():
     """
-    Class for handling the detection
+    Class for handling the detection results and providing the frontend with the
+    current and next detection labels and image paths.
     """
     def __init__(self, stream, label_path:str):
         self.stream = stream
@@ -11,12 +12,13 @@ class Handler():
             self.labels = self._get_labels(label_path)
             self.labels.remove("BACKGROUND")
             print(f"The class labels are: {self.labels}")
-        # direction 1 = forward
-        # direction -1 = backward
         self.direction = 1
         
     
     def get_current_detection(self, short=True):
+        '''
+        Returns the current detection label.
+        '''
         class_label = self.stream.get_latest_class_label()
         
         # if the class label is to long, the frontend gets issues with the visuals
@@ -28,6 +30,9 @@ class Handler():
     
     
     def get_next_detection(self, short=True):
+        '''
+        Returns the next detection label.
+        '''
         # get current position for the current detection
         current_label = self.get_current_detection(False)
         
@@ -56,12 +61,18 @@ class Handler():
     
     
     def get_imagepath_for_currentlabel(self):
+        '''
+        Returns the path to the image for the current detection.
+        '''
         label = self.get_current_detection(False)
         path = os.path.join("static", "images", label + ".jpg")
         return str(path)
     
     
     def get_imagepath_for_nextlabel(self):
+        '''
+        Returns the path to the image for the next detection.
+        '''
         label = self.get_next_detection(False)
         path = os.path.join("static", "images", label + ".jpg")
         return str(path)
