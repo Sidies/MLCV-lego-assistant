@@ -1,8 +1,8 @@
 BACKGROUND
-Rad
-Rad+Grau_lang
-Rad+Grau_lang+Kappe
-Rad+Grau_lang+Kappe+Motor
+Wheel
+Wheel+Grey
+Wheel+Grey+Cap
+Wheel+Grey+Cap+Engine
 Stage4
 Stage5
 Stage6
