@@ -1,4 +1,4 @@
 BACKGROUND
-Rad+Grau_lang
-Rad+Grau_lang+Kappe
-Rad+Grau_lang+Motor
+Wheel+Grey
+Wheel+Grey+Cap
+Wheel+Grey+Engine
