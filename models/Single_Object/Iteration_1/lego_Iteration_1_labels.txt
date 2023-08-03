@@ -1,4 +1,4 @@
 BACKGROUND
-Grau_lang
-Kappe
-Rad
+Grey
+Cap
+Wheel
