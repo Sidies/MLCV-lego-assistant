@@ -1,9 +1,9 @@
 BACKGROUND
-Rad
-Grau_lang
-Kappe
-Motor
-Blau
-Grau_gebogen
-Schwarz_kurz
-Rot
+Wheel
+Grey
+Cap
+Engine
+Blue
+Grey_bent
+Black
+Red
