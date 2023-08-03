@@ -1,0 +1,8 @@
+BACKGROUND
+Wheel
+Grey
+Cap
+Engine
+Red
+Grey_bent
+Black
