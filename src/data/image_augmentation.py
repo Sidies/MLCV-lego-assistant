@@ -7,7 +7,7 @@ import pandas as pd
 import albumentations as A
 from math import floor
 
-########## Label laden #############################################
+########## Labels laden #############################################
 
 '''Gets all the labels of one directory and
 returns them as dictionary with Filename as key'''
@@ -84,7 +84,7 @@ def dict_to_xml(annotation,to_path):
     depth_element = ET.SubElement(size_element, 'depth')
     segmented_element = ET.SubElement(root_element, 'segmented')
     
-    folder_element.text = 'Rad+Grau'
+    folder_element.text = 'Data'
     filename_element.text = annotation['Filename']
     database_element.text = 'Unknown'
     annotation_element.text = 'Unknown'
@@ -126,6 +126,7 @@ def dict_to_xml(annotation,to_path):
     filepath = os.path.join(to_path, annotation['Filename'][:-4])
     tree.write(filepath+'.xml', encoding='utf-8')
 
+############
 
 '''Splits the training set into train validation and test'''
 def to_trainvaltest(pics, labels,val_test_size,val_size):
@@ -134,7 +135,16 @@ def to_trainvaltest(pics, labels,val_test_size,val_size):
     X_test, X_validation, y_test, y_validation = train_test_split(X_valtest, y_valtest,test_size=val_size, shuffle = True, random_state = 8)
     
     return ('train',X_train,y_train),('val',X_validation,y_validation),('test',X_test,y_test)
- 
+
+
+############### Loads all pictures ######################################################
+
+'''Loads the pictures in the path of the path_img variable
+Checks if the picture is also included in the annotations_dict
+reduces the size of the picture to decrease memory usage
+passes back the images and annotations in lists to keep the same order
+'''
+
 def load_pics(path_img,annotations_dict):
 
     ordered_images = []
@@ -174,10 +184,21 @@ def load_pics(path_img,annotations_dict):
 
         print(filename+' is loaded')
 
-        plot_img_with_bbox(transformed_image, transformed_bboxes,message='Loaded and resized picture '+filename)
+        #plot_img_with_bbox(transformed_image, transformed_bboxes,message='Loaded and resized picture '+filename)
     
     return ordered_images, ordered_annotations
 
+############## Image augmentation image per image ################################################
+
+'''' this method receives
+- factor: int that states the demanded increase of number of pictures by the augmentation
+- item: array [x,y,z] containing the type (x), ordered images (y) and ordered annotations for all images (z)
+- lab_path: string with the path were the image must be saved
+- image_path: string with the path were the image must be saved
+
+This method iterates over all (image, annotation) pairs of 
+
+'''
 
 def enlarge_dataset(factor, items, lab_path,image_path):
     
@@ -201,8 +222,8 @@ def enlarge_dataset(factor, items, lab_path,image_path):
         trainvaltest.append(filenametxt)
         filename = filenametxt + '.' + filename_split[1]
         
-        save_augmentation(filename, new_image, annotation,lab_path,image_path)
         annotation['Filename'] = filename
+        save_augmentation(filename, new_image, annotation,lab_path,image_path)
 
         #plot_img_with_bbox(new_image, annotation["bboxes"], voc_pascal=True,message=filename)
 
@@ -220,14 +241,14 @@ def enlarge_dataset(factor, items, lab_path,image_path):
             
             save_augmentation(filename, new_image, annotation,lab_path,image_path)
             
-            #plot_img_with_bbox(new_image, annotation["bboxes"], voc_pascal=True,message=filename)
+        #plot_img_with_bbox(new_image, annotation["bboxes"], voc_pascal=True,message=filename)
             
     print('Randomly chosen picture is shown...')
     plot_img_with_bbox(new_image, annotation["bboxes"], voc_pascal=True,message='Randomly chosen picture '+filename)
 
     return type, trainvaltest
 
-
+############## saves each picture
 
 def save_augmentation(filename,image, annotation,lab_path,pic_path):
         
@@ -260,13 +281,12 @@ def getTransformFunction(lossOfInfo=False,onlyResize=False,width=300,height=300)
             A.RandomCrop(height=244, width=244),
             A.HorizontalFlip(p=0.5),
             A.VerticalFlip(p=0.5),
-            A.Rotate(limit=15,p=0.5),
-            A.RandomFog(fog_coef_lower=0, fog_coef_upper=0.4,alpha_coef=0.05,p=0.5),
-            #A.Blur(blur_limit=3, always_apply=True, p=0.5),
-            A.GaussianBlur(p=0.2),
-            A.PixelDropout (dropout_prob=0.01, drop_value=0, p=0.8),
-            A.PixelDropout (dropout_prob=0.1, drop_value=0, p=0.1),
-            A.RandomBrightnessContrast(brightness_limit=0.15, contrast_limit=0.15,p=0.8),
+            A.Rotate(limit=20,p=0.5),
+            A.RandomFog(fog_coef_lower=0.1, fog_coef_upper=0.5,alpha_coef=0.05,p=0.5),
+            A.GaussianBlur(p=0.25),
+            A.PixelDropout (dropout_prob=0.02, drop_value=0, p=0.8),
+            A.PixelDropout (dropout_prob=0.15, drop_value=0, p=0.1),
+            A.RandomBrightnessContrast(brightness_limit=0.3, contrast_limit=0.2,p=0.8),
         ],
         bbox_params=A.BboxParams(format="pascal_voc"),
         )
