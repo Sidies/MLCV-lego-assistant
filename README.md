@@ -19,6 +19,8 @@ Project Organization
     ├── README.md          <- The top-level README
     │ 
     ├── data
+    │   ├── labeling       <- Data for labeling.
+    │   ├── lego           <- Prepared lego data
     │   ├── external       <- Data from third party sources.
     │   ├── interim        <- Intermediate data that has been transformed.
     │   ├── processed      <- The final, canonical data sets for modeling.
@@ -41,10 +43,9 @@ Project Organization
     │
     ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
     ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
     │   │
     │   ├── data           <- Scripts for data augmentation
-
+    └── └──
 
 --------
 

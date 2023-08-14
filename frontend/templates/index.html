@@ -165,6 +165,7 @@
                     {{ slider('detection_confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
                     {{ slider('detection_clustering_threshold', '/detection/clustering_threshold', 'Clustering Threshold') }}
                     {{ slider('detection_overlay_alpha', '/detection/overlay_alpha', 'Overlay Alpha', min=0, max=255, step=1) }}
+                    {{ checkbox('detection_pause', '/detection/pause', 'Enable Detection') }}
                     
                     <script type='text/javascript'>
                     function onDetectionTrackingEnabled() {

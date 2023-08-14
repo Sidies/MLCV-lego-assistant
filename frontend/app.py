@@ -119,6 +119,13 @@ if args.detection:
         '''
         return rest_property(None, handler.set_direction, int)
     
+    @app.route('/detection/pause', methods=['PUT'])
+    def detection_pause():
+        '''
+        REST endpoint for pausing the detection of the building process
+        '''
+        return rest_property(None, stream.model.SetEnabled, bool)
+    
 # start stream thread
 stream.start()
 

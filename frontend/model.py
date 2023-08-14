@@ -42,7 +42,7 @@ class Model:
         Process an image with the model and return the results.
         """
         if not self.enabled:
-            return            
+            return []     
 
         self.results = self.net.Detect(img, overlay='none')
         

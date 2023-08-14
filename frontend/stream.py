@@ -115,7 +115,7 @@ class Stream(threading.Thread):
         '''
         Stops the stream
         '''
-        self.should_run = False
+        self.should_run = False       
         
                 
     @staticmethod
